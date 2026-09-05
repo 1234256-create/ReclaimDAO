@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { getJoinWizard, setJoinWizard } from '../utils/datastore';
@@ -48,84 +48,86 @@ const JoinDetails = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0a1628]">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+    <div className="min-h-screen bg-[#f8fafc] text-slate-900 py-12">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-12">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="rounded-2xl bg-[#031d24]/80 backdrop-blur-lg border border-blue-500/20 p-8 text-white shadow-2xl shadow-blue-950/60"
+          className="rounded-3xl bg-[#0a254d] border border-sky-400/25 p-8 sm:p-10 text-white shadow-2xl"
         >
-          <h1 className="text-2xl md:text-3xl font-bold mb-6">Personal Details</h1>
+          <h1 className="text-2xl md:text-3xl font-black mb-6">Personal <span className="text-[#ff6b1a]">Details</span></h1>
           <div className="space-y-5">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label className="block text-sm text-white/80 mb-1">First Name</label>
+                <label className="block text-xs font-black uppercase tracking-wider text-white mb-1">First Name</label>
                 <input
                   type="text"
                   name="firstName"
                   value={form.firstName}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
                   placeholder="John"
                 />
               </div>
               <div>
-                <label className="block text-sm text-white/80 mb-1">Last Name</label>
+                <label className="block text-xs font-black uppercase tracking-wider text-white mb-1">Last Name</label>
                 <input
                   type="text"
                   name="lastName"
                   value={form.lastName}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
                   placeholder="Doe"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm text-white/80 mb-1">Gender</label>
+              <label className="block text-xs font-black uppercase tracking-wider text-white mb-2">Gender</label>
               <div className="flex items-center gap-6">
-                <label className="inline-flex items-center gap-2">
+                <label className="inline-flex items-center gap-2 cursor-pointer">
                   <input
                     type="radio"
                     name="gender"
                     value="male"
                     checked={form.gender === 'male'}
                     onChange={handleChange}
+                    className="accent-[#ff6b1a] w-4 h-4"
                   />
-                  <span>Male</span>
+                  <span className="text-sm font-bold text-white">Male</span>
                 </label>
-                <label className="inline-flex items-center gap-2">
+                <label className="inline-flex items-center gap-2 cursor-pointer">
                   <input
                     type="radio"
                     name="gender"
                     value="female"
                     checked={form.gender === 'female'}
                     onChange={handleChange}
+                    className="accent-[#ff6b1a] w-4 h-4"
                   />
-                  <span>Female</span>
+                  <span className="text-sm font-bold text-white">Female</span>
                 </label>
               </div>
             </div>
 
             <div>
-              <label className="block text-sm text-white/80 mb-1">Date of Birth</label>
+              <label className="block text-xs font-black uppercase tracking-wider text-white mb-1">Date of Birth</label>
               <input
                 type="date"
                 name="dob"
                 value={form.dob}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
               />
             </div>
           </div>
 
-          <div className="mt-8 flex items-center justify-between">
+          <div className="mt-8 flex items-center justify-between pt-6 border-t border-white/10">
             <button
               type="button"
               onClick={() => navigate('/join-notice')}
-              className="px-5 py-2.5 rounded-lg border border-white/30 text-white hover:bg-white/10 transition"
+              className="px-6 py-2.5 rounded-xl border border-sky-400/30 text-white hover:bg-[#061833] transition font-bold cursor-pointer"
             >
               Back
             </button>
@@ -133,8 +135,14 @@ const JoinDetails = () => {
               type="button"
               onClick={handleNext}
               disabled={!isValid}
-              className={`px-6 py-2.5 rounded-lg font-semibold bg-gradient-to-r from-[#1e40af] to-[#1d4ed8] text-white shadow-md shadow-blue-950/50 transition ${isValid ? 'hover:from-[#2563eb] hover:to-[#3b82f6]' : 'opacity-50 cursor-not-allowed'
+              className={`px-8 py-3 rounded-xl font-black transition cursor-pointer text-white ${isValid
+                  ? 'hover:scale-105 shadow-lg'
+                  : 'opacity-50 cursor-not-allowed bg-slate-700'
                 }`}
+              style={isValid ? {
+                background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
+                boxShadow: '0 4px 20px rgba(249, 87, 0, 0.4)'
+              } : {}}
             >
               Next
             </button>
@@ -142,8 +150,6 @@ const JoinDetails = () => {
         </motion.div>
       </div>
     </div>
-
-
   );
 };
 

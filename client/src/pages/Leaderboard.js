@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useContext, useRef } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Trophy,
@@ -26,8 +26,8 @@ import toast from 'react-hot-toast';
 
 let _cachedLeaderboard = null;
 let _cachedStats = {
-  totalUsers: 13780,
-  activeUsers: 11713,
+  totalUsers: 0,
+  activeUsers: 0,
   totalPoints: 0,
   averagePoints: 0
 };
@@ -39,7 +39,7 @@ const Leaderboard = () => {
   const [userRank, setUserRank] = useState(_cachedUserRank || null);
   const [loading, setLoading] = useState(false);
   const [timeframe, setTimeframe] = useState('all');
-  const [baseUserCount, setBaseUserCount] = useState(13780);
+  const [baseUserCount, setBaseUserCount] = useState(0);
   const [category, setCategory] = useState('total');
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -72,7 +72,7 @@ const Leaderboard = () => {
       const typeParam = category === 'contributions' ? 'contributions' : category;
       const res = await axios.get('/api/users/leaderboard', { params: { limit: 50, type: typeParam }, headers: token ? { Authorization: `Bearer ${token}` } : undefined });
       const rawList = res?.data?.data?.users || res?.data?.data?.leaderboard || [];
-      const apiList = rawList.filter(u => u.role !== 'admin' && u.email !== 'support@veritasaid.com');
+      const apiList = rawList.filter(u => u.role !== 'admin' && u.email !== 'support@reclaimdao.org' && u.email !== 'support@veritasaid.com');
       let data = apiList.map(u => ({
         _id: u._id || u.email,
         username: (u.email || '').split('@')[0],
@@ -175,9 +175,9 @@ const Leaderboard = () => {
       setLeaderboard(data);
       setTotalPages(1);
 
-      const totalUsers = res?.data?.data?.totalUsers || baseUserCount || 6000;
+      const totalUsers = res?.data?.data?.totalUsers !== undefined ? res?.data?.data?.totalUsers : data.length;
       const totalPoints = data.reduce((sum, u) => sum + (u.points?.total || 0), 0);
-      const activeUsersBase = res?.data?.data?.activeUsers || Math.floor(totalUsers * 0.85);
+      const activeUsersBase = res?.data?.data?.activeUsers !== undefined ? res?.data?.data?.activeUsers : (data.filter(u => u.isActive !== false).length);
       const averagePoints = data.length > 0 ? Math.round(totalPoints / data.length) : 0;
 
       const newStats = {
@@ -322,16 +322,16 @@ const Leaderboard = () => {
         setLeaderboard(top10Data);
         setTotalPages(1);
         const actualDbTotal = users.length;
-        const totalUsers = actualDbTotal + 13780;
+        const totalUsers = actualDbTotal;
         const totalPoints = data.reduce((sum, u) => sum + (u.points?.total || 0), 0);
-        const activeUsers = Math.floor(totalUsers * 0.85);
+        const activeUsers = users.filter(u => u.isActive !== false).length;
         const averagePoints = actualDbTotal > 0 ? Math.round(totalPoints / actualDbTotal) : 0;
         setStats({ totalUsers, activeUsers, totalPoints, averagePoints });
 
         if (user?.email) {
           const rankIndex = data.findIndex(u => u.email === user.email || (user._id && u._id === user._id));
           if (rankIndex !== -1) {
-            setUserRank({ position: 5000 + rankIndex, displayRank: 5000 + rankIndex, user: data[rankIndex] });
+            setUserRank({ position: rankIndex + 1, displayRank: rankIndex + 1, user: data[rankIndex] });
           } else {
             setUserRank(null);
           }
@@ -342,7 +342,7 @@ const Leaderboard = () => {
         console.error('Fetch leaderboard error (offline fallback):', error, err2);
         toast.error('Failed to load leaderboard. Showing Top 10 from local data.');
         setLeaderboard([]);
-        setStats({ totalUsers: 13780, activeUsers: 11713, totalPoints: 0, averagePoints: 0 });
+        setStats({ totalUsers: 0, activeUsers: 0, totalPoints: 0, averagePoints: 0 });
         setUserRank(null);
       }
     } finally {
@@ -388,25 +388,28 @@ const Leaderboard = () => {
   const getRankColor = (position) => {
     switch (position) {
       case 1:
-        return 'from-yellow-500 to-yellow-600';
+        return 'from-[#fcb420] to-[#f59e0b]';
       case 2:
-        return 'from-gray-400 to-gray-500';
+        return 'from-slate-300 to-slate-400';
       case 3:
-        return 'from-orange-500 to-orange-600';
+        return 'from-amber-600 to-amber-700';
       default:
-        return 'from-[#1e40af] to-[#0ea5e9]';
+        return 'from-[#3772ff] to-[#4886d9]';
     }
   };
 
-  const HardRankCircle = ({ rank, displayRank }) => {
+  const HardRankCircle = ({ rank, displayRank, isFirst = false }) => {
     const val = displayRank || rank;
     return (
-      <div className="w-12 h-10 rounded-xl border border-blue-400/40 bg-blue-500/15 flex items-center justify-center text-sky-300 font-bold text-xs px-2 shadow-md flex-shrink-0 whitespace-nowrap">
+      <div className={`w-12 h-10 rounded-xl border flex items-center justify-center font-bold text-xs px-2 shadow-md flex-shrink-0 whitespace-nowrap ${
+        isFirst 
+          ? 'border-[#ff6b1a] bg-[#ff6b1a]/20 text-[#ff6b1a]' 
+          : 'border-sky-400/40 bg-sky-500/15 text-sky-300'
+      }`}>
         #{val}
       </div>
     );
   };
-
 
   const getPointsForCategory = (userData, cat) => {
     switch (cat) {
@@ -425,17 +428,15 @@ const Leaderboard = () => {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.2, delay: isPersonal ? 0 : Math.min((hardRank || 1) * 0.02, 0.15) }}
-      className={`bg-[#031d24]/60 backdrop-blur-lg rounded-2xl p-6 border transition-all duration-300 ${isCurrentUser
-        ? 'border-blue-400 bg-blue-500/20 shadow-lg shadow-blue-950/40'
-        : 'border-white/20 hover:border-blue-500/30'
-        } ${position <= 3 ? 'relative overflow-hidden' : ''}`}
+      className={`backdrop-blur-xl rounded-2xl p-5 sm:p-6 border transition-all duration-300 ${
+        isCurrentUser
+          ? 'border-[#ff6b1a] bg-[#0a254d] text-white shadow-xl ring-1 ring-[#ff6b1a]/40'
+          : 'border-sky-400/25 bg-[#0a254d] hover:bg-[#0c2e5c] text-white hover:border-[#ff6b1a]/40 shadow-lg'
+      } ${position <= 3 ? 'relative overflow-hidden' : ''}`}
     >
-
-
-
-      {/* Top 3 Background Effect */}
+      {/* Top 3 Background Subtle Glow */}
       {position <= 3 && (
-        <div className={`absolute inset-0 bg-gradient-to-r ${getRankColor(position)} opacity-10`} />
+        <div className={`absolute inset-0 bg-gradient-to-r ${getRankColor(position)} opacity-5 pointer-events-none`} />
       )}
 
       <div className="relative flex items-center space-x-4">
@@ -444,6 +445,7 @@ const Leaderboard = () => {
           <HardRankCircle
             rank={hardRank}
             displayRank={isPersonal ? (user?.rank || (5000 + (position || 1))) : (userData.displayRank || userData.rank)}
+            isFirst={position === 1}
           />
         </div>
 
@@ -453,11 +455,11 @@ const Leaderboard = () => {
             <img
               src={userData.profileImage}
               alt={userData.firstName}
-              className="w-12 h-12 rounded-full object-cover border-2 border-white/20"
+              className={`w-12 h-12 rounded-full object-cover border-2 ${position === 1 ? 'border-[#ff6b1a]' : 'border-white/20'}`}
             />
           ) : (
-            <div className={`w-12 h-12 rounded-full bg-gradient-to-r ${getRankColor(position)} flex items-center justify-center`}>
-              <User className="w-6 h-6 text-white" />
+            <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${getRankColor(position)} flex items-center justify-center shadow-md`}>
+              <User className={`w-6 h-6 ${position === 1 ? 'text-white' : 'text-white'}`} />
             </div>
           )}
         </div>
@@ -465,50 +467,50 @@ const Leaderboard = () => {
         {/* User Info */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center space-x-2">
-            <h3 className="text-white font-semibold truncate">
+            <h3 className="text-white font-semibold truncate text-base sm:text-lg">
               {userData.fullName}
             </h3>
             {isCurrentUser && (
-              <span className="px-2.5 py-0.5 bg-gradient-to-r from-[#1e40af] to-[#0ea5e9] text-white font-bold text-xs rounded-full shadow-sm">You</span>
+              <span className="px-2.5 py-0.5 bg-gradient-to-r from-[#ff6b1a] to-[#ea580c] text-white font-bold text-xs rounded-full shadow-sm">
+                You
+              </span>
             )}
 
             {userData.role === 'admin' && (
-              <Crown className="w-4 h-4 text-yellow-500" />
+              <Crown className="w-4 h-4 text-[#ff6b1a]" />
             )}
           </div>
-          <p className="text-gray-400 text-sm">
+          <p className="text-white text-xs sm:text-sm font-semibold">
             Member since {new Date(userData.createdAt).toLocaleDateString()}
           </p>
           {userData.bio && (
-            <p className="text-gray-300 text-sm mt-1 line-clamp-1">{userData.bio}</p>
+            <p className="text-white text-xs sm:text-sm font-semibold mt-1 line-clamp-1">{userData.bio}</p>
           )}
         </div>
 
         {/* Stats */}
         <div className="flex-shrink-0 text-right">
-          <div className="flex items-center space-x-1 mb-1">
-            <Star className="w-4 h-4 text-yellow-500" />
-            <span className="text-white font-bold text-lg">
+          <div className="flex items-center justify-end space-x-1.5 mb-1">
+            <Star className="w-4 h-4 text-[#ff6b1a] fill-[#ff6b1a]" />
+            <span className="text-white font-black text-base sm:text-xl tracking-tight">
               {getPointsForCategory(userData, category).toLocaleString()}
             </span>
           </div>
-          <p className="text-gray-400 text-xs">
+          <p className="text-white text-xs font-bold">
             {category === 'total' ? 'Total Points' :
               category === 'voting' ? 'Voting Points' : 'Contribution Points'}
           </p>
-
-
         </div>
       </div>
 
-      {/* Progress Bar for Top 10 */}
+      {/* Clean Modern Progress Bar for Top 10 */}
       {position <= 10 && leaderboard.length > 0 && (
         <div className="mt-4">
-          <div className="w-full bg-white/10 rounded-full h-2">
+          <div className="w-full bg-[#061833] rounded-full h-1.5 overflow-hidden">
             <div
-              className={`h-2 rounded-full bg-gradient-to-r ${getRankColor(position)}`}
+              className={`h-full rounded-full bg-gradient-to-r ${getRankColor(position)} transition-all duration-500`}
               style={{
-                width: `${(getPointsForCategory(userData, category) / getPointsForCategory(leaderboard[0], category)) * 100}%`
+                width: `${Math.max(5, (getPointsForCategory(userData, category) / (getPointsForCategory(leaderboard[0], category) || 1)) * 100)}%`
               }}
             />
           </div>
@@ -517,71 +519,81 @@ const Leaderboard = () => {
     </motion.div>
   );
 
-  const StatCard = ({ icon: Icon, title, value, subtitle, gradient = "from-[#1e40af] to-[#0ea5e9]" }) => (
+  const StatCard = ({ icon: Icon, title, value, subtitle, isGold = false }) => (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-[#031d24]/80 backdrop-blur-lg rounded-2xl p-6 border border-blue-500/20 shadow-lg shadow-blue-950/50"
+      className="bg-[#0a254d] text-white rounded-2xl p-6 sm:p-7 border border-sky-400/25 hover:border-[#ff6b1a]/40 shadow-xl transition-all duration-300"
     >
       <div className="flex items-center space-x-4">
-        <div className={`p-3 rounded-xl bg-gradient-to-r ${gradient} shadow-md shadow-blue-950/40`}>
-          <Icon className="w-6 h-6 text-white" />
+        <div className={`p-3.5 rounded-xl shadow-lg ${
+          isGold 
+            ? 'bg-gradient-to-br from-[#ff6b1a] to-[#ea580c] text-white' 
+            : 'bg-gradient-to-br from-sky-500 to-blue-600 text-white'
+        }`}>
+          <Icon className="w-6 h-6" />
         </div>
         <div>
-          <h3 className="text-2xl font-bold text-white">{value}</h3>
-          <p className="text-gray-300 text-sm">{title}</p>
-          {subtitle && <p className="text-sky-200/60 text-xs">{subtitle}</p>}
+          <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight">{value}</h3>
+          <p className="text-white text-sm font-bold">{title}</p>
+          {subtitle && <p className="text-white text-xs font-semibold mt-0.5">{subtitle}</p>}
         </div>
       </div>
     </motion.div>
   );
 
   return (
-
-    <div className="min-h-screen bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0a1628] p-6">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-[#f8fafc] p-4 sm:p-6 lg:p-8">
+      <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-4xl font-bold text-white mb-2">🏆 Leaderboard</h1>
-          <p className="text-gray-300">
+          <div className="flex items-center gap-3 mb-2">
+            <span className="text-3xl sm:text-4xl">🏆</span>
+            <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+              Leader<span className="text-[#ff6b1a]">board</span>
+            </h1>
+          </div>
+          <p className="text-slate-600 text-sm sm:text-base max-w-3xl font-medium">
             See how you rank among beneficiaries and celebrate top beneficiaries shaping platform decisions through regular voting.
           </p>
-
         </motion.div>
 
-
-
         {/* Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <StatCard
             icon={Users}
             title="Total Users"
             value={stats.totalUsers?.toLocaleString() || '0'}
-            gradient="from-[#1e40af] to-[#3b82f6]"
+            isGold={true}
           />
           <StatCard
             icon={TrendingUp}
             title="Active Users"
             value={stats.activeUsers?.toLocaleString() || '0'}
             subtitle="Last 30 days"
-            gradient="from-[#0d6e82] to-[#06b6d4]"
+            isGold={false}
           />
         </div>
 
-
         {/* Your Rank Section */}
         {user && (
-          <div className="mb-12">
-            <div className="flex items-center gap-2 mb-4">
-              <User className="w-6 h-6 text-blue-400" />
-              <h2 className="text-2xl font-bold text-white">Your Ranking</h2>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-4"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <User className="w-5 h-5 text-slate-900" />
+                <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Your <span className="text-[#ff6b1a]">Ranking</span></h2>
+              </div>
             </div>
 
-            <div className="bg-gradient-to-r from-[#1e293b]/70 to-[#0a1628]/80 backdrop-blur-xl rounded-3xl p-1 border border-blue-500/30 shadow-2xl shadow-blue-950/60">
+            <div className="rounded-2xl border border-sky-400/25 shadow-xl overflow-hidden">
               <LeaderboardCard
                 userData={userRank?.user || {
                   ...user,
@@ -600,16 +612,25 @@ const Leaderboard = () => {
                 isCurrentUser={true}
               />
             </div>
-          </div>
+          </motion.div>
         )}
 
         {/* Top 3 Podium */}
         {leaderboard.length >= 3 && (
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold text-white mb-6 text-center">🥇 Top Champions 🥇</h2>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6"
+          >
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
+                <Crown className="w-6 h-6 text-[#ff6b1a]" />
+                <span>Top Champions <span className="text-[#ff6b1a]">Podium</span></span>
+              </h2>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* 2nd Place */}
-              <div className="order-1 md:order-1">
+              <div className="order-2 md:order-1">
                 <LeaderboardCard
                   userData={leaderboard[1]}
                   position={2}
@@ -619,10 +640,10 @@ const Leaderboard = () => {
               </div>
 
               {/* 1st Place */}
-              <div className="order-2 md:order-2">
+              <div className="order-1 md:order-2">
                 <div className="relative">
                   <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
-                    <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-black px-3 py-1 rounded-full text-sm font-bold">
+                    <div className="bg-gradient-to-r from-[#ff6b1a] to-[#ea580c] text-white px-3.5 py-1 rounded-full text-xs font-black shadow-lg uppercase tracking-wider flex items-center gap-1">
                       👑 CHAMPION
                     </div>
                   </div>
@@ -645,22 +666,20 @@ const Leaderboard = () => {
                 />
               </div>
             </div>
-          </div>
+          </motion.div>
         )}
 
         {/* Full Leaderboard */}
         <motion.div
-
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6"
         >
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-              <Trophy className="w-6 h-6 text-yellow-500" />
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
+              <Trophy className="w-6 h-6 text-[#ff6b1a]" />
               Top Champions
             </h2>
-            <span className="text-gray-400 text-sm">Platform Contributors</span>
-
           </div>
 
           {leaderboard.length > 0 ? (
@@ -685,10 +704,10 @@ const Leaderboard = () => {
                 })}
             </div>
           ) : (
-            <div className="text-center py-16">
-              <Trophy className="w-16 h-16 text-gray-500 mx-auto mb-4" />
+            <div className="text-center py-16 bg-[#0a254d] rounded-2xl border border-sky-400/25">
+              <Trophy className="w-16 h-16 text-slate-400 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-white mb-2">No users found</h3>
-              <p className="text-gray-400">
+              <p className="text-slate-300">
                 {searchTerm
                   ? 'Try adjusting your search criteria.'
                   : 'Be the first to earn points and claim the top spot!'

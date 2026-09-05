@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -63,7 +63,7 @@ const PointsRanking = () => {
       ]);
 
       const rawList = leaderboardRes.data?.data?.leaderboard || leaderboardRes.data?.data?.users || [];
-      const list = rawList.filter(u => u.role !== 'admin' && u.email !== 'support@veritasaid.com');
+      const list = rawList.filter(u => u.role !== 'admin' && u.email !== 'support@reclaimdao.org' && u.email !== 'support@veritasaid.com');
       const globalStats = statsRes.data?.data?.stats || {
         totalUsers: 0,
         totalPoints: 0,

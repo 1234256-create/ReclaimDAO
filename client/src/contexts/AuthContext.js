@@ -134,62 +134,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const raw = localStorage.getItem('placeholderUsers');
       const persisted = raw ? JSON.parse(raw) : {};
-      // Seed defaults if not present
-      const genRef = () => {
-        try {
-          const a = new Uint8Array(6);
-          crypto.getRandomValues(a);
-          return Array.from(a).map((b) => b.toString(16).padStart(2, '0')).join('');
-        } catch {
-          return Math.random().toString(36).slice(2, 14);
-        }
-      };
-
-      let map = {
-        'user@doa.com': {
-          id: persisted['user@doa.com']?.id || '1',
-          email: 'user@doa.com',
-          password: persisted['user@doa.com']?.password || 'password123',
-          firstName: persisted['user@doa.com']?.firstName || 'John',
-          lastName: persisted['user@doa.com']?.lastName || 'Doe',
-          name: `${persisted['user@doa.com']?.firstName || 'John'} ${persisted['user@doa.com']?.lastName || 'Doe'}`,
-          role: persisted['user@doa.com']?.role || 'user',
-          totalPoints: persisted['user@doa.com']?.totalPoints || 1256,
-          referralCode: persisted['user@doa.com']?.referralCode || genRef(),
-          createdAt: persisted['user@doa.com']?.createdAt || new Date().toISOString(),
-          solanaAddress: persisted['user@doa.com']?.solanaAddress || '',
-          telegramUsername: persisted['user@doa.com']?.telegramUsername || '',
-          phoneNumber: persisted['user@doa.com']?.phoneNumber || '',
-          country: persisted['user@doa.com']?.country || '',
-          address: persisted['user@doa.com']?.address || ''
-        },
-        'admin@doa.com': {
-          id: persisted['admin@doa.com']?.id || '2',
-          email: 'admin@doa.com',
-          password: persisted['admin@doa.com']?.password || 'admin123',
-          firstName: persisted['admin@doa.com']?.firstName || 'Admin',
-          lastName: persisted['admin@doa.com']?.lastName || 'User',
-          name: `${persisted['admin@doa.com']?.firstName || 'Admin'} ${persisted['admin@doa.com']?.lastName || 'User'}`,
-          role: persisted['admin@doa.com']?.role || 'admin',
-          totalPoints: persisted['admin@doa.com']?.totalPoints || 5000,
-          referralCode: persisted['admin@doa.com']?.referralCode || genRef(),
-          createdAt: persisted['admin@doa.com']?.createdAt || new Date().toISOString(),
-          solanaAddress: persisted['admin@doa.com']?.solanaAddress || '',
-          telegramUsername: persisted['admin@doa.com']?.telegramUsername || '',
-          phoneNumber: persisted['admin@doa.com']?.phoneNumber || '',
-          country: persisted['admin@doa.com']?.country || '',
-          address: persisted['admin@doa.com']?.address || ''
-        },
-        ...persisted
-      };
-      if (map['user@doa.com'] && typeof map['user@doa.com'].referralCode === 'string' && map['user@doa.com'].referralCode.startsWith('DOA-')) {
-        map['user@doa.com'].referralCode = genRef();
-      }
-      if (map['admin@doa.com'] && typeof map['admin@doa.com'].referralCode === 'string' && map['admin@doa.com'].referralCode.startsWith('DOA-')) {
-        map['admin@doa.com'].referralCode = genRef();
-      }
-      localStorage.setItem('placeholderUsers', JSON.stringify(map));
-      return map;
+      return persisted;
     } catch {
       return {};
     }

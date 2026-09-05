@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { getJoinWizard, setJoinWizard } from '../utils/datastore';
@@ -81,7 +81,7 @@ const JoinContact = () => {
     setSendingMsg(true);
     try {
       await axios.post('/api/mail', {
-        to: 'support@veritasaid.com',
+        to: 'support@reclaimdao.org',
         subject: `Contact Form Message from ${contactMsg.name}`,
         text: `Name: ${contactMsg.name}\nEmail: ${contactMsg.email}\n\nMessage:\n${contactMsg.message}`,
       });
@@ -95,39 +95,38 @@ const JoinContact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0a1628]">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+    <div className="min-h-screen bg-[#f8fafc] text-slate-900 py-12">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-12">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="rounded-2xl bg-[#031d24]/80 backdrop-blur-lg border border-blue-500/20 p-8 text-white shadow-2xl shadow-blue-950/60"
+          className="rounded-3xl bg-[#0a254d] border border-sky-400/25 p-8 sm:p-10 text-white shadow-2xl"
         >
-          <h1 className="text-2xl md:text-3xl font-bold mb-6">Contact & Address</h1>
-
+          <h1 className="text-2xl md:text-3xl font-black mb-6">Contact & <span className="text-[#ff6b1a]">Address</span></h1>
 
           <div className="space-y-5">
             <div>
-              <label className="block text-sm text-white/80 mb-1">Email Address</label>
+              <label className="block text-xs font-black uppercase tracking-wider text-white mb-1">Email Address</label>
               <input
                 type="email"
                 name="email"
                 value={form.email}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
                 placeholder="you@example.com"
               />
             </div>
 
             <div>
-              <label className="block text-sm text-white/80 mb-1">Phone Number</label>
+              <label className="block text-xs font-black uppercase tracking-wider text-white mb-1">Phone Number</label>
               <div className="grid grid-cols-3 gap-3">
                 <input
                   type="text"
                   name="countryCode"
                   value={form.countryCode}
                   onChange={handleChange}
-                  className="col-span-1 px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="col-span-1 px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
                   placeholder="+1"
                 />
                 <input
@@ -135,91 +134,91 @@ const JoinContact = () => {
                   name="phone"
                   value={form.phone}
                   onChange={handleChange}
-                  className="col-span-2 px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="col-span-2 px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
                   placeholder="555-123-4567"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm text-white/80 mb-1">Telegram Username</label>
+              <label className="block text-xs font-black uppercase tracking-wider text-white mb-1">Telegram Username</label>
               <input
                 type="text"
                 name="telegramUsername"
                 value={form.telegramUsername}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
                 placeholder="@yourusername"
               />
             </div>
 
             <div>
-              <label className="block text-sm text-white/80 mb-1">Street Address</label>
+              <label className="block text-xs font-black uppercase tracking-wider text-white mb-1">Street Address</label>
               <input
                 type="text"
                 name="address1"
                 value={form.address1}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
                 placeholder="123 Main St"
               />
             </div>
 
             <div>
-              <label className="block text-sm text-white/80 mb-1">Street Address Line 2 (Optional)</label>
+              <label className="block text-xs font-black uppercase tracking-wider text-white mb-1">Street Address Line 2 (Optional)</label>
               <input
                 type="text"
                 name="address2"
                 value={form.address2}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
                 placeholder="Apt, suite, unit, building, floor, etc."
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label className="block text-sm text-white/80 mb-1">City</label>
+                <label className="block text-xs font-black uppercase tracking-wider text-white mb-1">City</label>
                 <input
                   type="text"
                   name="city"
                   value={form.city}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
                   placeholder="San Francisco"
                 />
               </div>
               <div>
-                <label className="block text-sm text-white/80 mb-1">Province / State</label>
+                <label className="block text-xs font-black uppercase tracking-wider text-white mb-1">Province / State</label>
                 <input
                   type="text"
                   name="stateProvince"
                   value={form.stateProvince}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
                   placeholder="CA"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm text-white/80 mb-1">Postal / ZIP Code</label>
+              <label className="block text-xs font-black uppercase tracking-wider text-white mb-1">Postal / ZIP Code</label>
               <input
                 type="text"
                 name="postalCode"
                 value={form.postalCode}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
                 placeholder="94103"
               />
             </div>
           </div>
 
-          <div className="mt-8 flex items-center justify-between">
+          <div className="mt-8 flex items-center justify-between pt-6 border-t border-white/10">
             <button
               type="button"
               onClick={() => navigate('/join-details')}
-              className="px-5 py-2.5 rounded-lg border border-white/30 text-white hover:bg-white/10 transition"
+              className="px-6 py-2.5 rounded-xl border border-sky-400/30 text-white hover:bg-[#061833] transition font-bold cursor-pointer"
             >
               Back
             </button>
@@ -227,8 +226,14 @@ const JoinContact = () => {
               type="button"
               onClick={handleNext}
               disabled={!requiredFilled}
-              className={`px-6 py-2.5 rounded-lg font-semibold bg-gradient-to-r from-[#1e40af] to-[#1d4ed8] text-white shadow-md shadow-blue-950/50 transition ${requiredFilled ? 'hover:from-[#2563eb] hover:to-[#3b82f6]' : 'opacity-50 cursor-not-allowed'
+              className={`px-8 py-3 rounded-xl font-black transition cursor-pointer text-white ${requiredFilled
+                  ? 'hover:scale-105 shadow-lg'
+                  : 'opacity-50 cursor-not-allowed bg-slate-700'
                 }`}
+              style={requiredFilled ? {
+                background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
+                boxShadow: '0 4px 20px rgba(249, 87, 0, 0.4)'
+              } : {}}
             >
               Next
             </button>

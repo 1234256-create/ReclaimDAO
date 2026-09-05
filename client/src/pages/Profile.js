@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
@@ -188,67 +188,70 @@ const Profile = () => {
   const RoleIcon = getRoleIcon(user.role);
 
   return (
-    <div className="min-h-screen py-8">
+    <div className="min-h-screen bg-[#f8fafc] py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Profile Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-[#041d24]/90 backdrop-blur-md rounded-2xl border border-blue-500/20 p-6 sm:p-8 mb-8 shadow-xl shadow-blue-950/30"
+          className="bg-[#0a254d] text-white rounded-3xl border border-sky-400/25 p-6 sm:p-8 mb-8 shadow-xl"
         >
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-6">
             <div className="flex items-center space-x-6">
               <div className="relative">
-                <div className="w-24 h-24 bg-gradient-to-br from-[#0f172a] via-[#2563eb] to-[#041d24] rounded-full flex items-center justify-center border-2 border-blue-500/40 shadow-lg shadow-blue-950/40">
-                  <span className="text-white text-3xl font-extrabold tracking-wider">
+                <div 
+                  className="w-24 h-24 rounded-full flex items-center justify-center border-2 border-white/20 shadow-lg"
+                  style={{ background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)' }}
+                >
+                  <span className="text-white text-3xl font-black tracking-wider">
                     {(user.fullName || user.name || user.firstName || 'U').charAt(0).toUpperCase()}
                   </span>
                 </div>
-                <div className={`absolute -bottom-2 -right-2 w-8 h-8 bg-gradient-to-r ${getRoleColor(user.role)} rounded-full flex items-center justify-center border border-white/20 shadow-md`}>
-                  <RoleIcon className="w-4 h-4 text-white" />
+                <div className={`absolute -bottom-2 -right-2 w-8 h-8 bg-[#061833] text-[#ff6b1a] rounded-full flex items-center justify-center border border-[#ff6b1a]/40 shadow-md`}>
+                  <RoleIcon className="w-4 h-4 text-[#ff6b1a]" />
                 </div>
               </div>
 
               {!isEditing && (
                 <div>
-                  <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">{user.fullName || user.name || `${user.firstName || ''} ${user.lastName || ''}`.trim()}</h1>
-                  <div className="space-y-1.5 text-blue-100/80 text-sm">
+                  <h1 className="text-2xl sm:text-3xl font-black text-white mb-2">{user.fullName || user.name || `${user.firstName || ''} ${user.lastName || ''}`.trim()}</h1>
+                  <div className="space-y-1.5 text-white font-bold text-sm">
                     <div className="flex items-center space-x-2">
-                      <Mail className="w-4 h-4 text-blue-400" />
+                      <Mail className="w-4 h-4 text-[#ff6b1a]" />
                       <span>{user.email}</span>
                     </div>
                     {user.address && (
                       <div className="flex items-center space-x-2">
-                        <MapPin className="w-4 h-4 text-blue-400" />
+                        <MapPin className="w-4 h-4 text-sky-400" />
                         <span>{user.address}</span>
                       </div>
                     )}
                     {user.telegramUsername && (
                       <div className="flex items-center space-x-2">
-                        <Send className="w-4 h-4 text-blue-400" />
+                        <Send className="w-4 h-4 text-sky-400" />
                         <span>@{user.telegramUsername}</span>
                       </div>
                     )}
                     {user.phoneNumber && (
                       <div className="flex items-center space-x-2">
-                        <Phone className="w-4 h-4 text-blue-400" />
+                        <Phone className="w-4 h-4 text-[#10b981]" />
                         <span>{user.phoneNumber}</span>
                       </div>
                     )}
                     {user.walletAddress && (
                       <div className="flex items-center space-x-2">
-                        <Wallet className="w-4 h-4 text-blue-400" />
+                        <Wallet className="w-4 h-4 text-[#ff6b1a]" />
                         <span className="text-xs font-mono">{user.walletAddress.slice(0, 20)}...</span>
                       </div>
                     )}
-                    <div className="flex items-center space-x-2 text-xs text-blue-200/60 pt-1">
+                    <div className="flex items-center space-x-2 text-xs text-white font-semibold pt-1">
                       <Calendar className="w-3.5 h-3.5" />
                       <span>Joined {new Date(user.createdAt || Date.now()).toLocaleDateString()}</span>
                     </div>
                   </div>
                   <div className="mt-3">
-                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r ${getRoleColor(user.role)} text-white shadow-sm`}>
-                      <RoleIcon className="w-3.5 h-3.5 mr-1" />
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-[#061833] border border-sky-400/30 text-sky-300 shadow-sm">
+                      <RoleIcon className="w-3.5 h-3.5 mr-1 text-[#ff6b1a]" />
                       {user.role ? (user.role.charAt(0).toUpperCase() + user.role.slice(1)) : 'User'}
                     </span>
                   </div>
@@ -259,7 +262,11 @@ const Profile = () => {
             {!isEditing && (
               <button
                 onClick={() => setIsEditing(true)}
-                className="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-xl flex items-center space-x-2 transition-all duration-200 font-medium shadow-md shadow-blue-950/40"
+                className="text-white px-6 py-2.5 rounded-xl flex items-center space-x-2 transition-all font-bold shadow-lg cursor-pointer hover:scale-105"
+                style={{
+                  background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
+                  boxShadow: '0 8px 25px rgba(249, 87, 0, 0.4)'
+                }}
               >
                 <Edit3 className="w-4 h-4" />
                 <span>Edit Profile</span>
@@ -269,98 +276,98 @@ const Profile = () => {
 
           {/* Edit Form */}
           {isEditing && (
-            <div className="mt-6 pt-6 border-t border-blue-500/20">
+            <div className="mt-6 pt-6 border-t border-white/10">
               <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                <Edit3 className="w-5 h-5 text-blue-400" /> Edit Profile Information
+                <Edit3 className="w-5 h-5 text-[#ff6b1a]" /> Edit Profile Information
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-blue-200/90 mb-1">First Name</label>
+                  <label className="block text-xs font-black uppercase tracking-wider text-white mb-1">First Name</label>
                   <input
                     type="text"
                     value={formData.firstName}
                     onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                    className="w-full bg-[#0f172a]/40 border border-blue-500/30 rounded-xl px-4 py-2.5 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full bg-[#061833] border border-sky-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
                     placeholder="First Name"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-blue-200/90 mb-1">Last Name</label>
+                  <label className="block text-xs font-black uppercase tracking-wider text-white mb-1">Last Name</label>
                   <input
                     type="text"
                     value={formData.lastName}
                     onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                    className="w-full bg-[#0f172a]/40 border border-blue-500/30 rounded-xl px-4 py-2.5 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full bg-[#061833] border border-sky-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
                     placeholder="Last Name"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-blue-200/90 mb-1">Email</label>
+                  <label className="block text-xs font-black uppercase tracking-wider text-white mb-1">Email</label>
                   <input
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full bg-[#0f172a]/40 border border-blue-500/30 rounded-xl px-4 py-2.5 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full bg-[#061833] border border-sky-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
                     placeholder="Email"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-blue-200/90 mb-1">Username</label>
+                  <label className="block text-xs font-black uppercase tracking-wider text-white mb-1">Username</label>
                   <input
                     type="text"
                     value={formData.username}
                     onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                    className="w-full bg-[#0f172a]/40 border border-blue-500/30 rounded-xl px-4 py-2.5 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full bg-[#061833] border border-sky-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
                     placeholder="Username"
                   />
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-blue-200/90 mb-1">Address</label>
+                  <label className="block text-xs font-black uppercase tracking-wider text-white mb-1">Address</label>
                   <input
                     type="text"
                     value={formData.address}
                     onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                    className="w-full bg-[#0f172a]/40 border border-blue-500/30 rounded-xl px-4 py-2.5 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full bg-[#061833] border border-sky-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
                     placeholder="Address"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-blue-200/90 mb-1">Telegram Username</label>
+                  <label className="block text-xs font-black uppercase tracking-wider text-white mb-1">Telegram Username</label>
                   <input
                     type="text"
                     value={formData.telegramUsername}
                     onChange={(e) => setFormData({ ...formData, telegramUsername: e.target.value })}
-                    className="w-full bg-[#0f172a]/40 border border-blue-500/30 rounded-xl px-4 py-2.5 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full bg-[#061833] border border-sky-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
                     placeholder="Telegram Username"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-blue-200/90 mb-1">Phone Number</label>
+                  <label className="block text-xs font-black uppercase tracking-wider text-white mb-1">Phone Number</label>
                   <input
                     type="tel"
                     value={formData.phoneNumber}
                     onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
-                    className="w-full bg-[#0f172a]/40 border border-blue-500/30 rounded-xl px-4 py-2.5 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full bg-[#061833] border border-sky-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
                     placeholder="Phone Number"
                   />
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-blue-200/90 mb-1">Wallet Address</label>
+                  <label className="block text-xs font-black uppercase tracking-wider text-white mb-1">Wallet Address</label>
                   <input
                     type="text"
                     value={formData.walletAddress}
                     onChange={(e) => setFormData({ ...formData, walletAddress: e.target.value })}
-                    className="w-full bg-[#0f172a]/40 border border-blue-500/30 rounded-xl px-4 py-2.5 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full bg-[#061833] border border-sky-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
                     placeholder="Wallet Address"
                   />
                 </div>
               </div>
 
               {/* Action Buttons Row */}
-              <div className="flex items-center justify-end space-x-3 pt-6 mt-6 border-t border-blue-500/20">
+              <div className="flex items-center justify-end space-x-3 pt-6 mt-6 border-t border-white/10">
                 <button
                   onClick={handleCancel}
-                  className="bg-gray-700 hover:bg-gray-600 text-white px-5 py-2.5 rounded-xl flex items-center space-x-2 transition-all duration-200 font-medium"
+                  className="bg-[#061833] hover:bg-[#071d3d] text-white px-5 py-2.5 rounded-xl flex items-center space-x-2 transition-all font-bold border border-sky-400/20 cursor-pointer"
                 >
                   <X className="w-4 h-4" />
                   <span>Cancel</span>
@@ -368,7 +375,11 @@ const Profile = () => {
                 <button
                   onClick={handleSave}
                   disabled={loading}
-                  className="bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-500 hover:to-blue-500 text-white px-6 py-2.5 rounded-xl flex items-center space-x-2 transition-all duration-200 font-medium shadow-md shadow-blue-950/40 disabled:opacity-50"
+                  className="text-white px-6 py-2.5 rounded-xl flex items-center space-x-2 transition-all font-bold shadow-lg disabled:opacity-50 cursor-pointer hover:scale-105"
+                  style={{
+                    background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
+                    boxShadow: '0 8px 25px rgba(249, 87, 0, 0.4)'
+                  }}
                 >
                   <Save className="w-4 h-4" />
                   <span>{loading ? 'Saving...' : 'Save Changes'}</span>

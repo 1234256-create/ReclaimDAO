@@ -13,10 +13,29 @@ const Referral = () => {
   useEffect(() => {
     const load = async () => {
       try {
+        const userEmailLower = String(user?.email || '').toLowerCase().trim();
+        const userIdStr = String(user?._id || user?.id || '');
+
         if (!user?._id && !user?.id) {
           const apps = getJoinApplications();
-          const code = user?.referralCode || '';
-          const list = apps.filter(a => String(a.referralCode || '') === String(code));
+          const code = String(user?.referralCode || '').trim();
+          const seen = new Set();
+          const list = [];
+          for (const a of apps) {
+            const aEmail = String(a.email || '').toLowerCase().trim();
+            if (String(a.referralCode || '').trim() === code && aEmail !== userEmailLower && aEmail) {
+              if (!seen.has(aEmail)) {
+                seen.add(aEmail);
+                list.push({
+                  firstName: a.firstName,
+                  lastName: a.lastName,
+                  email: a.email,
+                  time: a.createdAt || a.time,
+                  status: a.status || 'registered'
+                });
+              }
+            }
+          }
           setReferrals(list);
           return;
         }
@@ -25,22 +44,54 @@ const Referral = () => {
         const uid = String(user?._id || user?.id);
         const res = await axios.get(`/api/users/${uid}/referrals`, { params: { limit: 100 }, headers });
         const apiRefs = res.data?.data?.referrals || [];
-        setReferrals(apiRefs.map(r => ({
-          firstName: r.firstName,
-          lastName: r.lastName,
-          email: r.email,
-          time: r.createdAt,
-          status: r.status || 'active'
-        })));
+        const seen = new Set();
+        const validRefs = [];
+        for (const r of apiRefs) {
+          const rEmail = String(r.email || '').toLowerCase().trim();
+          const rId = String(r.id || r._id || '');
+          if (rEmail === userEmailLower || (userIdStr && rId === userIdStr)) {
+            continue;
+          }
+          const dedupeKey = rEmail || rId;
+          if (dedupeKey && seen.has(dedupeKey)) {
+            continue;
+          }
+          if (dedupeKey) seen.add(dedupeKey);
+          validRefs.push({
+            firstName: r.firstName,
+            lastName: r.lastName,
+            email: r.email,
+            time: r.createdAt || r.time,
+            status: r.status || 'active'
+          });
+        }
+        setReferrals(validRefs);
       } catch (e) {
         const apps = getJoinApplications();
-        const code = user?.referralCode || '';
-        const list = apps.filter(a => String(a.referralCode || '') === String(code));
+        const code = String(user?.referralCode || '').trim();
+        const userEmailLower = String(user?.email || '').toLowerCase().trim();
+        const seen = new Set();
+        const list = [];
+        for (const a of apps) {
+          const aEmail = String(a.email || '').toLowerCase().trim();
+          if (String(a.referralCode || '').trim() === code && aEmail !== userEmailLower && aEmail) {
+            if (!seen.has(aEmail)) {
+              seen.add(aEmail);
+              list.push({
+                firstName: a.firstName,
+                lastName: a.lastName,
+                email: a.email,
+                time: a.createdAt || a.time,
+                status: a.status || 'registered'
+              });
+            }
+          }
+        }
         setReferrals(list);
       }
     };
     load();
-  }, [user?.referralCode, user?._id, user?.id]);
+  }, [user?.referralCode, user?._id, user?.id, user?.email]);
 
   const link = user?.referralCode ? `${window.location.origin}/home?ref=${user.referralCode}` : '';
 
@@ -68,52 +119,75 @@ const Referral = () => {
   };
 
   return (
-    <div className="min-h-screen hero-gradient mobile-padding py-6">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-[#f8fafc] p-4 sm:p-6 lg:p-8">
+      <div className="max-w-7xl mx-auto space-y-6 sm:space-y-8">
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-6 sm:mb-8">
-          <h1 className="mobile-header font-bold text-white mb-2">Referral</h1>
-          <p className="text-gray-300 mobile-text">Share your link and track your referrals</p>
+          <div className="flex items-center gap-3 mb-2">
+            <Users className="w-8 h-8 text-slate-900" />
+            <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+              Community <span className="text-[#ff6b1a]">Referrals</span>
+            </h1>
+          </div>
+          <p className="text-slate-600 text-sm sm:text-base max-w-2xl font-medium">
+            Invite fellow beneficiaries, grow the DAO network, and track all your active referrals.
+          </p>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mobile-glass rounded-xl mobile-card mb-6">
-          <h3 className="text-lg font-bold text-white mb-3">Your Referral Link</h3>
-          {user?.referralCode ? (
-            <div className="flex items-center justify-between bg-white/5 border border-white/10 rounded-lg px-3 py-2">
-              <a href={link} target="_blank" rel="noopener noreferrer" className="underline text-purple-300 hover:text-purple-200 break-all">
-                {link}
-              </a>
-              <button onClick={copyLink} className="ml-2 p-2 rounded-md hover:bg-white/20">
-                <Copy className="w-4 h-4 text-white" />
-              </button>
-            </div>
-          ) : (
-            <div className="text-gray-200">No referral code available</div>
-          )}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-xl font-black text-slate-900 flex items-center gap-2">
+              <span>Your Referral <span className="text-[#ff6b1a]">Link</span></span>
+            </h3>
+          </div>
+          <div className="bg-[#0a254d] text-white rounded-2xl p-6 sm:p-7 border border-sky-400/25 shadow-xl">
+            {user?.referralCode ? (
+              <div className="flex items-center justify-between bg-[#061833] border border-sky-400/20 hover:border-[#ff6b1a]/40 rounded-xl px-4 py-3.5 transition-all">
+                <a href={link} target="_blank" rel="noopener noreferrer" className="underline text-sky-300 hover:text-[#ff6b1a] break-all font-mono text-sm font-bold">
+                  {link}
+                </a>
+                <button 
+                  onClick={copyLink} 
+                  className="ml-3 p-2.5 rounded-xl bg-[#ff6b1a]/15 text-[#ff6b1a] hover:bg-[#ff6b1a] hover:text-white transition-all shrink-0 cursor-pointer"
+                  title="Copy Link"
+                >
+                  <Copy className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <div className="text-white font-bold text-sm">No referral code available</div>
+            )}
+          </div>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6">
-          <h3 className="text-xl font-bold text-white mb-6 flex items-center">
-            <Users className="w-6 h-6 mr-2" />
-            Your Referrals
-          </h3>
-          {referrals.length === 0 ? (
-            <div className="text-gray-300">No referrals yet</div>
-          ) : (
-            <div className="space-y-3">
-              {referrals.map((r, idx) => (
-                <div key={idx} className="flex items-center justify-between bg-white/5 border border-white/10 rounded-lg px-3 py-2">
-                  <div>
-                    <p className="text-white font-semibold">{`${r.firstName || ''} ${r.lastName || ''}`.trim() || (r.email || 'user')}</p>
-                    <p className="text-xs text-gray-400">{r.email}</p>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-xl font-black text-slate-900 flex items-center gap-2">
+              <Users className="w-5 h-5 text-[#ff6b1a]" />
+              <span>Your <span className="text-[#ff6b1a]">Referrals</span></span>
+            </h3>
+          </div>
+          <div className="bg-[#0a254d] text-white rounded-2xl p-6 sm:p-8 border border-sky-400/25 shadow-xl">
+            {referrals.length === 0 ? (
+              <div className="text-white font-bold py-8 text-center bg-[#061833] rounded-xl border border-sky-400/20">
+                No referrals yet. Share your referral link above to invite members!
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {referrals.map((r, idx) => (
+                  <div key={idx} className="flex items-center justify-between bg-[#061833] border border-sky-400/20 hover:border-[#ff6b1a]/30 rounded-xl p-4 transition-all">
+                    <div>
+                      <p className="text-white font-bold">{`${r.firstName || ''} ${r.lastName || ''}`.trim() || (r.email || 'user')}</p>
+                      <p className="text-xs text-white font-semibold mt-0.5">{r.email}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xs text-white font-bold">{new Date(r.time || Date.now()).toLocaleString()}</p>
+                      <p className="text-xs font-black text-[#10b981] uppercase tracking-wider mt-0.5">{r.status || 'active'}</p>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-xs text-gray-300">{new Date(r.time || Date.now()).toLocaleString()}</p>
-                    <p className="text-xs text-purple-300">{r.status || 'pending'}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+                ))}
+              </div>
+            )}
+          </div>
         </motion.div>
       </div>
     </div>

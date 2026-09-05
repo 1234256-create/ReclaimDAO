@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
@@ -12,42 +12,46 @@ const JoinSubmitted = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#041d24] via-[#0f172a] to-[#041d24] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="rounded-2xl bg-slate-900/80 backdrop-blur-lg border border-blue-500/30 p-10 text-white max-w-md w-full text-center shadow-2xl"
+        className="rounded-3xl bg-[#0a254d] border border-sky-400/25 p-8 sm:p-10 text-white max-w-md w-full text-center shadow-2xl"
       >
         {/* Success icon */}
         <div className="flex items-center justify-center mb-6">
-          <div className="w-16 h-16 rounded-full bg-blue-500/20 border-2 border-blue-400 flex items-center justify-center shadow-lg shadow-blue-500/20">
-            <svg className="w-8 h-8 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="w-16 h-16 rounded-full bg-[#10b981]/20 border-2 border-[#10b981] flex items-center justify-center shadow-lg shadow-[#10b981]/20">
+            <svg className="w-8 h-8 text-[#10b981]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
             </svg>
           </div>
         </div>
 
-        <h1 className="text-2xl md:text-3xl font-bold mb-3 text-white">Claim Submitted!</h1>
-        <p className="text-blue-100/80 text-sm mb-8">Your claim will be verified within <span className="text-blue-400 font-bold">48 hours</span>. Create your account now to track your status.</p>
+        <h1 className="text-2xl md:text-3xl font-black mb-3 text-white">Claim <span className="text-[#ff6b1a]">Submitted!</span></h1>
+        <p className="text-white font-bold text-sm mb-8">Your claim will be verified within <span className="text-[#ff6b1a] font-black">48 hours</span>. Create your account now to track your status.</p>
 
         {/* Pulsing glow ring */}
         <div className="relative inline-block w-full">
-          <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500 to-blue-400 blur-lg opacity-50 animate-pulse" />
+          <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#ff6b1a] to-[#ea580c] blur-lg opacity-40 animate-pulse" />
           <motion.button
             onClick={handleCreateAccount}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            className="relative w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-xl border border-blue-400/30 flex items-center justify-center gap-3 transition-all"
+            className="relative w-full text-white px-8 py-4 rounded-xl font-black text-lg shadow-xl flex items-center justify-center gap-3 transition-all cursor-pointer"
+            style={{
+              background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
+              boxShadow: '0 8px 30px rgba(249, 87, 0, 0.45)'
+            }}
           >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
             Create Your Account →
           </motion.button>
         </div>
 
-        <p className="text-blue-200/50 text-xs mt-4">Free to join · Track your claim status · Earn points</p>
+        <p className="text-white font-bold text-xs mt-4">Free to join · Track your claim status · Earn points</p>
       </motion.div>
     </div>
   );

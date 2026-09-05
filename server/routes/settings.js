@@ -5,7 +5,7 @@ const { adminAuth } = require('../middleware/auth');
 const Settings = require('../models/Settings');
 
 const defaultSettings = {
-  BASE_USER_COUNT: 13780,
+  BASE_USER_COUNT: 0,
   TOTAL_POINTS_MULTIPLIER: 1,
   CAN_CONTRIBUTE: true,
   WHATSAPP_LINK: 'https://wa.me/message/QO7NOBRERE3MO1',
@@ -45,7 +45,7 @@ const defaultSettings = {
     starRating: '4.5',
     subheading: 'We’ve helped over 10,000+ fraud victims already!',
     reviewCount: '780 reviews',
-    reviewLink: 'https://www.trustpilot.com/review/veritasaid.com',
+    reviewLink: 'https://www.trustpilot.com/review/reclaimdao.org',
     buttonText: 'Are you a victim? Request a refund →'
   }
 };

@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAdminAuth } from '../../contexts/AdminAuthContext';
@@ -252,32 +252,35 @@ const AdminDashboard = () => {
       const pending = (contribRes.data?.data?.contributions || []).length;
       const userList = listRes.data?.data?.users || [];
 
-      let realCount = s.realUsers || 0;
-      let virtualCount = s.virtualUsers || 0;
-      let totalCount = s.totalUsers || 0;
-      let pointsCount = s.totalPoints || 0;
+      let realCount = 0;
+      let virtualCount = 0;
+      let totalCount = 0;
+      let pointsCount = 0;
 
-      if (userList.length > 0) {
-        const realFromList = userList.filter(u => !u.isVirtual).length;
-        const virtualFromList = userList.filter(u => !!u.isVirtual).length;
-        const pointsFromList = userList.reduce((sum, u) => sum + (Number(u.points) || 0), 0);
+      const nonAdminUsers = userList.filter(u => u.role !== 'admin' && u.email !== 'admin@reclaimdao.org' && u.email !== 'admin@example.com' && u.email !== 'admin@doa.com' && u.email !== 'support@reclaimdao.org' && u.email !== 'support@veritasaid.com');
 
-        if (!realCount) realCount = realFromList;
-        if (!virtualCount) virtualCount = virtualFromList;
-        if (!totalCount) totalCount = userList.length;
-        if (!pointsCount) pointsCount = pointsFromList;
+      if (nonAdminUsers.length > 0) {
+        realCount = nonAdminUsers.filter(u => !u.isVirtual).length;
+        virtualCount = nonAdminUsers.filter(u => !!u.isVirtual).length;
+        totalCount = nonAdminUsers.length;
+        pointsCount = nonAdminUsers.reduce((sum, u) => sum + (Number(u.points) || 0), 0);
+      } else if (usersRes.data && usersRes.data.success && usersRes.data.data?.stats) {
+        realCount = s.realUsers || 0;
+        virtualCount = s.virtualUsers || 0;
+        totalCount = s.totalUsers || 0;
+        pointsCount = s.totalPoints || 0;
+      } else {
+        realCount = 0;
+        virtualCount = 0;
+        totalCount = 0;
+        pointsCount = 0;
       }
-
-      const dsStats = getDashboardStats();
-      if (!realCount && dsStats.realUsers) realCount = dsStats.realUsers;
-      if (!virtualCount && dsStats.virtualUsers) virtualCount = dsStats.virtualUsers;
-      if (!pointsCount && dsStats.totalPoints) pointsCount = dsStats.totalPoints;
 
       setDashboardStats({
         totalUsers: totalCount || 0,
         realUsers: realCount || 0,
         virtualUsers: virtualCount || 0,
-        activeVotes: active || dsStats.activeVotes || 0,
+        activeVotes: active || 0,
         totalPoints: pointsCount || 0,
         totalVotesSubmitted: (s.totalVotesSubmitted || 0) || (totalSubmitted || 0),
         pendingContributions: pending || 0
@@ -403,7 +406,7 @@ const AdminDashboard = () => {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold mb-2">Welcome back, {admin?.username}!</h1>
-            <p className="text-blue-100">Here's what's happening with your AVERADAO platform today.</p>
+            <p className="text-blue-100">Here's what's happening with your ReclaimDAO platform today.</p>
 
           </div>
         </div>
@@ -576,18 +579,24 @@ const AdminDashboard = () => {
             animate={{ x: 0 }}
             exit={{ x: -300 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed lg:relative z-30 w-64 h-full bg-white shadow-xl border-r border-gray-200"
+            className="fixed lg:relative z-30 w-72 h-full bg-white shadow-xl border-r border-gray-200"
           >
             <div className="flex flex-col h-full">
               {/* Sidebar Header */}
-              <div className="p-6 border-b border-gray-200">
+              <div className="p-5 border-b border-gray-200">
                 <div className="flex items-center gap-3">
-                  <img src="/images/logo.png" alt="AVERADAO Logo" className="h-10 w-auto object-contain" />
-                  <div>
-                    <h2 className="text-lg font-bold text-gray-900">AVERADAO Admin</h2>
-                    <p className="text-xs text-gray-500">Control Panel</p>
+                  <img
+                    src="/images/favicon.png"
+                    alt="ReclaimDAO Favicon"
+                    className="h-20 w-20 sm:h-24 sm:w-24 object-contain shrink-0 drop-shadow-md"
+                  />
+                  <div className="min-w-0">
+                    <h2 className="text-base sm:text-lg font-black text-gray-900 leading-tight">
+                      Reclaim<span className="text-[#ff6b1a]">DAO</span>
+                      <span className="block text-sm font-bold text-gray-800">Admin</span>
+                    </h2>
+                    <p className="text-xs text-gray-500 font-semibold">Control Panel</p>
                   </div>
-
                 </div>
               </div>
 

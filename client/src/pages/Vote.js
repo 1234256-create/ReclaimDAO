@@ -92,44 +92,44 @@ const Vote = () => {
   };
 
   return (
-    <div className="min-h-screen hero-gradient mobile-padding py-6">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-[#f8fafc] p-4 sm:p-6 lg:p-8">
+      <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-6 sm:mb-8"
         >
-          <h1 className="mobile-header font-bold text-white mb-2">Vote</h1>
-          <p className="text-gray-300 mobile-text">Cast your vote on important decisions</p>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-2 tracking-tight">DAO <span className="text-[#ff6b1a]">Vote</span></h1>
+          <p className="text-slate-600 text-sm sm:text-base">Cast your vote on important decisions</p>
         </motion.div>
 
         {/* Timer Section */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="mobile-glass rounded-xl mobile-card mb-6 sm:mb-8 text-center"
+          className="bg-[#0a254d] text-white rounded-2xl border border-sky-400/25 p-6 sm:p-8 mb-6 sm:mb-8 text-center shadow-xl"
         >
-          <h2 className="mobile-subheader font-bold text-white mb-4">Time Remaining</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 responsive-gap mb-4">
-            <div className="bg-white/10 rounded-lg p-3 sm:p-4">
-              <div className="text-2xl sm:text-3xl font-bold text-white">{timeLeft.days}</div>
-              <div className="text-gray-300 text-xs sm:text-sm">Days</div>
+          <h2 className="text-xl font-bold text-white mb-4">Time Remaining</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
+            <div className="bg-[#071d3d] border border-sky-400/20 rounded-xl p-3 sm:p-4">
+              <div className="text-2xl sm:text-3xl font-extrabold text-[#ff6b1a]">{timeLeft.days}</div>
+              <div className="text-slate-300 text-xs sm:text-sm">Days</div>
             </div>
-            <div className="bg-white/10 rounded-lg p-3 sm:p-4">
-              <div className="text-2xl sm:text-3xl font-bold text-white">{timeLeft.hours}</div>
-              <div className="text-gray-300 text-xs sm:text-sm">Hours</div>
+            <div className="bg-[#071d3d] border border-sky-400/20 rounded-xl p-3 sm:p-4">
+              <div className="text-2xl sm:text-3xl font-extrabold text-[#ff6b1a]">{timeLeft.hours}</div>
+              <div className="text-slate-300 text-xs sm:text-sm">Hours</div>
             </div>
-            <div className="bg-white/10 rounded-lg p-3 sm:p-4">
-              <div className="text-2xl sm:text-3xl font-bold text-white">{timeLeft.minutes}</div>
-              <div className="text-gray-300 text-xs sm:text-sm">Minutes</div>
+            <div className="bg-[#071d3d] border border-sky-400/20 rounded-xl p-3 sm:p-4">
+              <div className="text-2xl sm:text-3xl font-extrabold text-[#ff6b1a]">{timeLeft.minutes}</div>
+              <div className="text-slate-300 text-xs sm:text-sm">Minutes</div>
             </div>
-            <div className="bg-white/10 rounded-lg p-3 sm:p-4">
-              <div className="text-2xl sm:text-3xl font-bold text-white">{timeLeft.seconds}</div>
-              <div className="text-gray-300 text-xs sm:text-sm">Seconds</div>
+            <div className="bg-[#071d3d] border border-sky-400/20 rounded-xl p-3 sm:p-4">
+              <div className="text-2xl sm:text-3xl font-extrabold text-[#ff6b1a]">{timeLeft.seconds}</div>
+              <div className="text-slate-300 text-xs sm:text-sm">Seconds</div>
             </div>
           </div>
-          <p className="text-yellow-400 font-semibold mobile-text">
+          <p className="text-sky-300 font-semibold text-sm sm:text-base">
             You have 1 vote for this round
           </p>
         </motion.div>
@@ -142,31 +142,31 @@ const Vote = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="mobile-glass rounded-xl mobile-card"
+              className="bg-[#0a254d] border border-sky-400/25 rounded-2xl p-6 sm:p-8 shadow-xl"
             >
-              <h3 className="mobile-subheader font-bold text-white mb-4 sm:mb-6">
+              <h3 className="text-lg sm:text-xl font-bold text-white mb-4 sm:mb-6">
                 {question.title}
               </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 responsive-gap">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {question.options.map((option) => (
                   <button
                     key={option.id}
                     onClick={() => handleVoteChange(question.id, option.id)}
-                    className={`p-4 rounded-lg transition-all duration-300 touch-target ${
+                    className={`p-4 rounded-xl transition-all duration-300 text-left cursor-pointer ${
                       votes[question.id] === option.id
-                        ? 'bg-purple-500/30 border-2 border-purple-400 text-white'
-                        : 'bg-white/10 border-2 border-transparent text-gray-300 hover:bg-white/20 hover:text-white'
+                        ? 'bg-[#ff6b1a]/20 border-2 border-[#ff6b1a] text-white shadow-lg'
+                        : 'bg-[#071d3d] border-2 border-transparent text-slate-300 hover:border-sky-400/40 hover:text-white'
                     }`}
                   >
                     <div className="flex items-center justify-between">
                       <span className="font-semibold text-sm sm:text-base">{option.id}) {option.label}</span>
-                      <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 ${
+                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                         votes[question.id] === option.id
-                          ? 'bg-purple-400 border-purple-400'
-                          : 'border-gray-400'
+                          ? 'bg-[#ff6b1a] border-[#ff6b1a]'
+                          : 'border-slate-500'
                       }`}>
                         {votes[question.id] === option.id && (
-                          <div className="w-full h-full rounded-full bg-white scale-50"></div>
+                          <div className="w-2 h-2 rounded-full bg-white"></div>
                         )}
                       </div>
                     </div>
@@ -186,11 +186,15 @@ const Vote = () => {
           <button
             onClick={handleSubmitVotes}
             disabled={questions.some(q => !votes[q.id])}
-            className={`mobile-button font-bold rounded-lg transition-all duration-300 transform touch-target ${
+            className={`px-8 py-3.5 font-bold rounded-xl transition-all duration-300 flex items-center justify-center mx-auto text-base shadow-lg ${
               questions.some(q => !votes[q.id])
-                ? 'bg-gray-500 text-gray-300 cursor-not-allowed'
-                : 'bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white hover:scale-105'
+                ? 'bg-slate-300 text-slate-500 cursor-not-allowed'
+                : 'text-white cursor-pointer hover:scale-105'
             }`}
+            style={!questions.some(q => !votes[q.id]) ? {
+              background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
+              boxShadow: '0 8px 25px rgba(249, 87, 0, 0.35)'
+            } : {}}
           >
             <VoteIcon className="w-5 h-5 mr-2" />
             Submit Votes ({Object.keys(votes).filter(key => votes[key]).length}/{questions.length})
@@ -205,7 +209,7 @@ const Vote = () => {
         >
           <button
             onClick={() => navigate('/dashboard')}
-            className="text-gray-400 hover:text-white transition-colors mobile-text touch-target"
+            className="text-slate-500 hover:text-slate-800 font-semibold transition-colors text-sm cursor-pointer"
           >
             ← Back to Dashboard
           </button>

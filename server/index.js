@@ -96,44 +96,83 @@ app.use('/documents', express.static(path.join(__dirname, '../documents')));
 // Disable buffering so Mongoose queries fail fast and trigger localStore fallbacks when MongoDB is offline
 mongoose.set('bufferCommands', false);
 
-// MongoDB connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/averadao-db', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 2000,
-  connectTimeoutMS: 2000
-})
-  .then(() => {
-    console.log('Connected to MongoDB (Averadao Database)');
-    const seedAdminAndUser = async () => {
-      try {
-        const email = process.env.ADMIN_EMAIL || 'admin@averadao.com';
-        const password = process.env.ADMIN_PASSWORD || 'ADMIN1234';
-        if (email && password) {
-          const bcrypt = require('bcryptjs');
-          let admin = await User.findOne({ email }).select('+password');
-          if (!admin) {
-            admin = new User({ firstName: 'Admin', lastName: 'User', email, password, role: 'admin', isActive: true });
-            await admin.save();
-            console.log('[DB Seed] Admin account created:', email);
-          } else {
-            let changed = false;
-            if (admin.role !== 'admin') { admin.role = 'admin'; changed = true; }
-            if (!admin.isActive) { admin.isActive = true; changed = true; }
-            const matchesEnv = await bcrypt.compare(password, admin.password);
-            if (!matchesEnv) { admin.password = password; changed = true; }
-            if (changed) { await admin.save(); }
-          }
-        }
-      } catch (err) {
-        console.warn('[DB Seed Notice]', err.message);
+// Persistent Local / Cloud MongoDB connection
+const fs = require('fs');
+
+async function initMongoDB() {
+  let connected = false;
+  const configuredUri = process.env.MONGODB_URI;
+
+  // 1. Try external/configured MongoDB if provided
+  if (configuredUri) {
+    try {
+      console.log('[Database] Connecting to configured MongoDB URI:', configuredUri);
+      await mongoose.connect(configuredUri, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        serverSelectionTimeoutMS: 5000
+      });
+      connected = true;
+      console.log('[Database] Connected to MongoDB successfully');
+    } catch (e) {
+      console.warn('[Database] Configured URI unreachable:', e.message);
+    }
+  }
+
+  // 2. If not connected, try local MongoMemoryServer if available
+  if (!connected) {
+    try {
+      const { MongoMemoryServer } = require('mongodb-memory-server');
+      const dbDir = path.join(__dirname, 'data/mongodb');
+      if (!fs.existsSync(dbDir)) {
+        fs.mkdirSync(dbDir, { recursive: true });
       }
-    };
-    seedAdminAndUser();
-  })
-  .catch((error) => {
-    console.warn('MongoDB connection notice: Running without MongoDB or waiting for MongoDB service.');
-  });
+      console.log('[Database] Starting local persistent MongoDB instance...');
+      const mongod = await MongoMemoryServer.create({
+        instance: {
+          dbPath: dbDir,
+          storageEngine: 'wiredTiger'
+        }
+      });
+      const localUri = mongod.getUri();
+      console.log('[Database] Local persistent MongoDB active at:', localUri);
+      await mongoose.connect(localUri, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      });
+      connected = true;
+      console.log('[Database] Connected to Local MongoDB (ReclaimDAO Database)');
+    } catch (localErr) {
+      console.warn('[Database Notice] Standalone MongoDB server not found, operating in high-performance localStore datastore mode');
+    }
+  }
+
+  if (connected) {
+    // Seed Admin Account
+    try {
+      const email = process.env.ADMIN_EMAIL || 'admin@reclaimdao.org';
+      const password = process.env.ADMIN_PASSWORD || 'ADMIN1234';
+      if (email && password) {
+        const bcrypt = require('bcryptjs');
+        let admin = await User.findOne({ email }).select('+password');
+        if (!admin) {
+          admin = new User({ firstName: 'Admin', lastName: 'User', email, password, role: 'admin', isActive: true });
+          await admin.save();
+          console.log('[DB Seed] Admin account created:', email);
+        } else {
+          let changed = false;
+          if (admin.role !== 'admin') { admin.role = 'admin'; changed = true; }
+          if (!admin.isActive) { admin.isActive = true; changed = true; }
+          if (changed) { await admin.save(); }
+        }
+      }
+    } catch (seedErr) {
+      console.warn('[DB Seed Notice]', seedErr.message);
+    }
+  }
+}
+
+initMongoDB();
 
 
 
@@ -184,7 +223,7 @@ app.use('/api/*', (req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

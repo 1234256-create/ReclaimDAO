@@ -39,7 +39,7 @@ const VerifyEmail = () => {
 
                     setStatus('success');
                     setMessage(response.data.message || 'Email verified successfully!');
-                    toast.success('Email verified! Welcome to AVERADAO.');
+                    toast.success('Email verified! Welcome to ReclaimDAO.');
 
                     // Redirect to dashboard after a short delay
                     setTimeout(() => {
@@ -63,34 +63,31 @@ const VerifyEmail = () => {
     }, [token, navigate, updateUser]);
 
     return (
-        <div className="min-h-screen hero-gradient flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-            <div className="absolute inset-0 bg-black/20"></div>
-
+        <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
             <motion.div
-
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="relative max-w-lg w-full bg-white/10 backdrop-blur-lg border border-white/20 p-12 rounded-2xl shadow-2xl text-center"
+                className="relative max-w-lg w-full bg-[#0a254d] text-white border border-sky-400/25 p-10 rounded-3xl shadow-2xl text-center"
             >
                 <div className="mb-8 flex justify-center">
                     {status === 'verifying' && (
-                        <Loader2 className="h-20 w-20 text-blue-400 animate-spin" />
+                        <Loader2 className="h-20 w-20 text-[#ff6b1a] animate-spin" />
                     )}
                     {status === 'success' && (
-                        <CheckCircle className="h-20 w-20 text-green-400" />
+                        <CheckCircle className="h-20 w-20 text-[#10b981]" />
                     )}
                     {status === 'error' && (
                         <XCircle className="h-20 w-20 text-red-500" />
                     )}
                 </div>
 
-                <h2 className={`text-4xl font-bold text-white mb-6 text-center leading-tight`}>
+                <h2 className={`text-4xl font-black text-white mb-6 text-center leading-tight`}>
                     {status === 'verifying' && 'One Moment...'}
                     {status === 'success' && 'Email Verified!'}
                     {status === 'error' && 'Verification Error'}
                 </h2>
 
-                <p className="text-xl text-gray-200 mb-10 leading-relaxed font-medium text-center px-4">
+                <p className="text-xl text-slate-200 mb-10 leading-relaxed font-medium text-center px-4">
                     {message}
                 </p>
 
@@ -101,17 +98,18 @@ const VerifyEmail = () => {
                                 initial={{ width: "0%" }}
                                 animate={{ width: "100%" }}
                                 transition={{ duration: 3 }}
-                                className="h-full bg-green-400"
+                                className="h-full bg-emerald-400"
                             />
                         </div>
-                        <p className="text-sm text-gray-400">Redirecting to dashboard...</p>
+                        <p className="text-sm text-slate-400">Redirecting to dashboard...</p>
                     </div>
                 )}
 
                 {status === 'success' && message.includes('safely login') && (
                     <button
                         onClick={() => navigate('/login')}
-                        className="w-full btn-primary py-4 text-xl font-bold shadow-lg"
+                        className="w-full py-4 text-lg font-black text-white rounded-xl shadow-lg cursor-pointer hover:scale-105"
+                        style={{ background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)' }}
                     >
                         Go to Login
                     </button>
@@ -120,7 +118,8 @@ const VerifyEmail = () => {
                 {status === 'error' && (
                     <button
                         onClick={() => navigate('/register')}
-                        className="w-full btn-primary py-4 text-xl font-bold shadow-lg"
+                        className="w-full py-4 text-lg font-black text-white rounded-xl shadow-lg cursor-pointer hover:scale-105"
+                        style={{ background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)' }}
                     >
                         Back to Registration
                     </button>

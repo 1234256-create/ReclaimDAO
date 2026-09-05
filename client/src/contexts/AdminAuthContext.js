@@ -47,6 +47,25 @@ export const AdminAuthProvider = ({ children }) => {
       const token = localStorage.getItem('adminToken');
       const adminData = localStorage.getItem('adminData');
       if (token && adminData) {
+        try {
+          const res = await axios.get('/api/admin/profile', {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          if (res.data?.success) {
+            const parsedAdmin = JSON.parse(adminData);
+            setAdmin(parsedAdmin);
+            setIsAuthenticated(true);
+            return;
+          }
+        } catch (apiErr) {
+          if (apiErr.response?.status === 401) {
+            localStorage.removeItem('adminToken');
+            localStorage.removeItem('adminData');
+            setIsAuthenticated(false);
+            setAdmin(null);
+            return;
+          }
+        }
         const parsedAdmin = JSON.parse(adminData);
         setAdmin(parsedAdmin);
         setIsAuthenticated(true);

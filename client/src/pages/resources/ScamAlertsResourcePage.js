@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { ShieldAlert, AlertTriangle, ChevronRight, Search } from 'lucide-react';
@@ -71,7 +71,11 @@ const ScamAlertsResourcePage = () => {
           <div className="flex items-center gap-3 shrink-0">
             <Link
               to={joinNoticeHref()}
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#0284c7] to-[#38bdf8] px-6 py-2.5 text-sm font-bold text-white shadow-md shadow-blue-900/20 transition hover:brightness-110"
+              className="inline-flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-bold text-white shadow-lg transition hover:scale-105"
+              style={{
+                background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
+                boxShadow: '0 4px 20px rgba(249, 87, 0, 0.4)'
+              }}
             >
               Submit claim
               <ChevronRight size={16} />

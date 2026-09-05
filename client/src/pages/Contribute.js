@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { addReceipt as dsAddReceipt, getActiveWallets as dsGetActiveWallets, getContributionTimer as dsGetContributionTimer, clearContributionTimer as dsClearContributionTimer, getReceipts as dsGetReceipts, getUsersMap as dsGetUsersMap } from '../utils/datastore';
 import { motion } from 'framer-motion';
@@ -332,8 +332,8 @@ const Contribute = () => {
   };
 
   return (
-    <div className="min-h-screen hero-gradient p-6">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-[#f8fafc] p-4 sm:p-6 lg:p-8">
+      <div className="max-w-4xl mx-auto space-y-6">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -342,13 +342,13 @@ const Contribute = () => {
         >
           <button
             onClick={handleBackToDashboard}
-            className="mr-3 sm:mr-4 p-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+            className="mr-3 sm:mr-4 p-2.5 bg-[#0a254d] hover:bg-[#0d2f61] text-white rounded-xl border border-sky-400/25 transition-colors shadow-md cursor-pointer"
           >
             <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
           </button>
           <div>
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-2">Contribute</h1>
-            <p className="text-sm sm:text-base text-gray-300">Contribute to the DAO's progress and earn points</p>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 mb-1">DAO <span className="text-[#ff6b1a]">Contribution</span></h1>
+            <p className="text-sm sm:text-base text-slate-600">Contribute to the DAO's progress and earn points</p>
           </div>
         </motion.div>
 

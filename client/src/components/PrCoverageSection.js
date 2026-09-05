@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ExternalLink, Award } from 'lucide-react';
 import axios from 'axios';
 
@@ -32,10 +32,11 @@ const PrCoverageSection = () => {
   if (activeLinks.length === 0) return null;
 
   return (
-    <section className="w-full bg-white border-y border-gray-200 py-8 px-4 sm:px-6 lg:px-8">
+    <section className="w-full bg-slate-50 border-y border-slate-200 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto flex flex-col items-center justify-center text-center">
-        <h3 className="text-gray-900 font-bold text-base sm:text-lg mb-5 tracking-tight">
-          As Seen On
+        <h3 className="text-slate-900 font-extrabold text-base sm:text-lg mb-5 tracking-tight flex items-center justify-center gap-2">
+          <span>As Seen On</span>
+          <span className="text-xs px-2.5 py-0.5 rounded-full bg-sky-500/10 border border-sky-400/30 text-sky-700 font-bold">Verified Press</span>
         </h3>
 
         {/* Logos grid / row */}
@@ -46,10 +47,10 @@ const PrCoverageSection = () => {
               href={item.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative flex items-center gap-2.5 px-4 py-2.5 bg-white hover:bg-sky-50/80 border border-gray-200 hover:border-[#3b82f6]/40 rounded-xl transition-all duration-300 shadow-xs hover:shadow-md active:scale-95"
+              className="group relative flex items-center gap-2.5 px-4 py-2.5 bg-[#071d3d] hover:bg-[#0c2e5c] border border-sky-400/25 hover:border-[#ff6b1a]/60 rounded-xl transition-all duration-300 shadow-md hover:shadow-xl active:scale-95"
               title={`Read PR coverage on ${item.title}`}
             >
-              <div className="w-6 h-6 rounded-lg bg-gray-50 p-0.5 flex items-center justify-center overflow-hidden shrink-0 group-hover:scale-105 transition-transform">
+              <div className="w-6 h-6 rounded-lg bg-[#020817] p-0.5 flex items-center justify-center overflow-hidden shrink-0 group-hover:scale-105 transition-transform">
                 <img
                   src={item.logoUrl}
                   alt={item.title}
@@ -57,10 +58,10 @@ const PrCoverageSection = () => {
                   onError={(e) => { e.target.onerror = null; e.target.src = 'https://img.icons8.com/color/144/news.png'; }}
                 />
               </div>
-              <span className="text-xs sm:text-sm font-semibold text-gray-800 group-hover:text-[#3b82f6] transition-colors">
+              <span className="text-xs sm:text-sm font-semibold text-slate-200 group-hover:text-sky-300 transition-colors">
                 {item.title}
               </span>
-              <ExternalLink className="w-3 h-3 text-gray-400 group-hover:text-[#3b82f6] opacity-0 group-hover:opacity-100 transition-all duration-200" />
+              <ExternalLink className="w-3 h-3 text-sky-400/60 group-hover:text-[#ff6b1a] opacity-0 group-hover:opacity-100 transition-all duration-200" />
             </a>
           ))}
         </div>

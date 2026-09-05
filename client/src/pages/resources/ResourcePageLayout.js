@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 
@@ -50,7 +50,11 @@ const ResourcePageLayout = ({ iconSrc, iconAlt, title, children }) => (
         </Link>
         <Link
           to={joinNoticeHref()}
-          className="inline-flex items-center gap-2 rounded-xl bg-[#0284c7] px-6 py-2.5 text-sm font-bold text-white transition hover:bg-[#38bdf8] shadow-md shadow-blue-900/20"
+          className="inline-flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-bold text-white shadow-lg transition hover:scale-105"
+          style={{
+            background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
+            boxShadow: '0 4px 20px rgba(249, 87, 0, 0.4)'
+          }}
         >
           Submit your claim
         </Link>

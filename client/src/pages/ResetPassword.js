@@ -40,18 +40,18 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="min-h-screen hero-gradient flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
        <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         className="relative max-w-md w-full space-y-8"
       >
-        <div className="glass-effect rounded-2xl p-8 shadow-2xl">
-          <h2 className="text-3xl font-bold text-white mb-2 text-center">Reset Password</h2>
+        <div className="bg-[#0a254d] text-white rounded-3xl p-8 sm:p-10 shadow-2xl border border-sky-400/25">
+          <h2 className="text-3xl font-black text-white mb-6 text-center tracking-tight">Reset <span className="text-[#ff6b1a]">Password</span></h2>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">New Password</label>
+              <label htmlFor="password" className="block text-xs font-bold uppercase tracking-wider text-slate-200 mb-2">New Password</label>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -60,16 +60,16 @@ const ResetPassword = () => {
                   value={formData.password}
                   onChange={handleChange}
                   required
-                  className="input-field pl-10 pr-10 bg-white/10 border-white/20 text-white placeholder-gray-400 focus:ring-purple-500"
+                  className="w-full px-4 py-3 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm"
                   placeholder="Enter new password"
                 />
                 <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                  {showPassword ? <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-300" /> : <Eye className="h-5 w-5 text-gray-400 hover:text-gray-300" />}
+                  {showPassword ? <EyeOff className="h-5 w-5 text-slate-400 hover:text-slate-200" /> : <Eye className="h-5 w-5 text-slate-400 hover:text-slate-200" />}
                 </button>
               </div>
             </div>
             <div>
-              <label htmlFor="passwordConfirm" className="block text-sm font-medium text-gray-300 mb-2">Confirm New Password</label>
+              <label htmlFor="passwordConfirm" className="block text-xs font-bold uppercase tracking-wider text-slate-200 mb-2">Confirm New Password</label>
               <div className="relative">
                 <input
                   type={showConfirm ? 'text' : 'password'}
@@ -78,18 +78,22 @@ const ResetPassword = () => {
                   value={formData.passwordConfirm}
                   onChange={handleChange}
                   required
-                  className="input-field pl-10 pr-10 bg-white/10 border-white/20 text-white placeholder-gray-400 focus:ring-purple-500"
+                  className="w-full px-4 py-3 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm"
                   placeholder="Confirm new password"
                 />
                 <button type="button" onClick={() => setShowConfirm(!showConfirm)} className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                  {showConfirm ? <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-300" /> : <Eye className="h-5 w-5 text-gray-400 hover:text-gray-300" />}
+                  {showConfirm ? <EyeOff className="h-5 w-5 text-slate-400 hover:text-slate-200" /> : <Eye className="h-5 w-5 text-slate-400 hover:text-slate-200" />}
                 </button>
               </div>
             </div>
             <button
               type="submit"
               disabled={loading}
-              className="w-full btn-primary py-3 text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-4 px-6 rounded-xl font-black text-white shadow-xl transition-all text-base disabled:opacity-50 cursor-pointer hover:scale-105"
+              style={{
+                background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
+                boxShadow: '0 8px 30px rgba(249, 87, 0, 0.45)'
+              }}
             >
               {loading ? 'Resetting...' : 'Reset Password'}
             </button>

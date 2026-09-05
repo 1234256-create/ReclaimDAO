@@ -23,7 +23,7 @@
   body {
     background-color: #f9fafb; /* bg-gray-50 */
     color: #111827;            /* text-gray-900 */
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
       sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -40,54 +40,100 @@
 }
 
 @layer components {
-  .btn-primary {
-    background-color: #1d4ed8;
-    background-image: linear-gradient(to right, #1d4ed8, #1e40af);
+  /* Rockettta & Wakefly Signature Highlight Underline */
+  .in-highlight {
+    position: relative;
+    background: transparent;
+    z-index: 1;
+    display: inline-block;
+  }
+  .in-highlight::before {
+    content: "";
+    background: #ff6b1a;
+    border-radius: 4px;
+    position: absolute;
+    left: 0;
+    right: -2px;
+    bottom: 2px;
+    height: 4px;
+    z-index: -1;
+  }
+
+  .btn-gold, .btn-orange {
+    background-color: #ff6b1a;
+    background-image: linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%);
     color: #ffffff;
-    font-weight: 600;
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.5rem;
+    font-weight: 700;
+    padding: 0.75rem 1.75rem;
+    border-radius: 0.75rem;
     transition: all 0.3s ease;
     transform: scale(1);
-    box-shadow: 0 10px 15px -3px rgba(29, 78, 216, 0.35), 0 4px 6px -2px rgba(30, 64, 175, 0.2);
+    box-shadow: 0 8px 25px rgba(249, 87, 0, 0.4);
+  }
+  .btn-gold:hover, .btn-orange:hover {
+    background-image: linear-gradient(135deg, #ff823a 0%, #ff6b1a 100%);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(249, 87, 0, 0.55);
+  }
+
+  .btn-primary {
+    background-color: #ff6b1a;
+    background-image: linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%);
+    color: #ffffff;
+    font-weight: 700;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+    transform: scale(1);
+    box-shadow: 0 8px 20px rgba(249, 87, 0, 0.4);
   }
   .btn-primary:hover {
-    background-image: linear-gradient(to right, #1e40af, #1e3a8a);
-    transform: scale(1.05);
-    box-shadow: 0 20px 25px -5px rgba(29, 78, 216, 0.45), 0 10px 10px -5px rgba(30, 64, 175, 0.3);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 12px 25px rgba(249, 87, 0, 0.55);
   }
   
   .btn-secondary {
-    background-color: #ffffff;
-    color: #1d4ed8;
+    background-color: rgba(19, 18, 84, 0.6);
+    color: #ffffff;
     font-weight: 600;
     padding: 0.75rem 1.5rem;
-    border-radius: 0.5rem;
-    border: 1px solid #60a5fa;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(55, 114, 255, 0.4);
+    backdrop-filter: blur(10px);
     transition: all 0.3s ease;
     transform: scale(1);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 15px rgba(10, 9, 54, 0.3);
   }
   .btn-secondary:hover {
-    background-color: #eff6ff;
-    transform: scale(1.05);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    background-color: rgba(55, 114, 255, 0.2);
+    border-color: #fcb420;
+    color: #fcb420;
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(55, 114, 255, 0.25);
   }
   
   .card {
     background-color: #ffffff;
     border-radius: 0.75rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
     transition: all 0.3s ease;
-    border: 1px solid #f3f4f6;
+    border: 1px solid #f1f5f9;
+  }
+
+  .card-dark {
+    background-color: #131254;
+    background: linear-gradient(145deg, rgba(19, 18, 84, 0.95) 0%, rgba(13, 12, 67, 0.95) 100%);
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 25px rgba(10, 9, 54, 0.4);
   }
   
   .card-gradient {
-    background: linear-gradient(to bottom right, #ffffff, #eff6ff);
+    background: linear-gradient(to bottom right, #ffffff, #fffbeb);
     border-radius: 0.75rem;
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
     transition: all 0.3s ease;
-    border: 1px solid #bfdbfe;
+    border: 1px solid #fde68a;
   }
   
   .input-field {
@@ -100,16 +146,21 @@
     background-color: #ffffff;
   }
   .input-field:focus {
-    box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.5);
-    border-color: transparent;
+    box-shadow: 0 0 0 2px rgba(252, 180, 32, 0.5);
+    border-color: #fcb420;
   }
   
   .hero-gradient {
-    background-image: linear-gradient(135deg, #0a1628 0%, #0f172a 45%, #1a2744 100%);
+    background-color: #f8fafc;
+  }
+
+  .in-slideshow-gradient {
+    background: #0d0c43;
+    background: linear-gradient(180deg, #0a0936 0%, #0d0c43 80%, #0d0c43 100%);
   }
   
   .text-gradient {
-    background-image: linear-gradient(to right, #60a5fa, #93c5fd, #bfdbfe);
+    background-image: linear-gradient(to right, #fcb420, #ffd066, #ffffff);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -195,7 +246,7 @@
   }
 }
 
-/* Admin Panel Navy Blue Theme Overrides */
+/* Admin Panel Rockettta Theme Overrides */
 .admin-scope .bg-purple-600,
 .admin-scope .bg-purple-700,
 .admin-scope .bg-blue-700,
@@ -213,8 +264,8 @@
 .admin-scope .to-blue-500,
 .admin-scope .via-purple-600,
 .admin-scope .via-blue-600 {
-  background-color: #1d4ed8 !important;
-  background-image: linear-gradient(to right, #1d4ed8, #2563eb) !important;
+  background-color: #0d0c43 !important;
+  background-image: linear-gradient(to right, #0d0c43, #131254) !important;
   color: #ffffff !important;
 }
 
@@ -224,8 +275,8 @@
 .admin-scope .hover\:bg-blue-800:hover,
 .admin-scope .hover\:from-purple-700:hover,
 .admin-scope .hover\:to-blue-700:hover {
-  background-color: #1e40af !important;
-  background-image: linear-gradient(to right, #1e40af, #1d4ed8) !important;
+  background-color: #0a0936 !important;
+  background-image: linear-gradient(to right, #0a0936, #0d0c43) !important;
   color: #ffffff !important;
 }
 
@@ -243,7 +294,7 @@
 .admin-scope .text-blue-300,
 .admin-scope .text-indigo-600,
 .admin-scope .text-indigo-500 {
-  color: #1d4ed8 !important;
+  color: #fcb420 !important;
 }
 
 .admin-scope .bg-purple-100,
@@ -258,8 +309,8 @@
 .admin-scope .bg-blue-500\/10,
 .admin-scope .bg-purple-500\/20,
 .admin-scope .bg-blue-500\/20 {
-  background-color: rgba(29, 78, 216, 0.12) !important;
-  color: #1d4ed8 !important;
+  background-color: rgba(252, 180, 32, 0.12) !important;
+  color: #fcb420 !important;
 }
 
 .admin-scope .border-purple-600,
@@ -272,7 +323,7 @@
 .admin-scope .border-blue-300,
 .admin-scope .border-blue-500\/30,
 .admin-scope .border-purple-500\/30 {
-  border-color: rgba(29, 78, 216, 0.4) !important;
+  border-color: rgba(252, 180, 32, 0.4) !important;
 }
 
 .admin-scope .focus\:ring-purple-500:focus,
@@ -281,13 +332,13 @@
 .admin-scope .focus\:ring-blue-600:focus,
 .admin-scope .focus\:border-purple-500:focus,
 .admin-scope .focus\:border-blue-500:focus {
-  --tw-ring-color: #1d4ed8 !important;
-  border-color: #1d4ed8 !important;
+  --tw-ring-color: #fcb420 !important;
+  border-color: #fcb420 !important;
 }
 
 .admin-scope .accent-purple-600,
 .admin-scope .accent-blue-600 {
-  accent-color: #1d4ed8 !important;
+  accent-color: #fcb420 !important;
 }
 
 

@@ -14,6 +14,24 @@ const KEYS = {
   joinWizard: 'ds_join_wizard'
 };
 
+// One-time client storage purge to ensure fresh database start
+try {
+  if (!localStorage.getItem('_reclaimdao_fresh_db_v1')) {
+    localStorage.removeItem(KEYS.users);
+    localStorage.removeItem(KEYS.meta);
+    localStorage.removeItem(KEYS.receipts);
+    localStorage.removeItem(KEYS.activity);
+    localStorage.removeItem(KEYS.wallets);
+    localStorage.removeItem(KEYS.contributionTimer);
+    localStorage.removeItem(KEYS.contributionRounds);
+    localStorage.removeItem(KEYS.votes);
+    localStorage.removeItem(KEYS.joinApplications);
+    localStorage.removeItem(KEYS.joinWizard);
+    localStorage.removeItem('placeholderUsers');
+    localStorage.setItem('_reclaimdao_fresh_db_v1', 'true');
+  }
+} catch (_) {}
+
 function read(key, fallback) {
   try {
     const raw = localStorage.getItem(key);
@@ -43,7 +61,7 @@ export function setUsersMap(map) {
 
 export function getUsersList() {
   const map = getUsersMap();
-  return Object.values(map).filter(u => u.role !== 'admin' && u.email !== 'support@veritasaid.com');
+  return Object.values(map).filter(u => u.role !== 'admin' && u.email !== 'support@reclaimdao.org' && u.email !== 'support@veritasaid.com');
 }
 
 export function addOrUpdateUser(user) {
@@ -141,6 +159,7 @@ export function updateReceipt(id, updates) {
   if (idx === -1) return null;
   receipts[idx] = { ...receipts[idx], ...updates };
   write(KEYS.receipts, receipts);
+  logActivity(`Contribution receipt updated`, 'contribution_updated', receipts[idx].userEmail);
   if (updates.verified) {
     const email = receipts[idx].userEmail;
     const timer = read(KEYS.contributionTimer, null);
@@ -274,6 +293,8 @@ export function getDashboardStats() {
   const totalVotesSubmitted = votes.reduce((sum, v) => sum + (v.totalVotes || 0), 0);
   return {
     totalUsers: baseCount + users.length,
+    realUsers: users.filter(u => !u.isVirtual).length,
+    virtualUsers: users.filter(u => !!u.isVirtual).length,
     activeVotes,
     totalPoints,
     totalVotesSubmitted,

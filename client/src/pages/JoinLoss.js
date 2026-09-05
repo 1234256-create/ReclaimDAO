@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import axios from 'axios';
@@ -71,22 +71,22 @@ const JoinLoss = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0a1628]">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+    <div className="min-h-screen bg-[#f8fafc] text-slate-900 py-12">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-12">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="rounded-2xl bg-[#031d24]/80 backdrop-blur-lg border border-blue-500/20 p-8 text-white shadow-2xl shadow-blue-950/60"
+          className="rounded-3xl bg-[#0a254d] border border-sky-400/25 p-8 sm:p-10 text-white shadow-2xl"
         >
-          <h1 className="text-2xl md:text-3xl font-bold mb-6">Loss Details</h1>
+          <h1 className="text-2xl md:text-3xl font-black mb-6">Loss <span className="text-[#ff6b1a]">Details</span></h1>
 
           <div className="space-y-6">
             <div>
-              <label className="block text-sm text-white/80 mb-1">
+              <label className="block text-xs font-black uppercase tracking-wider text-white mb-1">
                 Total Amount Lost
               </label>
-              <p className="text-xs text-white/60 mb-2">
+              <p className="text-xs text-white mb-2 font-bold">
                 Enter the total amount lost across all companies. Use USD or specify the currency.
               </p>
               <input
@@ -94,16 +94,16 @@ const JoinLoss = () => {
                 name="totalAmount"
                 value={form.totalAmount}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
                 placeholder="$3,500 USD"
               />
             </div>
 
             <div>
-              <label className="block text-sm text-white/80 mb-1">
+              <label className="block text-xs font-black uppercase tracking-wider text-white mb-1">
                 Breakdown of Loss by Company
               </label>
-              <p className="text-xs text-white/60 mb-2">
+              <p className="text-xs text-white mb-2 font-bold">
                 If the loss was spread across multiple companies, list each company with the corresponding amount.
                 Example: Company A – $2,000, Company B – $1,500
               </p>
@@ -112,14 +112,14 @@ const JoinLoss = () => {
                 value={form.breakdown}
                 onChange={handleChange}
                 rows={6}
-                className="w-full px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                placeholder="Company A – $2,000\nCompany B – $1,500"
+                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                placeholder="Company A – $2,000&#10;Company B – $1,500"
               />
             </div>
 
             <div>
-              <label className="block text-sm text-white/80 mb-1">Period of Incident</label>
-              <p className="text-xs text-white/60 mb-2">
+              <label className="block text-xs font-black uppercase tracking-wider text-white mb-1">Period of Incident</label>
+              <p className="text-xs text-white mb-2 font-bold">
                 Enter the time period over which the loss occurred. Example: 2016 – 2025
               </p>
               <input
@@ -127,17 +127,17 @@ const JoinLoss = () => {
                 name="period"
                 value={form.period}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
                 placeholder="2016 – 2025"
               />
             </div>
           </div>
 
-          <div className="mt-8 flex items-center justify-between">
+          <div className="mt-8 flex items-center justify-between pt-6 border-t border-white/10">
             <button
               type="button"
               onClick={() => navigate('/join-contact')}
-              className="px-5 py-2.5 rounded-lg border border-white/30 text-white hover:bg-white/10 transition"
+              className="px-6 py-2.5 rounded-xl border border-sky-400/30 text-white hover:bg-[#061833] transition font-bold cursor-pointer"
             >
               Back
             </button>
@@ -145,16 +145,20 @@ const JoinLoss = () => {
               type="button"
               onClick={handleSubmit}
               disabled={!requiredFilled || submitting}
-              className={`px-6 py-2.5 rounded-lg font-semibold bg-gradient-to-r from-[#1e40af] to-[#1d4ed8] text-white shadow-md shadow-blue-950/50 transition ${!requiredFilled || submitting ? 'opacity-50 cursor-not-allowed' : 'hover:from-[#2563eb] hover:to-[#3b82f6]'
+              className={`px-8 py-3 rounded-xl font-black transition cursor-pointer text-white ${!requiredFilled || submitting
+                  ? 'opacity-50 cursor-not-allowed bg-slate-700'
+                  : 'hover:scale-105 shadow-lg'
                 }`}
+              style={requiredFilled && !submitting ? {
+                background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
+                boxShadow: '0 4px 20px rgba(249, 87, 0, 0.4)'
+              } : {}}
             >
               {submitting ? 'Submitting...' : 'Submit Application'}
             </button>
           </div>
         </motion.div>
       </div>
-
-
     </div>
   );
 };

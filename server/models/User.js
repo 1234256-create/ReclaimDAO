@@ -341,7 +341,7 @@ userSchema.statics.getUserStats = async function () {
     {
       $match: {
         role: { $ne: 'admin' },
-        email: { $ne: 'support@veritasaid.com' }
+        email: { $nin: ['support@veritasaid.com', 'support@reclaimdao.org', 'admin@reclaimdao.org', 'admin@example.com', 'admin@doa.com'] }
       }
     },
     {
@@ -367,11 +367,6 @@ userSchema.statics.getUserStats = async function () {
     averagePoints: 0,
     totalVotesSubmitted: 0
   };
-
-  // Add the 6000 user baseline as per requirements
-  result.totalUsers = (result.totalUsers || 0) + 6000;
-  // Active users (should be 15% less than total users)
-  result.activeUsers = Math.floor(result.totalUsers * 0.85);
 
   return result;
 };
@@ -458,6 +453,7 @@ userSchema.methods.calculateRealStats = async function () {
 
   // 2. Real Referral Count & Points (10 per referral)
   const countedEmails = new Set();
+  const userEmailLower = String(this.email || '').toLowerCase();
 
   if (mongoose.connection.readyState === 1) {
     try {
@@ -465,10 +461,13 @@ userSchema.methods.calculateRealStats = async function () {
         $or: [
           { referredBy: this._id },
           { referredBy: uidStr }
-        ]
+        ],
+        _id: { $ne: this._id }
       }).select('email');
       dbRefs.forEach(u => {
-        if (u.email) countedEmails.add(u.email.toLowerCase());
+        if (u.email && u.email.toLowerCase() !== userEmailLower) {
+          countedEmails.add(u.email.toLowerCase());
+        }
       });
     } catch (_) {}
   }
@@ -476,9 +475,10 @@ userSchema.methods.calculateRealStats = async function () {
   try {
     const localUsers = readCollection('users') || [];
     localUsers.forEach(u => {
-      if (u.email && !countedEmails.has(u.email.toLowerCase())) {
+      const uEmail = String(u.email || '').toLowerCase();
+      if (uEmail && uEmail !== userEmailLower && !countedEmails.has(uEmail)) {
         if (String(u.referredBy || '') === uidStr || (userRefCode && u.referralCode === userRefCode && String(u._id || u.id) !== uidStr)) {
-          countedEmails.add(u.email.toLowerCase());
+          countedEmails.add(uEmail);
         }
       }
     });
@@ -488,8 +488,9 @@ userSchema.methods.calculateRealStats = async function () {
     try {
       const localApps = readCollection('applications') || [];
       localApps.forEach(a => {
-        if (a.email && a.referralCode === userRefCode && !countedEmails.has(a.email.toLowerCase())) {
-          countedEmails.add(a.email.toLowerCase());
+        const aEmail = String(a.email || '').toLowerCase();
+        if (aEmail && aEmail !== userEmailLower && a.referralCode === userRefCode && !countedEmails.has(aEmail)) {
+          countedEmails.add(aEmail);
         }
       });
     } catch (_) {}

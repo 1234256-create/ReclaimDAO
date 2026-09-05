@@ -1,80 +1,10 @@
-﻿import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Vote, TrendingUp, DollarSign, BarChart3, ArrowRight, CheckCircle, ShieldCheck, Sparkles } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Vote, TrendingUp, DollarSign, BarChart3, ArrowRight, CheckCircle, ShieldCheck, Sparkles, Activity, Lock, ArrowUpRight, Award } from 'lucide-react';
 import StaticResourceCard from '../components/StaticResourceCard';
 import { STATIC_FEATURED_RESOURCES } from '../data/staticFeaturedResources';
-
-const ParticleCanvas = () => {
-  const canvasRef = useRef(null);
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let animId;
-    let particles = [];
-    const resize = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-    };
-    resize();
-    window.addEventListener('resize', resize);
-    const count = Math.floor((canvas.width * canvas.height) / 8500);
-    for (let i = 0; i < count; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.45,
-        vy: (Math.random() - 0.5) * 0.45,
-        r: Math.random() * 2 + 1,
-        opacity: Math.random() * 0.6 + 0.2
-      });
-    }
-    const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(147, 197, 253, ${p.opacity})`;
-        ctx.fill();
-      });
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 130) {
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            const alpha = (1 - dist / 130) * 0.28;
-            ctx.strokeStyle = `rgba(96, 165, 250, ${alpha})`;
-            ctx.lineWidth = 0.8;
-            ctx.stroke();
-          }
-        }
-      }
-      animId = requestAnimationFrame(draw);
-    };
-    draw();
-    return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener('resize', resize);
-    };
-  }, []);
-  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" style={{ opacity: 0.75 }} />;
-};
-
-const AnimatedStat = ({ value, label }) => (
-  <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="text-center">
-    <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight"><span className="text-blue-400">{value}</span></div>
-    <div className="text-blue-200/80 text-xs sm:text-sm md:text-base mt-1 font-medium">{label}</div>
-  </motion.div>
-);
+import heroVisual from '../assets/hero-visual.jpg';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -91,255 +21,319 @@ const Home = () => {
   const features = [
     {
       icon: DollarSign,
-      title: 'Secure Distribution',
-      description: 'Help ensure recovered funds are securely distributed to verified victims through a transparent, structured recovery process.'
-    },
-    {
-      icon: BarChart3,
-      title: 'Victim & Recovery Stats',
-      description: 'View key statistics on verified victims, recovered funds, and active refund programs.'
+      title: 'Proof-of-Loss Tokens (RFND)',
+      description: 'Eligible victims receive non-transferable on-chain tokens representing verified losses, granting access to private liquidity pools for secure fund recovery.'
     },
     {
       icon: TrendingUp,
-      title: 'Recovery Program Tracker',
-      description: 'Track active refund programs, recovery milestones, and the distribution of recovered funds.'
+      title: 'Restitution Distribution',
+      description: 'Recovered cryptocurrency from government actions and civil forfeitures is pooled into secure smart contracts for automated, fair distribution.'
+    },
+    {
+      icon: BarChart3,
+      title: 'Victim Verification',
+      description: 'Strict verification protocols ensure only legitimate scam victims can claim tokens and participate in the restitution process.'
     },
     {
       icon: Vote,
-      title: 'Transparent Voting',
+      title: 'Community Governance',
       description: 'Participate in transparent voting to provide feedback on recovery campaigns and fund distribution, helping improve future efforts and promote accountability.'
     }
   ];
 
-  const stats = [
-    { value: '10,000+', label: 'Fraud Victims Helped' },
-    { value: '$4.2M', label: 'Funds Recovered' },
-    { value: '98%', label: 'Verification Rate' },
-    { value: '47', label: 'Active Programs' }
-  ];
-
-  const highlights = [
-    'On-chain Proof-of-Loss tokens (RFND)',
-    'Decentralized governance & voting',
-    'Government-grade verification',
-    'Transparent fund distribution'
-  ];
-
   return (
-    <div className="min-h-screen bg-[#0a1628]">
+    <div className="min-h-screen bg-[#020817]">
       {/* 
         ============================================================
-        SINGLE VIEWPORT HERO SECTION
-        Height is explicitly h-[calc(100vh-4rem)] so the entire hero
-        and stats bar fit seamlessly within the single first screen!
+        WAKEFLY CINEMATIC COBALT & ORANGE HERO WITH WEB3 SIGNALS
         ============================================================
       */}
       <section
-        className="relative w-full h-[calc(100vh-4rem)] min-h-[580px] max-h-[960px] flex flex-col justify-between items-center overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #0a1628 0%, #0f172a 40%, #172554 75%, #0a1628 100%)' }}
+        className="relative w-full min-h-screen flex flex-col justify-center items-start overflow-hidden px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 in-slideshow-gradient"
+        style={{
+          marginTop: '-5rem',
+          paddingTop: '6.5rem',
+          paddingBottom: '3.5rem',
+          minHeight: '100vh'
+        }}
       >
-        <ParticleCanvas />
-
-        {/* Ambient radial glows */}
-        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full pointer-events-none -translate-x-1/2 -translate-y-1/2" style={{ background: 'radial-gradient(circle, rgba(29, 78, 216, 0.28) 0%, transparent 70%)' }} />
-        <div className="absolute bottom-1/3 right-1/4 w-[550px] h-[550px] rounded-full pointer-events-none translate-x-1/2 translate-y-1/2" style={{ background: 'radial-gradient(circle, rgba(37, 99, 235, 0.20) 0%, transparent 70%)' }} />
-
-        {/* Floating animated subtle geometric blocks */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {[...Array(6)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute rounded-2xl border"
-              style={{
-                width: 48 + i * 16,
-                height: 48 + i * 16,
-                left: `${6 + i * 16}%`,
-                top: `${10 + (i % 3) * 26}%`,
-                borderColor: 'rgba(59, 130, 246, 0.18)',
-                background: 'rgba(30, 58, 138, 0.06)'
-              }}
-              animate={{ y: [0, -20, 0], rotate: [0, i % 2 === 0 ? 12 : -12, 0], opacity: [0.25, 0.55, 0.25] }}
-              transition={{ duration: 5 + i * 0.8, repeat: Infinity, ease: 'easeInOut', delay: i * 0.4 }}
-            />
-          ))}
-        </div>
-
-        {/* Top Spacer for perfect vertical balancing */}
-        <div className="hidden sm:block sm:h-2 md:h-4 shrink-0"></div>
-
-        {/* Centered Main Hero Content */}
-        <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 md:px-8 text-center flex flex-col items-center justify-center flex-1 space-y-4 sm:space-y-5 md:space-y-6 my-auto">
-          
-          {/* Glowing Protocol Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm md:text-base font-semibold shadow-lg backdrop-blur-md"
-            style={{
-              background: 'rgba(30, 58, 138, 0.5)',
-              border: '1px solid rgba(96, 165, 250, 0.4)',
-              color: '#bfdbfe',
-              boxShadow: '0 0 20px rgba(29, 78, 216, 0.3)'
-            }}
-          >
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-blue-400" />
-            </span>
-            <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400 inline shrink-0" />
-            <span>Decentralized Recovery Protocol · DAO Powered</span>
-          </motion.div>
-
-          {/* Grand Brand Title */}
-          <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}>
-            <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-white tracking-tight leading-none drop-shadow-2xl">
-              Avera<span style={{
-                background: 'linear-gradient(90deg, #60a5fa 0%, #93c5fd 40%, #ffffff 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                textShadow: '0 0 40px rgba(96,165,250,0.5)'
-              }}>dao</span>
-            </h1>
-          </motion.div>
-
-          {/* Impact Subtitle */}
-          <motion.h2
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight max-w-4xl"
-          >
-            Driven by Truth.{' '}
-            <span style={{
-              background: 'linear-gradient(90deg, #60a5fa 0%, #93c5fd 60%, #dbeafe 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }}>
-              Returning What's Yours.
-            </span>
-          </motion.h2>
-
-          {/* Clear Protocol Narrative */}
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="text-sm sm:text-base md:text-lg lg:text-xl text-blue-100/90 leading-relaxed max-w-3xl font-normal"
-          >
-            Averadao helps government agencies securely return cryptocurrency recovered from fraud, financial crimes, and illegal business practices to verified victims through on-chain Proof-of-Loss tokens (RFND).
-          </motion.p>
-
-          {/* Key Feature Highlight Chips */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:gap-4 max-w-4xl pt-1"
-          >
-            {highlights.map((h, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-blue-100 backdrop-blur-sm"
-                style={{
-                  background: 'rgba(30, 58, 138, 0.35)',
-                  border: '1px solid rgba(96, 165, 250, 0.25)'
-                }}
-              >
-                <CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-400 shrink-0" />
-                <span>{h}</span>
-              </div>
-            ))}
-          </motion.div>
-
-          {/* Main Action CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.5 }}
-            className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 pt-2"
-          >
-            <motion.button
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={() => {
-                const ref = localStorage.getItem('landingReferralCode');
-                navigate(ref ? `/join-notice?ref=${encodeURIComponent(ref)}` : '/join-notice');
-              }}
-              className="inline-flex items-center gap-2.5 px-7 sm:px-9 py-3.5 sm:py-4 rounded-2xl font-extrabold text-white text-base sm:text-lg shadow-2xl cursor-pointer transition-all"
-              style={{
-                background: 'linear-gradient(135deg, #1d4ed8 0%, #2563eb 50%, #1e40af 100%)',
-                border: '1px solid rgba(147, 197, 253, 0.45)',
-                boxShadow: '0 8px 30px rgba(29, 78, 216, 0.5)'
-              }}
-            >
-              <span>Request a Refund</span>
-              <ArrowRight className="w-5 h-5" />
-            </motion.button>
-
-            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-2 px-7 sm:px-9 py-3.5 sm:py-4 rounded-2xl font-bold text-blue-100 text-base sm:text-lg transition-all"
-                style={{
-                  background: 'rgba(30, 58, 138, 0.4)',
-                  border: '1px solid rgba(96, 165, 250, 0.35)',
-                  boxShadow: '0 4px 15px rgba(10, 22, 40, 0.3)'
-                }}
-              >
-                Talk to Us
-              </Link>
-            </motion.div>
-          </motion.div>
-        </div>
-
-        {/* 
-          ============================================================
-          DOCK STATS BAR - Seamlessly sits at bottom of single viewport
-          ============================================================
-        */}
-        <div
-          className="relative z-10 w-full border-t shrink-0"
+        {/* Live Photographic Tech Headquarters Background */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
           style={{
-            borderColor: 'rgba(59, 130, 246, 0.2)',
-            background: 'rgba(10, 22, 40, 0.85)',
-            backdropFilter: 'blur(12px)'
+            backgroundImage: 'url(/images/hero-bg.jpg)',
           }}
-        >
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 sm:py-4 md:py-5 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-            {stats.map((s, i) => (
-              <AnimatedStat key={i} value={s.value} label={s.label} />
-            ))}
+        />
+
+        {/* Deep Oceanic Cobalt Gradient & Lighting Overlays (Wakefly cinematic treatment) */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'linear-gradient(135deg, rgba(1, 8, 24, 0.92) 0%, rgba(2, 16, 42, 0.85) 35%, rgba(5, 28, 62, 0.72) 70%, rgba(1, 6, 18, 0.94) 100%)'
+          }}
+        />
+
+        {/* Top/Bottom Cinematic Fade Vignettes */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'linear-gradient(180deg, rgba(1, 6, 18, 0.88) 0%, transparent 22%, transparent 72%, #020817 100%)'
+          }}
+        />
+
+        {/* Cinematic Ceiling Dome Light Beam / Top Ambient Spotlight */}
+        <div
+          className="absolute -top-32 left-1/2 -translate-x-1/2 w-[1100px] h-[480px] pointer-events-none rounded-full"
+          style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(56, 189, 248, 0.35) 0%, rgba(14, 165, 233, 0.15) 45%, transparent 75%)' }}
+        />
+
+        {/* Ambient Oceanic Side Glows */}
+        <div
+          className="absolute top-1/3 left-0 w-[600px] h-[600px] rounded-full pointer-events-none -translate-x-1/3"
+          style={{ background: 'radial-gradient(circle, rgba(14, 165, 233, 0.2) 0%, transparent 70%)' }}
+        />
+        <div
+          className="absolute top-1/4 right-0 w-[700px] h-[700px] rounded-full pointer-events-none translate-x-1/3"
+          style={{ background: 'radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, rgba(3, 105, 161, 0.14) 40%, transparent 70%)' }}
+        />
+
+        {/* Subtle Luminous Bokeh Orbs & Lens Flare with gentle floating animation */}
+        <motion.div
+          animate={{
+            scale: [1, 1.12, 1],
+            opacity: [0.25, 0.4, 0.25],
+            x: [-12, 12, -12],
+            y: [-8, 8, -8]
+          }}
+          transition={{ repeat: Infinity, duration: 9, ease: "easeInOut" }}
+          className="absolute bottom-10 left-1/4 w-52 h-52 rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(56, 189, 248, 0.35) 0%, rgba(45, 212, 191, 0.2) 50%, transparent 70%)', filter: 'blur(24px)' }}
+        />
+        <motion.div
+          animate={{
+            scale: [1, 1.15, 1],
+            opacity: [0.2, 0.35, 0.2],
+            x: [10, -10, 10],
+            y: [8, -8, 8]
+          }}
+          transition={{ repeat: Infinity, duration: 11, ease: "easeInOut" }}
+          className="absolute bottom-4 right-1/3 w-64 h-64 rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(14, 165, 233, 0.28) 0%, rgba(56, 189, 248, 0.16) 50%, transparent 70%)', filter: 'blur(32px)' }}
+        />
+
+        <div className="relative z-10 w-full max-w-[1650px] mr-auto my-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* Left Column: Content */}
+          <div className="lg:col-span-7 xl:col-span-7 2xl:col-span-7 text-left space-y-5 sm:space-y-6">
+            {/* Web3 Live Network Status Bar */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="flex flex-wrap items-center gap-2.5"
+            >
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-medium bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 backdrop-blur-md shadow-sm">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Web3 Protocol Active</span>
+              </div>
+              <div className="hidden sm:inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-mono text-sky-200/90 bg-sky-500/15 border border-sky-400/25 backdrop-blur-md">
+                <span>Proof-of-Loss Smart Contracts</span>
+                <span className="text-slate-400">•</span>
+                <span className="text-emerald-400 font-medium">100% Non-Custodial</span>
+              </div>
+            </motion.div>
+
+            {/* Main Headline (Wakefly Style: Bold, crisp, high-contrast, single-line subtitle) */}
+            <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-[-0.03em] leading-[1.08] drop-shadow-md">
+                Reclaim<span className="text-[#ff6b1a]">DAO</span>
+                <span className="block text-2xl sm:text-3xl md:text-4xl lg:text-[36px] xl:text-[40px] font-bold mt-2.5 tracking-[-0.02em] text-white sm:whitespace-nowrap">
+                  Taking Back What's Yours, Together.
+                </span>
+              </h1>
+            </motion.div>
+
+            {/* Badge (Sleek pill) */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="inline-flex items-start sm:items-center gap-2.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm text-sky-100 bg-[#061e40]/70 border border-sky-400/30 backdrop-blur-md shadow-lg"
+            >
+              <span className="text-[#ff6b1a] text-sm shrink-0 mt-0.5 sm:mt-0 font-bold">★</span>
+              <span className="font-normal leading-relaxed">A community-driven nonprofit initiative helping victims of fraud and digital-asset theft navigate the path toward recovery.</span>
+            </motion.div>
+
+            {/* Narrative Description */}
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-base sm:text-lg text-slate-200 leading-relaxed max-w-2xl font-normal drop-shadow-sm"
+            >
+              ReclaimDAO is a decentralized recovery ecosystem designed to identify legitimate claims, document verified losses, coordinate recovery initiatives, and support eligible victims through transparent, accountable processes.
+            </motion.p>
+
+            {/* Primary Action Button (Sunset Orange CTA) */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="pt-2"
+            >
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  const ref = localStorage.getItem('landingReferralCode');
+                  navigate(ref ? `/join-notice?ref=${encodeURIComponent(ref)}` : '/join-notice');
+                }}
+                className="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl font-bold text-white text-base sm:text-lg shadow-xl cursor-pointer transition-all"
+                style={{
+                  background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
+                  boxShadow: '0 8px 25px rgba(249, 87, 0, 0.45)'
+                }}
+              >
+                <span>Affected by Fraud? Submit a Claim &rarr;</span>
+              </motion.button>
+            </motion.div>
+          </div>
+
+          {/* Right Column: Dynamic Holographic Cyber Security Shield & Animated Web3 Radar */}
+          <div className="lg:col-span-5 xl:col-span-5 2xl:col-span-5 hidden lg:flex justify-center items-center relative">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.88 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="relative w-[460px] h-[460px] xl:w-[490px] xl:h-[490px] flex items-center justify-center"
+            >
+              {/* Subtle Expanding Ripple Pulses */}
+              <motion.div
+                animate={{ scale: [0.85, 1.25], opacity: [0.35, 0] }}
+                transition={{ repeat: Infinity, duration: 4, ease: "easeOut" }}
+                className="absolute inset-4 rounded-full border border-sky-400/30 pointer-events-none"
+              />
+              <motion.div
+                animate={{ scale: [0.85, 1.25], opacity: [0.35, 0] }}
+                transition={{ repeat: Infinity, duration: 4, delay: 2, ease: "easeOut" }}
+                className="absolute inset-4 rounded-full border border-cyan-400/30 pointer-events-none"
+              />
+
+              {/* Concentric Oceanic Radar Circles (Smooth, slow continuous rotation) */}
+              <div className="absolute inset-0 rounded-full border border-sky-400/25 animate-[spin_55s_linear_infinite]" />
+              <div className="absolute inset-8 rounded-full border border-dashed border-cyan-300/30 animate-[spin_35s_linear_infinite_reverse]" />
+              <div className="absolute inset-16 rounded-full border border-sky-400/20" />
+              <div className="absolute inset-28 rounded-full border border-dashed border-[#ff6b1a]/25 animate-[spin_25s_linear_infinite]" />
+
+              {/* Subtle Conic Radar Beam Sweep */}
+              <div className="absolute inset-3 rounded-full pointer-events-none opacity-20 animate-[spin_12s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_300deg,rgba(56,189,248,0.4)_360deg)]" />
+
+              {/* Web3 Orbiting Floating Node Badges with subtle breathing float */}
+              {/* Top Node: [ETH] Mainnet */}
+              <motion.div
+                animate={{ y: [-3, 3, -3], x: [-1, 1, -1] }}
+                transition={{ repeat: Infinity, duration: 4.2, ease: "easeInOut" }}
+                className="absolute top-0 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#061833]/90 border border-cyan-400/50 text-xs font-mono text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.35)] backdrop-blur-md z-20"
+              >
+                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                <span>[ETH] Mainnet</span>
+              </motion.div>
+
+              {/* Bottom Node: ZK-Merkle Proof */}
+              <motion.div
+                animate={{ y: [3, -3, 3], x: [1, -1, 1] }}
+                transition={{ repeat: Infinity, duration: 4.6, delay: 0.4, ease: "easeInOut" }}
+                className="absolute bottom-0 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#061833]/90 border border-emerald-400/50 text-xs font-mono text-emerald-300 shadow-[0_0_15px_rgba(52,211,153,0.35)] backdrop-blur-md z-20"
+              >
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>ZK-Merkle Proof</span>
+              </motion.div>
+
+              {/* Left Node: RFND v2 */}
+              <motion.div
+                animate={{ x: [-3, 3, -3], y: [2, -2, 2] }}
+                transition={{ repeat: Infinity, duration: 5, delay: 0.8, ease: "easeInOut" }}
+                className="absolute -left-1 top-1/2 -translate-y-1/2 flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#061833]/90 border border-sky-400/50 text-[11px] font-mono text-sky-200 shadow-[0_0_15px_rgba(56,189,248,0.35)] backdrop-blur-md z-20"
+              >
+                <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
+                <span>RFND v2</span>
+              </motion.div>
+
+              {/* Right Node: DAO Multi-Sig */}
+              <motion.div
+                animate={{ x: [3, -3, 3], y: [-2, 2, -2] }}
+                transition={{ repeat: Infinity, duration: 4.8, delay: 1.2, ease: "easeInOut" }}
+                className="absolute -right-1 top-1/2 -translate-y-1/2 flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#061833]/90 border border-[#ff6b1a]/50 text-[11px] font-mono text-[#ff8c42] shadow-[0_0_15px_rgba(255,107,26,0.35)] backdrop-blur-md z-20"
+              >
+                <span className="w-2 h-2 rounded-full bg-[#ff6b1a] animate-pulse" />
+                <span>DAO Multi-Sig</span>
+              </motion.div>
+
+              {/* Floating Glowing Shield Container Card */}
+              <motion.div
+                animate={{
+                  y: [-6, 6, -6]
+                }}
+                transition={{ repeat: Infinity, duration: 5.5, ease: "easeInOut" }}
+                className="relative z-10 w-56 h-64 sm:w-60 sm:h-72 rounded-3xl flex flex-col items-center justify-center p-6 backdrop-blur-xl shadow-2xl transition-all"
+                style={{
+                  background: 'radial-gradient(circle, rgba(8, 28, 60, 0.94) 0%, rgba(3, 12, 28, 0.98) 100%)',
+                  border: '1px solid rgba(56, 189, 248, 0.45)',
+                  boxShadow: '0 0 50px rgba(14, 165, 233, 0.35), inset 0 0 30px rgba(56, 189, 248, 0.18)'
+                }}
+              >
+                {/* Shield SVG with subtle breathing glow */}
+                <div className="relative flex items-center justify-center">
+                  <motion.div
+                    animate={{ scale: [1, 1.04, 1] }}
+                    transition={{ repeat: Infinity, duration: 3.2, ease: "easeInOut" }}
+                    className="relative flex items-center justify-center"
+                  >
+                    <svg className="w-24 h-28 sm:w-28 sm:h-32 text-sky-400 drop-shadow-[0_0_20px_rgba(56,189,248,0.7)]" viewBox="0 0 24 24" fill="rgba(14, 165, 233, 0.12)" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                    <motion.div
+                      animate={{ scale: [1, 1.08, 1] }}
+                      transition={{ repeat: Infinity, duration: 2.4, ease: "easeInOut" }}
+                      className="absolute"
+                    >
+                      <Lock className="w-8 h-8 sm:w-10 sm:h-10 text-[#ff6b1a] drop-shadow-[0_0_12px_rgba(255,107,26,0.7)]" />
+                    </motion.div>
+                  </motion.div>
+                </div>
+                <div className="mt-4 text-center">
+                  <span className="text-xs sm:text-[13px] font-black text-white uppercase tracking-wider block">VERIFIED RECOVERY</span>
+                  <span className="text-[10px] sm:text-[11px] text-white font-bold mt-1 block">On-Chain Protection</span>
+                </div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* 
         ============================================================
-        REST OF HOMEPAGE CONTENT (Scrolled below single viewport)
+        REST OF HOMEPAGE CONTENT (White Backgrounds with Deep Cobalt Cards)
         ============================================================
       */}
       {/* Recovery Resources Section */}
-      <section className="w-full overflow-x-hidden pt-12 pb-16 bg-gray-50">
+      <section className="w-full overflow-x-hidden pt-20 pb-24 bg-white border-t border-slate-200">
         <div className="w-full min-w-0 mobile-padding">
-          <div className="mb-10 text-center">
+          <div className="mb-14 text-center">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="mb-2 text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight"
+              className="mb-3 text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight"
             >
-              Recovery resources and guides
+              Recovery resources and <span className="text-[#ff6b1a]">guides</span>
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="mx-auto max-w-3xl text-base sm:text-lg text-gray-600"
+              className="mx-auto max-w-3xl text-base sm:text-lg text-slate-600 font-medium"
             >
-              Scam alerts, Averadao refund programs, and an overview of how we help eligible victims recover funds.
+              Scam alerts, ReclaimDAO refund programs, and an overview of how we help eligible victims recover funds.
             </motion.p>
           </div>
           <div className="mx-auto grid max-w-6xl grid-cols-1 justify-items-center gap-8 md:grid-cols-3 md:justify-items-stretch md:gap-8">
@@ -365,23 +359,23 @@ const Home = () => {
         </div>
       </section>
 
-      {/* How Averadao Helps Section */}
-      <section className="w-full pt-14 pb-18 bg-white">
+      {/* How ReclaimDAO Helps Section */}
+      <section className="w-full pt-20 pb-24 bg-slate-50 border-t border-slate-200">
         <div className="w-full mobile-padding">
-          <div className="text-center mb-12">
+          <div className="text-center mb-14">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3"
+              className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-3 tracking-tight"
             >
-              How Averadao Helps
+              How <span className="text-[#ff6b1a]">ReclaimDAO</span> Helps
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-lg text-gray-600 max-w-3xl mx-auto"
+              className="text-base sm:text-lg text-slate-600 font-medium max-w-3xl mx-auto"
             >
               Verify eligible victims, issue on-chain Proof-of-Loss tokens, and facilitate the secure distribution of recovered funds.
             </motion.p>
@@ -395,16 +389,16 @@ const Home = () => {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="card p-6 text-center hover:scale-105 transition-transform duration-300 w-full"
+                  className="p-7 text-center rounded-2xl bg-[#0a254d] border border-sky-400/25 hover:border-[#ff6b1a]/60 hover:scale-105 transition-all duration-300 w-full hover:shadow-2xl shadow-xl"
                 >
                   <div
-                    className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-900/25"
-                    style={{ background: 'linear-gradient(135deg, #1d4ed8, #3b82f6)' }}
+                    className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg"
+                    style={{ background: 'linear-gradient(135deg, #0e356e 0%, #154c9c 100%)', border: '1px solid rgba(56, 189, 248, 0.4)' }}
                   >
-                    <Icon size={32} className="text-white" />
+                    <Icon size={30} className="text-[#ff6b1a]" />
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{feature.title}</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">{feature.description}</p>
+                  <h3 className="text-xl font-bold text-white mb-2">{feature.title}</h3>
+                  <p className="text-white font-bold text-sm leading-relaxed">{feature.description}</p>
                 </motion.div>
               );
             })}
@@ -412,46 +406,50 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Deep Navy CTA Section */}
-      <section
-        className="w-full py-18 text-white relative overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #0a1628 0%, #0f172a 50%, #172554 100%)' }}
-      >
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-1/3 w-64 h-64 rounded-full" style={{ background: 'radial-gradient(circle, rgba(29, 78, 216, 0.18) 0%, transparent 70%)' }} />
-          <div className="absolute bottom-0 right-1/3 w-64 h-64 rounded-full" style={{ background: 'radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 70%)' }} />
-        </div>
-        <div className="w-full mobile-padding max-w-4xl mx-auto text-center space-y-6 relative z-10">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight"
-          >
-            You Don't Have to Navigate This Alone
-          </motion.h2>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-base sm:text-lg text-blue-200/85 leading-relaxed max-w-2xl mx-auto space-y-3"
-          >
-            <p>If you've lost funds to a scam or need help understanding the recovery process, reach out to Averadao.</p>
-            <p>Tell us what happened, ask your questions, and learn more about the options available to you.</p>
-          </motion.div>
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }} className="pt-4">
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-extrabold text-white text-base sm:text-lg transition-all duration-300 shadow-xl"
-              style={{
-                background: 'linear-gradient(135deg, #1d4ed8, #2563eb)',
-                border: '1px solid rgba(147, 197, 253, 0.4)',
-                boxShadow: '0 8px 25px rgba(29, 78, 216, 0.4)'
-              }}
+      {/* Modern White Background with Deep Cobalt Banner CTA Section */}
+      <section className="w-full py-20 px-4 sm:px-6 lg:px-8 bg-white border-t border-slate-200">
+        <div
+          className="w-full max-w-5xl mx-auto rounded-3xl p-10 sm:p-14 text-center text-white relative overflow-hidden shadow-2xl"
+          style={{
+            background: 'linear-gradient(135deg, #030d1d 0%, #071e3d 40%, #0a2952 100%)',
+            border: '1px solid rgba(56, 189, 248, 0.35)'
+          }}
+        >
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-0 left-1/4 w-72 h-72 rounded-full" style={{ background: 'radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, transparent 70%)' }} />
+            <div className="absolute bottom-0 right-1/4 w-72 h-72 rounded-full" style={{ background: 'radial-gradient(circle, rgba(249, 87, 0, 0.18) 0%, transparent 70%)' }} />
+          </div>
+          <div className="relative z-10 max-w-3xl mx-auto space-y-6">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight"
             >
-              Talk to Averadao <ArrowRight className="w-4 h-4" />
-            </Link>
-          </motion.div>
+              You Don't Have to Navigate This <span className="text-[#ff6b1a]">Alone</span>
+            </motion.h2>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-base sm:text-lg text-white leading-relaxed max-w-2xl mx-auto space-y-3 font-bold"
+            >
+              <p>If you've lost funds to a scam or need help understanding the recovery process, reach out to ReclaimDAO.</p>
+              <p>Tell us what happened, ask your questions, and learn more about the options available to you.</p>
+            </motion.div>
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }} className="pt-3">
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center gap-2 px-9 py-4 rounded-xl font-extrabold text-white text-base sm:text-lg transition-all duration-300 shadow-2xl hover:scale-105 cursor-pointer"
+                style={{
+                  background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
+                  boxShadow: '0 8px 30px rgba(249, 87, 0, 0.5)'
+                }}
+              >
+                Talk to ReclaimDAO <ArrowRight className="w-5 h-5 text-white" />
+              </Link>
+            </motion.div>
+          </div>
         </div>
       </section>
     </div>

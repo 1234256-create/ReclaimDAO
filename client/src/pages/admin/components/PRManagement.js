@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link2, MapPin, MessageSquare, Plus, Trash2, Edit3, Save, ExternalLink, Eye, EyeOff, RefreshCw, Image } from 'lucide-react';
 import axios from 'axios';
@@ -37,7 +37,7 @@ const PRManagement = () => {
     starRating: '4.5',
     subheading: 'We’ve helped over 10,000+ fraud victims already!',
     reviewCount: '780 reviews',
-    reviewLink: 'https://www.trustpilot.com/review/veritasaid.com',
+    reviewLink: 'https://www.trustpilot.com/review/reclaimdao.org',
     buttonText: 'Are you a victim? Request a refund →'
   });
   const [savingTrustpilot, setSavingTrustpilot] = useState(false);
@@ -67,7 +67,7 @@ const PRManagement = () => {
           starRating: tpVal.starRating || '4.5',
           subheading: tpVal.subheading || 'We’ve helped over 10,000+ fraud victims already!',
           reviewCount: tpVal.reviewCount || '780 reviews',
-          reviewLink: tpVal.reviewLink || 'https://www.trustpilot.com/review/veritasaid.com',
+          reviewLink: tpVal.reviewLink || 'https://www.trustpilot.com/review/reclaimdao.org',
           buttonText: tpVal.buttonText || 'Are you a victim? Request a refund →'
         });
       }
@@ -558,7 +558,7 @@ const PRManagement = () => {
                     type="url"
                     value={modalUrl}
                     onChange={(e) => setModalUrl(e.target.value)}
-                    placeholder="e.g. https://finance.yahoo.com/news/averadao-announces-..."
+                    placeholder="e.g. https://finance.yahoo.com/news/reclaimdao-announces-..."
                     className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#10b981] outline-none text-sm"
                   />
                 </div>

@@ -51,8 +51,8 @@ const ProtectedRoute = ({ children }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0a1628] flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-[#fcb420] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -71,8 +71,8 @@ const PublicRoute = ({ children }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0a1628] flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-[#fcb420] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -89,9 +89,9 @@ const PublicRoute = ({ children }) => {
 // Layout Component
 const Layout = ({ children }) => {
   return (
-    <div className="min-h-screen bg-[#0a1628] flex flex-col">
+    <div className="min-h-screen bg-[#f8fafc] flex flex-col">
       <Navbar />
-      <main className="pt-16 flex-1">
+      <main className="pt-20 flex-1">
         <div className="w-full">
           {children}
         </div>
@@ -103,6 +103,21 @@ const Layout = ({ children }) => {
 
 
 
+
+const FaviconSetter = () => {
+  React.useEffect(() => {
+    document.title = "ReclaimDAO - Driven by Truth. Returning What's Yours.";
+    let link = document.querySelector("link[rel~='icon']");
+    if (!link) {
+      link = document.createElement('link');
+      link.rel = 'icon';
+      document.getElementsByTagName('head')[0].appendChild(link);
+    }
+    link.type = 'image/png';
+    link.href = '/images/favicon.png?v=' + Date.now();
+  }, []);
+  return null;
+};
 
 const ScrollToTop = () => {
   const { pathname, search } = useLocation();
@@ -131,6 +146,7 @@ function App() {
         <AdminAuthProvider>
           <WebSocketProvider>
             <Router>
+              <FaviconSetter />
               <ScrollToTop />
               <ReferralTracker />
               <div className="App">

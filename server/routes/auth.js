@@ -125,10 +125,11 @@ router.post('/register', [
     }
 
     if (finalReferralCode) {
+      const regEmailLower = String(email || '').toLowerCase();
       if (mongoose.connection.readyState === 1) {
         try {
           const referrer = await User.findOne({ referralCode: finalReferralCode });
-          if (referrer) {
+          if (referrer && String(referrer.email || '').toLowerCase() !== regEmailLower) {
             referredBy = referrer._id;
             await referrer.addCategoryPoints(10, 'referral');
             try { global.__broadcastUsersUpdate({ type: 'user_referral_awarded', id: referrer._id }); } catch (_) { }
@@ -139,7 +140,7 @@ router.post('/register', [
       try {
         const localUsersList = readCollection('users') || [];
         const refLocalUser = localUsersList.find(u => u.referralCode === finalReferralCode);
-        if (refLocalUser) {
+        if (refLocalUser && String(refLocalUser.email || '').toLowerCase() !== regEmailLower) {
           if (!referredBy) referredBy = refLocalUser._id || refLocalUser.id;
           refLocalUser.points = (refLocalUser.points || 0) + 10;
           refLocalUser.stats = refLocalUser.stats || {};
@@ -191,6 +192,7 @@ router.post('/register', [
         password: hashedPassword,
         role: 'user',
         isActive: true,
+        referredBy,
         referralCode: userReferralCode,
         isEmailVerified: false,
         emailVerificationToken: hashedToken,
@@ -321,7 +323,7 @@ router.get('/verify-email/:token', async (req, res) => {
 
     res.json({
       success: true,
-      message: 'Email verified successfully! Welcome to AVERADAO.',
+      message: 'Email verified successfully! Welcome to ReclaimDAO.',
       data: { token: jwtToken, user: { id: userId, email: user.email, firstName: user.firstName, role: user.role || 'user' } }
     });
 
@@ -868,7 +870,7 @@ router.post('/request-password-otp', auth, async (req, res) => {
     await Settings.setSetting(`USER_PASSWORD_OTP:${user.email}`, { hash, expiresAt }, req.user.id, 'User password OTP');
     const t = await emailService.getTransporter();
     const fromAddr = process.env.EMAIL_FROM || process.env.EMAIL_USERNAME;
-    const info = await t.sendMail({ from: `AVERADAO <${fromAddr}>`, to: user.email, subject: 'Password OTP', text: `OTP: ${code}`, replyTo: fromAddr, envelope: { from: fromAddr, to: user.email }, headers: { 'X-Mailer': 'AVERADAO System' } });
+    const info = await t.sendMail({ from: `ReclaimDAO <${fromAddr}>`, to: user.email, subject: 'Password OTP', text: `OTP: ${code}`, replyTo: fromAddr, envelope: { from: fromAddr, to: user.email }, headers: { 'X-Mailer': 'ReclaimDAO System' } });
     const ok = Array.isArray(info.accepted) && info.accepted.length > 0;
     if (!ok) {
       return res.status(500).json({ success: false, message: 'Failed to send OTP', error: { response: info.response, rejected: info.rejected } });

@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
   Trophy,
@@ -97,7 +97,19 @@ const Dashboard = () => {
         setVerifiedLoss(u.verifiedLoss || 0);
         setUnverifiedLoss(u.unverifiedLoss || 0);
         setAmountRestituted(u.amountRestituted || 0);
-        setUserRank(u.rank || 0);
+        let rankVal = u.rank || u.overrides?.rankOverride;
+        if (!rankVal || rankVal === 0) {
+          try {
+            const lbRes = await axios.get('/api/users/leaderboard?limit=100', { headers });
+            const lbUsers = lbRes.data?.data?.users || lbRes.data?.data?.leaderboard || [];
+            const myEmail = (u.email || user?.email || '').toLowerCase();
+            const idx = lbUsers.findIndex(usr => (usr.email || '').toLowerCase() === myEmail);
+            if (idx !== -1) {
+              rankVal = lbUsers[idx].rank || lbUsers[idx].displayRank || (idx + 1);
+            }
+          } catch (_) {}
+        }
+        setUserRank(rankVal || 1);
         try {
           const vr = await axios.get('/api/votes', { params: { status: 'active', limit: 200 }, headers });
           const votes = vr.data?.data?.votes || [];
@@ -122,7 +134,7 @@ const Dashboard = () => {
           setVerifiedLoss(user?.verifiedLoss || 0);
           setUnverifiedLoss(user?.unverifiedLoss || 0);
           setAmountRestituted(user?.amountRestituted || 0);
-          setUserRank(0);
+          setUserRank(user?.rank || 1);
           const dsVotes = dsGetActiveVotes();
           setActiveRoundsCount(dsVotes.length);
           setActiveVotes(dsVotes);
@@ -311,8 +323,8 @@ const Dashboard = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen hero-gradient flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
+      <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center">
+        <div className="text-[#0d0c43] text-xl font-bold">Loading...</div>
       </div>
     );
   }
@@ -370,74 +382,70 @@ const Dashboard = () => {
   const dashRemaining = Math.max(0, dashAllowed - dashUsed);
 
   return (
-    <div className="min-h-screen hero-gradient py-6">
-      {/* Top Edge-to-Edge Section (No side padding) */}
-      <div className="w-full mb-6">
-        {/* Header */}
+    <div className="min-h-screen bg-[#f8fafc] py-6">
+      {/* Top Full-Width Header & Spam Banner Section */}
+      <div className="w-full px-4 sm:px-6 lg:px-8 max-w-[1700px] mx-auto space-y-4 mb-6">
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
-          className="mb-6 sm:mb-8 px-4 sm:px-6"
+          className="text-left w-full"
         >
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h1 className="mobile-header font-bold text-white mb-2">
-                Welcome back, {user?.firstName}!
-              </h1>
-            </div>
-
-          </div>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Welcome back, <span className="text-[#ff6b1a]">{user?.firstName}</span>!
+          </h1>
         </motion.div>
 
-        {/* Spam Notification Banner */}
-        <div className="mb-6 px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="bg-yellow-500/20 border border-yellow-500/30 rounded-xl p-4 backdrop-blur-sm flex items-start gap-3"
-          >
-            <div className="p-2 bg-yellow-500/20 rounded-full shrink-0">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-yellow-300" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <p className="text-yellow-100 text-sm md:text-base font-medium py-1">
-              If our emails have landed in your spam or junk folder, please mark them as “Not Spam” to ensure you receive future restitution updates.
-            </p>
-          </motion.div>
-        </div>
+        {/* Full-Width Spam Notification Banner */}
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="bg-[#0a254d] border border-sky-400/25 rounded-2xl p-4 shadow-sm flex items-start gap-3.5 w-full"
+        >
+          <div className="p-2 bg-[#ff6b1a]/20 text-[#ff6b1a] rounded-xl shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#ff6b1a]" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+            </svg>
+          </div>
+          <p className="text-white text-sm md:text-base font-bold py-1">
+            If our emails have landed in your spam or junk folder, please mark them as “Not Spam” to ensure you receive future restitution updates.
+          </p>
+        </motion.div>
+      </div>
+
+      {/* Cards Container */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
 
         {/* Active Votes Notifications */}
         {activeVotes && activeVotes.length > 0 && (
-          <div className="mb-6 space-y-4 px-4 sm:px-6">
+          <div className="space-y-4">
             {activeVotes.map((vote) => (
               <motion.div
                 key={vote._id || vote.id || Math.random()}
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="bg-[#031d24]/90 rounded-xl shadow-lg border-l-4 border-blue-500 overflow-hidden flex flex-col md:flex-row items-center justify-between p-4 border border-blue-500/20 shadow-blue-950/40"
+                className="bg-[#0a254d] text-white rounded-2xl shadow-xl border-l-4 border-[#ff6b1a] overflow-hidden flex flex-col md:flex-row items-center justify-between p-4 sm:p-5 border border-sky-400/25"
               >
                 <div className="flex items-center gap-4 mb-4 md:mb-0 w-full md:w-auto">
-                  <div className="p-3 bg-blue-950/60 text-sky-300 rounded-full shrink-0 border border-blue-500/30">
+                  <div className="p-3 bg-[#ff6b1a]/15 text-[#ff6b1a] rounded-xl shrink-0 border border-[#ff6b1a]/30">
                     <Vote className="w-6 h-6" />
                   </div>
                   <div className="flex-1">
                     <h4 className="text-lg font-bold text-white">{vote.title || 'New Vote Created!'}</h4>
-                    <p className="text-sm text-sky-200/70">A new proposal needs your attention</p>
+                    <p className="text-sm text-white font-semibold">A new proposal needs your attention</p>
                   </div>
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto justify-between">
                   <div className="text-sm flex flex-col gap-1 items-start md:items-end w-full sm:w-auto">
-                    <div className="flex items-center gap-2 text-sky-200">
-                      <Clock className="w-4 h-4 text-blue-400" />
+                    <div className="flex items-center gap-2 text-white font-semibold">
+                      <Clock className="w-4 h-4 text-sky-400" />
                       <span>Starts: {vote.startTime ? new Date(vote.startTime).toLocaleString() : 'Now'}</span>
                     </div>
                     {vote.endTime && (
-                      <div className="flex items-center gap-2 text-sky-200">
-                        <Timer className="w-4 h-4 text-blue-400" />
+                      <div className="flex items-center gap-2 text-white font-semibold">
+                        <Timer className="w-4 h-4 text-[#ff6b1a]" />
                         <span>Ends: {new Date(vote.endTime).toLocaleString()}</span>
-                        <span className="ml-2 font-mono font-bold text-red-400 bg-red-950/60 px-2 py-0.5 rounded-full border border-red-500/30">
+                        <span className="ml-2 font-mono font-bold text-[#ff6b1a] bg-[#ff6b1a]/15 px-2.5 py-0.5 rounded-full border border-[#ff6b1a]/30">
                           <LiveTimer endTime={vote.endTime} />
                         </span>
                       </div>
@@ -446,7 +454,8 @@ const Dashboard = () => {
 
                   <button
                     onClick={() => navigate(`/voting?voteId=${vote._id || vote.id}`)}
-                    className="px-6 py-2 bg-gradient-to-r from-[#1e40af] to-[#1d4ed8] text-white rounded-lg hover:from-[#2563eb] hover:to-[#3b82f6] transition-all font-medium flex items-center justify-center gap-2 shrink-0 w-full sm:w-auto shadow-md shadow-blue-950/50"
+                    className="px-6 py-2.5 rounded-xl font-bold text-white flex items-center justify-center gap-2 shrink-0 w-full sm:w-auto shadow-lg shadow-[#ff6b1a]/25 transition-all cursor-pointer"
+                    style={{ background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)' }}
                   >
                     Vote Now <Vote className="w-4 h-4" />
                   </button>
@@ -455,67 +464,62 @@ const Dashboard = () => {
             ))}
           </div>
         )}
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
 
         {/* Main Action Buttons */}
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 responsive-gap mb-6 sm:mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <motion.button
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             onClick={() => navigate('/voting')}
-            className="mobile-glass rounded-xl mobile-card hover:bg-blue-950/40 border border-blue-500/20 transition-all duration-300 group touch-target"
+            className="bg-[#0a254d] hover:bg-[#0d2f61] text-white rounded-2xl p-6 border border-sky-400/25 hover:border-sky-400/50 shadow-xl transition-all duration-300 group text-left cursor-pointer"
           >
             <div className="flex flex-col sm:flex-row items-center justify-between">
               <div className="flex items-center mb-4 sm:mb-0">
-                <div className="p-3 sm:p-4 bg-blue-500/20 border border-blue-500/30 rounded-lg mr-4 shadow-sm shadow-blue-500/20">
-                  <Vote className="w-6 h-6 sm:w-8 sm:h-8 text-sky-300" />
+                <div className="p-3.5 sm:p-4 bg-[#ff6b1a]/15 border border-[#ff6b1a]/30 rounded-xl mr-4 shadow-sm text-[#ff6b1a] group-hover:scale-105 transition-transform">
+                  <Vote className="w-6 h-6 sm:w-8 sm:h-8" />
                 </div>
-                <div className="text-left">
-                  <h3 className="text-lg sm:text-xl font-bold text-white">VOTE</h3>
-                  <p className="text-gray-300 text-sm sm:text-base">Provide feedback on refunds and vote on decisions.</p>
+                <div>
+                  <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight">VOTE</h3>
+                  <p className="text-white font-bold text-sm sm:text-base">Provide feedback on refunds and vote on decisions.</p>
                 </div>
               </div>
               <div className="text-center sm:text-right">
-                <div className="text-sky-300 font-semibold text-sm sm:text-base">
+                <div className="text-[#ff6b1a] font-bold text-sm sm:text-base">
                   Active rounds: {activeRoundsCount}
                 </div>
-                <p className="text-gray-400 text-xs sm:text-sm">Voting status</p>
+                <p className="text-white font-bold text-xs sm:text-sm mt-0.5">Voting status</p>
               </div>
             </div>
           </motion.button>
         </div>
 
-
-
-
-
         {/* Loss & Restitution Stats */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mobile-glass rounded-xl mobile-card mb-6 sm:mb-8"
+          className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6"
         >
-          <h3 className="mobile-subheader font-bold text-white mb-4 sm:mb-6">Restitution Status</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-3 responsive-gap">
-            <div className="bg-white/10 rounded-lg p-4">
-              <h4 className="text-white font-semibold mb-2 text-sm sm:text-base">Verified Loss</h4>
-              <div className="text-2xl font-bold text-white">
+          <div className="flex items-center justify-between">
+            <h3 className="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
+              <span>Restitution <span className="text-[#ff6b1a]">Status</span></span>
+            </h3>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+            <div className="bg-[#0a254d] text-white border border-sky-400/25 rounded-2xl p-6 shadow-xl">
+              <h4 className="text-white font-bold mb-2 text-sm sm:text-base">Verified Loss</h4>
+              <div className="text-2xl sm:text-3xl font-black text-white">
                 ${verifiedLoss.toLocaleString()}
               </div>
             </div>
-            <div className="bg-white/10 rounded-lg p-4">
-              <h4 className="text-white font-semibold mb-2 text-sm sm:text-base">Unverified Loss</h4>
-              <div className="text-2xl font-bold text-white">
+            <div className="bg-[#0a254d] text-white border border-sky-400/25 rounded-2xl p-6 shadow-xl">
+              <h4 className="text-white font-bold mb-2 text-sm sm:text-base">Unverified Loss</h4>
+              <div className="text-2xl sm:text-3xl font-black text-white">
                 ${unverifiedLoss.toLocaleString()}
               </div>
             </div>
-            <div className="bg-white/10 rounded-lg p-4">
-              <h4 className="text-white font-semibold mb-2 text-sm sm:text-base">Amount Restituted</h4>
-              <div className="text-2xl font-bold text-green-400">
+            <div className="bg-[#0a254d] text-white border border-sky-400/25 rounded-2xl p-6 shadow-xl">
+              <h4 className="text-white font-bold mb-2 text-sm sm:text-base">Amount Restituted</h4>
+              <div className="text-2xl sm:text-3xl font-black text-[#10b981]">
                 ${amountRestituted.toLocaleString()}
               </div>
             </div>
@@ -526,80 +530,84 @@ const Dashboard = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mobile-glass rounded-xl mobile-card mb-6 sm:mb-8"
+          className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6"
         >
-          <h3 className="mobile-subheader font-bold text-white mb-4 sm:mb-6">Your Stats</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 responsive-gap mb-6">
-            <div className={`rounded-lg p-4 transition-all duration-300 ${userRank >= 5000 && userRank <= 5009 ? 'bg-gradient-to-br from-yellow-500/30 to-yellow-600/30 border border-yellow-400/50' : 'bg-white/10'}`}>
+          <div className="flex items-center justify-between">
+            <h3 className="text-xl sm:text-2xl font-black text-slate-900">Your <span className="text-[#ff6b1a]">Stats</span></h3>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <div className="rounded-2xl p-6 text-white transition-all duration-300 bg-[#0a254d] shadow-xl border border-sky-400/25">
               <div className="flex items-center justify-between mb-2">
-                <h4 className="text-white font-semibold text-sm sm:text-base">Leaderboard Ranking</h4>
-                <Trophy className={`w-5 h-5 ${userRank >= 5000 && userRank <= 5009 ? 'text-yellow-400' : 'text-purple-400'}`} />
+                <h4 className="text-white font-bold text-sm sm:text-base">Leaderboard Ranking</h4>
+                <Trophy className="w-5 h-5 text-[#ff6b1a]" />
               </div>
               <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-bold text-white">#{userRank || '—'}</span>
-                {userRank >= 5000 && userRank <= 5009 && <span className="text-xs text-yellow-400 font-bold uppercase tracking-wider">Top Tier</span>}
+                <span className="text-3xl font-black text-white">#{userRank || 1}</span>
+                <span className="text-xs text-white bg-[#ff6b1a] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Top Tier</span>
               </div>
-              <p className="text-gray-400 text-xs mt-1">Global standing in the ecosystem</p>
+              <p className="text-white font-semibold text-xs mt-1">Global standing in the ecosystem</p>
             </div>
-            <div className="bg-white/10 rounded-lg p-4">
-              <h4 className="text-white font-semibold mb-2 text-sm sm:text-base">Voting Rights</h4>
+            <div className="bg-[#0a254d] text-white border border-sky-400/25 rounded-2xl p-6 shadow-xl">
+              <h4 className="text-white font-bold mb-2 text-sm sm:text-base">Voting Rights</h4>
               <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-gray-300 text-sm">Allowed:</span>
-                  <span className="text-white font-semibold">{dashAllowed}</span>
+                <div className="flex justify-between text-sm">
+                  <span className="text-white font-bold">Allowed:</span>
+                  <span className="text-white font-extrabold">{dashAllowed}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-300 text-sm">Used:</span>
-                  <span className="text-white font-semibold">{dashUsed}</span>
+                <div className="flex justify-between text-sm">
+                  <span className="text-white font-bold">Used:</span>
+                  <span className="text-white font-extrabold">{dashUsed}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-300 text-sm">Remaining:</span>
-                  <span className="text-green-400 font-semibold">{dashRemaining}</span>
+                <div className="flex justify-between text-sm">
+                  <span className="text-white font-bold">Remaining:</span>
+                  <span className="text-[#10b981] font-extrabold">{dashRemaining}</span>
                 </div>
               </div>
             </div>
-            <div className="bg-white/10 rounded-lg p-4">
-              <h4 className="text-white font-semibold mb-2 text-sm sm:text-base">Voting Rounds</h4>
+            <div className="bg-[#0a254d] text-white border border-sky-400/25 rounded-2xl p-6 shadow-xl">
+              <h4 className="text-white font-bold mb-2 text-sm sm:text-base">Voting Rounds</h4>
               <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-gray-300 text-sm">Active Rounds:</span>
-                  <span className="text-white font-semibold">{activeRoundsCount}</span>
+                <div className="flex justify-between text-sm">
+                  <span className="text-white font-bold">Active Rounds:</span>
+                  <span className="text-white font-extrabold">{activeRoundsCount}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-300 text-sm">Total Points:</span>
-                  <span className="text-green-400 font-semibold">{totalPoints.toLocaleString()}</span>
+                <div className="flex justify-between text-sm">
+                  <span className="text-white font-bold">Total Points:</span>
+                  <span className="text-[#ff6b1a] font-black">{totalPoints.toLocaleString()}</span>
                 </div>
               </div>
             </div>
-            <div className="bg-blue-950/40 border border-blue-500/30 rounded-lg p-4">
+            <div className="bg-[#0a254d] text-white border border-sky-400/25 rounded-2xl p-6 shadow-xl">
               <div className="flex items-center justify-between mb-2">
-                <h4 className="text-white font-semibold text-sm sm:text-base">Referral Points</h4>
-                <Users className="w-5 h-5 text-blue-400" />
+                <h4 className="text-white font-bold text-sm sm:text-base">Referral Points</h4>
+                <Users className="w-5 h-5 text-sky-400" />
               </div>
               <div className="space-y-1">
-                <div className="text-3xl font-bold text-blue-400">{pointsReferral.toLocaleString()}</div>
-                <p className="text-blue-200/70 text-xs">Real points from invited users (+10 each)</p>
+                <div className="text-3xl font-black text-sky-300">{pointsReferral.toLocaleString()}</div>
+                <p className="text-white font-bold text-xs">Real points from invited users (+10 each)</p>
               </div>
             </div>
           </div>
-          <h4 className="text-white font-semibold mb-3 text-sm sm:text-base">Your Recent Activity</h4>
 
-          <div className="space-y-2 max-h-40 overflow-y-auto">
-            {recentActivity.length === 0 ? (
-              <div className="bg-white/10 rounded-lg p-3">
-                <p className="text-gray-300 text-sm">No recent activity.</p>
-              </div>
-            ) : (
-              recentActivity.map((activity) => (
-                <div key={activity.id} className="bg-white/10 rounded-lg p-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-white text-sm font-medium">{activity.message}</span>
-                    <span className="text-gray-400 text-xs">{new Date(activity.time).toLocaleTimeString()}</span>
-                  </div>
-                  <p className="text-gray-400 text-xs">{activity.type}</p>
+          <div className="pt-2">
+            <h4 className="text-lg sm:text-xl font-bold text-slate-900 mb-3">Your Recent Activity</h4>
+            <div className="bg-[#0a254d] text-white border border-sky-400/25 rounded-2xl p-5 shadow-xl space-y-2 max-h-48 overflow-y-auto">
+              {recentActivity.length === 0 ? (
+                <div className="py-6 px-4 text-center">
+                  <p className="text-white font-bold text-base sm:text-lg md:text-xl tracking-wide">No recent activity.</p>
                 </div>
-              ))
-            )}
+              ) : (
+                recentActivity.map((activity) => (
+                  <div key={activity.id} className="bg-[#071d3d] rounded-xl p-3 border border-sky-400/20">
+                    <div className="flex justify-between items-center">
+                      <span className="text-white text-sm font-bold">{activity.message}</span>
+                      <span className="text-white font-bold text-xs">{new Date(activity.time).toLocaleTimeString()}</span>
+                    </div>
+                    <p className="text-white font-semibold text-xs mt-0.5">{activity.type}</p>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
         </motion.div>
 
@@ -607,32 +615,31 @@ const Dashboard = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mobile-glass rounded-xl mobile-card"
+          className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6"
         >
-          <h3 className="mobile-subheader font-bold text-white mb-4 sm:mb-6">Settings</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-3 responsive-gap">
-            <button onClick={handleEditProfile} className="flex items-center p-4 bg-white/10 rounded-lg hover:bg-white/20 transition-colors group touch-target">
-              <User className="w-5 h-5 text-blue-400 mr-3 group-hover:scale-110 transition-transform" />
-              <div className="text-left">
-                <h4 className="text-white font-semibold text-sm sm:text-base">Edit Profile</h4>
-                <p className="text-gray-400 text-xs sm:text-sm">Update your information</p>
+          <div className="flex items-center justify-between">
+            <h3 className="text-xl sm:text-2xl font-black text-slate-900">Account <span className="text-[#ff6b1a]">Settings</span></h3>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+            <button onClick={handleEditProfile} className="flex items-center p-6 bg-[#0a254d] text-white border border-sky-400/25 rounded-2xl hover:border-[#ff6b1a]/50 shadow-xl transition-all group text-left cursor-pointer">
+              <User className="w-6 h-6 text-sky-400 mr-4 group-hover:scale-110 transition-transform shrink-0" />
+              <div>
+                <h4 className="text-white font-bold text-base">Edit Profile</h4>
+                <p className="text-white font-bold text-xs sm:text-sm mt-0.5">Update your information</p>
               </div>
             </button>
-            <button onClick={openResetPassword} className="flex items-center p-4 bg-white/10 rounded-lg hover:bg-white/20 transition-colors group touch-target">
-              <Lock className="w-5 h-5 text-yellow-400 mr-3 group-hover:scale-110 transition-transform" />
-              <div className="text-left">
-                <h4 className="text-white font-semibold text-sm sm:text-base">Reset Password</h4>
-                <p className="text-gray-400 text-xs sm:text-sm">Change your password</p>
+            <button onClick={openResetPassword} className="flex items-center p-6 bg-[#0a254d] text-white border border-sky-400/25 rounded-2xl hover:border-[#ff6b1a]/50 shadow-xl transition-all group text-left cursor-pointer">
+              <Lock className="w-6 h-6 text-sky-400 mr-4 group-hover:scale-110 transition-transform shrink-0" />
+              <div>
+                <h4 className="text-white font-bold text-base">Reset Password</h4>
+                <p className="text-white font-bold text-xs sm:text-sm mt-0.5">Change security key</p>
               </div>
             </button>
-            <button
-              onClick={logout}
-              className="flex items-center p-4 bg-white/10 rounded-lg hover:bg-red-500/20 transition-colors group touch-target"
-            >
-              <LogOut className="w-5 h-5 text-red-400 mr-3 group-hover:scale-110 transition-transform" />
-              <div className="text-left">
-                <h4 className="text-white font-semibold text-sm sm:text-base">Log Out</h4>
-                <p className="text-gray-400 text-xs sm:text-sm">End your session</p>
+            <button onClick={handleLogout} className="flex items-center p-6 bg-[#0a254d] text-white border border-sky-400/25 rounded-2xl hover:border-[#ec4e70]/50 shadow-xl transition-all group text-left cursor-pointer">
+              <LogOut className="w-6 h-6 text-[#ec4e70] mr-4 group-hover:scale-110 transition-transform shrink-0" />
+              <div>
+                <h4 className="text-white font-bold text-base">Sign Out</h4>
+                <p className="text-white font-bold text-xs sm:text-sm mt-0.5">End session</p>
               </div>
             </button>
           </div>
@@ -640,21 +647,21 @@ const Dashboard = () => {
       </div>
 
       {showResetPassword && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-gray-800 rounded-lg p-8 w-full max-w-md"
+            className="bg-[#0a254d] border border-sky-400/30 rounded-3xl p-8 w-full max-w-md shadow-2xl"
           >
-            <h2 className="text-2xl font-bold text-white mb-4">Reset Password</h2>
+            <h2 className="text-2xl font-black text-white mb-4">Reset <span className="text-[#ff6b1a]">Password</span></h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                <label className="block text-sm font-semibold text-slate-200 mb-2">Email</label>
                 <input
                   type="email"
                   value={resetEmail}
                   onChange={(e) => setResetEmail(e.target.value)}
-                  className="input-field bg-white/10 border-white/20 text-white"
+                  className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white focus:outline-none focus:border-[#ff6b1a]"
                   placeholder="Enter your email"
                 />
               </div>
@@ -663,74 +670,60 @@ const Dashboard = () => {
                   type="button"
                   onClick={dashSendOtp}
                   disabled={sendingOtp}
-                  className="px-4 py-2 rounded-md bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-50"
+                  className="px-4 py-2.5 rounded-xl font-bold text-white shadow-lg disabled:opacity-50"
+                  style={{ background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)' }}
                 >
                   {sendingOtp ? 'Sending...' : 'Send OTP'}
                 </button>
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-slate-200 mb-2">OTP Code</label>
                 <input
                   type="text"
                   value={otpCode}
                   onChange={(e) => setOtpCode(e.target.value)}
-                  className="input-field flex-1 bg-white/10 border-white/20 text-white"
-                  placeholder="Enter OTP"
+                  className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white focus:outline-none focus:border-[#ff6b1a]"
+                  placeholder="Enter 6-digit OTP"
                 />
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="relative">
-                  <input
-                    type={showNewPass ? 'text' : 'password'}
-                    value={newPass}
-                    onChange={(e) => setNewPass(e.target.value)}
-                    className="input-field bg-white/10 border-white/20 text-white pr-10"
-                    placeholder="New password"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowNewPass(!showNewPass)}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  >
-                    {showNewPass ? (
-                      <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-300" />
-                    ) : (
-                      <Eye className="h-5 w-5 text-gray-400 hover:text-gray-300" />
-                    )}
-                  </button>
-                </div>
-                <div className="relative">
-                  <input
-                    type={showConfirmPass ? 'text' : 'password'}
-                    value={confirmPass}
-                    onChange={(e) => setConfirmPass(e.target.value)}
-                    className="input-field bg-white/10 border-white/20 text-white pr-10"
-                    placeholder="Confirm password"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirmPass(!showConfirmPass)}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  >
-                    {showConfirmPass ? (
-                      <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-300" />
-                    ) : (
-                      <Eye className="h-5 w-5 text-gray-400 hover:text-gray-300" />
-                    )}
-                  </button>
-                </div>
+              <div>
+                <label className="block text-sm font-semibold text-slate-200 mb-2">New Password</label>
+                <input
+                  type="password"
+                  value={newPass}
+                  onChange={(e) => setNewPass(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white focus:outline-none focus:border-[#ff6b1a]"
+                  placeholder="Enter new password"
+                />
               </div>
-              <button
-                type="button"
-                onClick={dashChangePasswordWithOtp}
-                disabled={changingPwd}
-                className="w-full btn-primary py-2 disabled:opacity-50"
-              >
-                {changingPwd ? 'Changing...' : 'Change Password'}
-              </button>
-              <button
-                onClick={() => setShowResetPassword(false)}
-                className="mt-4 text-sm text-gray-400 hover:text-white"
-              >
-                Cancel
-              </button>
+              <div>
+                <label className="block text-sm font-semibold text-slate-200 mb-2">Confirm Password</label>
+                <input
+                  type="password"
+                  value={confirmPass}
+                  onChange={(e) => setConfirmPass(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white focus:outline-none focus:border-[#ff6b1a]"
+                  placeholder="Confirm new password"
+                />
+              </div>
+              <div className="flex items-center justify-end gap-3 pt-3">
+                <button
+                  type="button"
+                  onClick={() => setShowResetPassword(false)}
+                  className="px-4 py-2.5 rounded-xl font-semibold text-slate-300 hover:text-white bg-white/10 hover:bg-white/20 transition-all"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={dashChangePasswordWithOtp}
+                  disabled={changingPwd}
+                  className="px-5 py-2.5 rounded-xl font-bold text-white shadow-lg disabled:opacity-50 cursor-pointer"
+                  style={{ background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)' }}
+                >
+                  {changingPwd ? 'Updating...' : 'Update Password'}
+                </button>
+              </div>
             </div>
           </motion.div>
         </div>

@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import axios from 'axios';
 import { getUsersList as dsGetUsersList, getUserMeta as dsGetUserMeta } from '../../../utils/datastore';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -597,7 +597,7 @@ const UserProfileManagement = () => {
       const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
       const res = await axios.get('/api/users', { params: { limit: 100, type: 'real' }, headers });
       const rawUsers = res.data?.data?.users || [];
-      const apiUsers = rawUsers.filter(u => u.role !== 'admin' && u.email !== 'support@veritasaid.com');
+      const apiUsers = rawUsers.filter(u => u.role !== 'admin' && u.email !== 'support@reclaimdao.org' && u.email !== 'support@veritasaid.com');
       if (apiUsers.length > 0) {
         const mapped = apiUsers.map((u) => {
           // Apply overrides to local display

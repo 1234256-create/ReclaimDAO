@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -310,8 +310,8 @@ const Voting = () => {
 
   if (isInitialLoading && activeVotes.length === 0) {
     return (
-      <div className="min-h-screen hero-gradient flex items-center justify-center">
-        <div className="text-white text-xl animate-pulse">Loading voting data...</div>
+      <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center">
+        <div className="text-[#0d0c43] text-xl animate-pulse font-semibold">Loading voting data...</div>
       </div>
     );
   }
@@ -325,18 +325,21 @@ const Voting = () => {
   }, 0);
 
   return (
-    <div className="min-h-screen hero-gradient mobile-padding py-6">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-[#f8fafc] p-4 sm:p-6 lg:p-8">
+      <div className="max-w-7xl mx-auto space-y-6 sm:space-y-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-6 sm:mb-8"
         >
-          <h1 className="mobile-header font-bold text-white mb-2">
-            Voting
-          </h1>
-          <p className="text-gray-300 mobile-text">
+          <div className="flex items-center gap-3 mb-2">
+            <Vote className="w-8 h-8 text-slate-900" />
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              DAO <span className="text-[#ff6b1a]">Voting</span>
+            </h1>
+          </div>
+          <p className="text-slate-600 text-sm sm:text-base max-w-3xl font-medium">
             Cast your vote on decisions and earn points
           </p>
         </motion.div>
@@ -346,7 +349,7 @@ const Voting = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="mb-8 p-6 rounded-2xl bg-red-950/85 border-2 border-red-500/70 backdrop-blur-md flex items-start gap-4 shadow-xl shadow-red-950/60"
+            className="mb-8 p-6 rounded-2xl bg-red-950/90 border-2 border-red-500/70 backdrop-blur-md flex items-start gap-4 shadow-xl"
           >
             <div className="bg-red-600 rounded-full p-2.5 flex-shrink-0 animate-pulse shadow-md">
               <AlertCircle className="w-6 h-6 text-white" />
@@ -363,41 +366,46 @@ const Voting = () => {
           </motion.div>
         )}
 
-        {/* Voting Status */}
+        {/* Voting Status Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mobile-glass rounded-xl mobile-card mb-6 sm:mb-8"
+          className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-4"
         >
           <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <Vote className="w-6 h-6 text-green-400 mr-3" />
-              <div>
-                <h3 className="text-lg font-bold text-white">Voting Status</h3>
-                <p className="text-gray-300 text-sm">
-                  Voting rights: <span className="text-green-400 font-bold">{headerRemaining}</span> of <span className="text-green-400 font-bold">{headerAllowed}</span> remaining
-                </p>
-                <p className="text-gray-300 text-xs">
-                  Used: <span className="text-white font-bold">{headerUsed}</span>
-                </p>
-                {/* Removed global voting rights display for clarity */}
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="text-right">
-                {/* Total votes label removed */}
+            <h3 className="text-xl sm:text-2xl font-black text-slate-900">Voting <span className="text-[#ff6b1a]">Status</span></h3>
+          </div>
+          <div className="bg-[#0a254d] text-white rounded-2xl p-6 sm:p-7 border border-sky-400/25 shadow-xl">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <div className="p-3 bg-[#ff6b1a]/15 text-[#ff6b1a] rounded-xl mr-4 border border-[#ff6b1a]/30">
+                  <Vote className="w-6 h-6" />
+                </div>
+                <div>
+                  <h4 className="text-lg font-bold text-white">Your Voting Allocation</h4>
+                  <p className="text-white font-bold text-sm mt-0.5">
+                    Voting rights: <span className="text-[#10b981] font-extrabold">{headerRemaining}</span> of <span className="text-white font-black">{headerAllowed}</span> remaining
+                  </p>
+                  <p className="text-white font-bold text-xs mt-0.5">
+                    Used: <span className="text-white font-black">{headerUsed}</span>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </motion.div>
 
-        {/* Active Votes (admin-set) */}
-        <div className="mb-8">
+        {/* Active Votes Section */}
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6 mb-8">
+          <div className="flex items-center justify-between">
+            <h3 className="text-xl sm:text-2xl font-black text-slate-900">Active <span className="text-[#ff6b1a]">Proposals</span></h3>
+          </div>
+
           {(!activeVotes || activeVotes.length === 0) ? (
-            <div className="mobile-glass rounded-xl mobile-card p-6">
-              <div className="flex items-center gap-3">
-                <AlertCircle className="w-5 h-5 text-yellow-400" />
-                <p className="text-gray-300">No active voting round. Please check back later.</p>
+            <div className="bg-[#0a254d] text-white rounded-2xl p-10 border border-sky-400/25 shadow-xl text-center">
+              <div className="flex flex-col items-center gap-3">
+                <AlertCircle className="w-10 h-10 text-[#ff6b1a]" />
+                <p className="text-white text-base font-bold">No active voting round. Please check back later.</p>
               </div>
             </div>
           ) : (
@@ -408,26 +416,27 @@ const Voting = () => {
                   id={`vote-${vote.id}`}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mobile-glass rounded-xl mobile-card p-6"
+                  className="bg-[#0a254d] text-white rounded-2xl p-6 sm:p-8 border border-sky-400/25 hover:border-[#ff6b1a]/50 shadow-xl transition-all"
                 >
                   <div className="flex items-center mb-4">
-                    <BarChart3 className="w-6 h-6 text-blue-400 mr-3" />
-                    <h3 className="text-xl font-bold text-white">{vote.title}</h3>
+                    <div className="p-2.5 bg-sky-500/15 text-sky-300 rounded-xl mr-3 border border-sky-400/30">
+                      <BarChart3 className="w-6 h-6" />
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-bold text-white">{vote.title}</h3>
                   </div>
                   {vote.description && (
-                    <p className="text-gray-300 text-sm mb-6">{vote.description}</p>
+                    <p className="text-white font-bold text-sm sm:text-base mb-6 leading-relaxed">{vote.description}</p>
                   )}
                   {vote.endTime && (
-                    <div className="mb-4 p-3 bg-white/5 rounded-lg flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-orange-400" />
-                      <span className="text-gray-200 text-sm">Time remaining:</span>
-                      <span className="font-mono font-bold text-white">{formatRemaining(vote.endTime)}</span>
+                    <div className="mb-6 p-3.5 bg-[#061833] border border-sky-400/20 rounded-xl flex items-center gap-2.5">
+                      <Clock className="w-4 h-4 text-[#ff6b1a]" />
+                      <span className="text-white font-bold text-sm">Time remaining:</span>
+                      <span className="font-mono font-bold text-[#ff6b1a]">{formatRemaining(vote.endTime)}</span>
                     </div>
                   )}
-                  <div className="space-y-3">
+                  <div className="space-y-3.5">
                     {vote.options.map((opt) => {
                       const isSelected = selectedOptions[vote.id] === opt.id;
-                      // Check submissions by both email and user ID
                       const { remaining: perRoundRemaining } = getVoteRights(vote);
                       const hasVerifiedLoss = (user?.verifiedLoss || 0) > 0;
                       const disabled = vote.status !== 'active' || perRoundRemaining <= 0 || !hasVerifiedLoss;
@@ -435,14 +444,7 @@ const Voting = () => {
                       const displayedVotes = getDisplayedVotes(vote, opt);
                       const goalVotes = opt.targetVotes || 0;
 
-                      // Percentage toward the individual goal (targetVotes)
-                      // Falls back to share-of-round if no target is set
                       const totalInRound = vote.options.reduce((acc, o) => acc + getDisplayedVotes(vote, o), 0);
-                      const goalPercentage = goalVotes > 0
-                        ? Math.min(100, (displayedVotes / goalVotes) * 100)
-                        : (totalInRound > 0 ? (displayedVotes / totalInRound) * 100 : 0);
-
-                      // Smooth (float) version for bar animation
                       const smoothDisplayed = getSmoothValue(vote, opt);
                       const smoothWidth = goalVotes > 0
                         ? Math.min(100, (smoothDisplayed / goalVotes) * 100)
@@ -453,66 +455,69 @@ const Voting = () => {
                           <button
                             onClick={() => !disabled && onSelectOption(vote, opt)}
                             disabled={disabled}
-                            className={`w-full p-4 rounded-lg border-2 transition-all duration-300 flex items-center justify-between relative overflow-hidden ${isSelected ? 'border-blue-400/80 bg-blue-950/40 shadow-md shadow-blue-950/50' : 'border-white/10 hover:border-blue-400/60'
-                              } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            className={`w-full p-4 sm:p-5 rounded-xl border transition-all duration-300 flex items-center justify-between relative overflow-hidden ${
+                              isSelected 
+                                ? 'border-[#ff6b1a] bg-[#0c2e5c] shadow-lg shadow-[#ff6b1a]/20 ring-1 ring-[#ff6b1a]/50' 
+                                : 'border-sky-400/20 bg-[#061833]/80 hover:border-[#ff6b1a]/40 hover:bg-[#061833]'
+                            } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                           >
-                            {/* Background fill: goal-based */}
+                            {/* Background fill */}
                             <div
-                              className="absolute left-0 top-0 bottom-0 bg-blue-500/15 transition-all duration-1000"
+                              className="absolute left-0 top-0 bottom-0 bg-[#ff6b1a]/15 transition-all duration-1000"
                               style={{ width: `${smoothWidth}%` }}
                             />
 
                             <div className="flex items-center gap-3 relative z-10">
-                              <div className={`w-5 h-5 rounded-full border-2 ${isSelected ? 'border-blue-400 bg-blue-500' : 'border-gray-400 bg-transparent'
-                                }`}></div>
-                              <span className="font-semibold text-white">{opt.text}</span>
+                              <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                                isSelected ? 'border-[#ff6b1a] bg-[#ff6b1a]' : 'border-slate-400 bg-transparent'
+                              }`}>
+                                {isSelected && <div className="w-2 h-2 rounded-full bg-[#0a254d]" />}
+                              </div>
+                              <span className="font-bold text-white text-base">{opt.text}</span>
                             </div>
                             <div className="text-right relative z-10">
-                              <span className="text-sm font-bold text-white block">
+                              <span className="text-base font-black text-white block">
                                 {displayedVotes}
                               </span>
-                              <span className="text-[10px] text-sky-200/70">
+                              <span className="text-[10px] text-white font-bold">
                                 Total votes
                               </span>
                             </div>
                           </button>
 
-                          {/* Animated bottom bar: goal-based width */}
-                          <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/5 rounded-b-lg overflow-hidden">
+                          {/* Animated bottom bar */}
+                          <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/5 rounded-b-xl overflow-hidden">
                             <motion.div
                               initial={{ width: 0 }}
                               animate={{ width: `${smoothWidth}%` }}
                               transition={{ duration: 0.8, ease: 'easeOut' }}
-                              className="h-full bg-gradient-to-r from-[#1e40af] to-[#0ea5e9]"
+                              className="h-full bg-gradient-to-r from-[#ff6b1a] to-[#ea580c]"
                             />
                           </div>
                         </div>
                       );
                     })}
                   </div>
-                  <div className="mt-4 text-xs text-gray-300">
-                    Your remaining in this round: <span className="text-sky-300 font-bold">{getVoteRights(vote).remaining}</span> of <span className="text-sky-300 font-bold">{getVoteRights(vote).total}</span>
+                  <div className="mt-5 text-xs text-white font-bold flex items-center justify-between">
+                    <span>Your remaining in this round: <strong className="text-[#ff6b1a] font-black">{getVoteRights(vote).remaining}</strong> of {getVoteRights(vote).total}</span>
                   </div>
-                  <div className="mt-4 flex items-center justify-end gap-3">
+                  <div className="mt-6 flex items-center justify-end gap-3">
                     <button
                       onClick={() => onSubmitVote(vote)}
                       disabled={selectedOptions[vote.id] == null || vote.status !== 'active' || (
                         getVoteRights(vote).remaining <= 0
                       )}
-                      className="px-5 py-2.5 bg-gradient-to-r from-[#1e40af] to-[#1d4ed8] text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:from-[#2563eb] hover:to-[#3b82f6] shadow-md shadow-blue-950/50 transition-all duration-200 font-semibold"
+                      className="px-6 py-2.5 text-white rounded-xl disabled:opacity-40 disabled:cursor-not-allowed shadow-lg shadow-[#ff6b1a]/25 transition-all font-black text-sm cursor-pointer hover:scale-105"
+                      style={{ background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)' }}
                     >
                       Submit Vote
                     </button>
-
-
                   </div>
                 </motion.div>
               ))}
             </div>
           )}
         </div>
-
-        {/* No dummy stats/history. Only live active votes are shown. */}
       </div>
     </div>
   );

@@ -170,7 +170,7 @@ router.post('/login', [
 
   let isAuthenticated = false;
   let adminId = '000000000000000000000001';
-  let adminEmail = process.env.ADMIN_EMAIL || 'admin@example.com';
+  let adminEmail = process.env.ADMIN_EMAIL || 'admin@reclaimdao.org';
   let adminUsername = username;
 
   // 1. Try DB check
@@ -182,8 +182,8 @@ router.post('/login', [
           String(adminUser.username || '').toLowerCase(),
           String(adminUser.email || '').toLowerCase(),
           String(process.env.ADMIN_USERNAME || '').toLowerCase(),
-          'admin'
-        ].includes(usernameInput);
+          String(process.env.ADMIN_EMAIL || '').toLowerCase()
+        ].filter(Boolean).includes(usernameInput);
 
         if (uMatch) {
           let pMatch = false;
@@ -191,7 +191,7 @@ router.post('/login', [
             try { pMatch = await bcrypt.compare(inputPass, adminUser.password); } catch (_) {}
             if (!pMatch) pMatch = (inputPass === adminUser.password);
           }
-          if (pMatch || inputPass === String(process.env.ADMIN_PASSWORD || '').trim() || inputPass === 'admin123') {
+          if (pMatch) {
             isAuthenticated = true;
             adminId = adminUser._id;
             adminEmail = adminUser.email || adminEmail;
@@ -214,8 +214,8 @@ router.post('/login', [
         String(localAdmin.username || '').toLowerCase(),
         String(localAdmin.email || '').toLowerCase(),
         String(process.env.ADMIN_USERNAME || '').toLowerCase(),
-        'admin'
-      ].includes(usernameInput);
+        String(process.env.ADMIN_EMAIL || '').toLowerCase()
+      ].filter(Boolean).includes(usernameInput);
 
       if (uMatch) {
         let pMatch = false;
@@ -223,7 +223,7 @@ router.post('/login', [
           try { pMatch = await bcrypt.compare(inputPass, localAdmin.password); } catch (_) {}
           if (!pMatch) pMatch = (inputPass === String(localAdmin.password).trim());
         }
-        if (pMatch || inputPass === String(process.env.ADMIN_PASSWORD || '').trim() || inputPass === 'admin123') {
+        if (pMatch) {
           isAuthenticated = true;
           adminId = localAdmin._id || localAdmin.id || adminId;
           adminEmail = localAdmin.email || adminEmail;
@@ -242,19 +242,21 @@ router.post('/login', [
     if (fs.existsSync(envPath)) {
       require('dotenv').config({ path: envPath, override: true });
     }
-    const envUsername = process.env.ADMIN_USERNAME || 'admin@example.com';
-    const envPassword = process.env.ADMIN_PASSWORD || 'admin123';
-    const allowedIdentifiers = [
-      String(envUsername).trim().toLowerCase(),
-      String(adminEmail).trim().toLowerCase(),
-      'admin@example.com',
-      'admin'
-    ];
-    const uMatch = allowedIdentifiers.includes(usernameInput);
-    const pMatch = inputPass === String(envPassword).trim() || inputPass === 'admin123';
-    if (uMatch && pMatch) {
-      isAuthenticated = true;
-      adminUsername = envUsername;
+    const envUsername = process.env.ADMIN_USERNAME;
+    const envEmail = process.env.ADMIN_EMAIL;
+    const envPassword = process.env.ADMIN_PASSWORD;
+    if (envPassword) {
+      const allowedIdentifiers = [
+        String(envUsername || '').trim().toLowerCase(),
+        String(envEmail || '').trim().toLowerCase()
+      ].filter(Boolean);
+      const uMatch = allowedIdentifiers.includes(usernameInput);
+      const pMatch = inputPass === String(envPassword).trim();
+      if (uMatch && pMatch) {
+        isAuthenticated = true;
+        adminUsername = envUsername || username;
+        adminEmail = envEmail || adminEmail;
+      }
     }
   }
 
@@ -320,9 +322,9 @@ router.post('/send-invite', adminAuth, [
 
   const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333; line-height: 1.6;">
-      <h2 style="color: #085464;">Welcome to AVERADAO</h2>
+      <h2 style="color: #085464;">Welcome to ReclaimDAO</h2>
       <p>Hi ${name},</p>
-      <p>Thank you for your interest in joining <strong>AVERADAO</strong>. We have reviewed your application and would like to invite you to join our platform.</p>
+      <p>Thank you for your interest in joining <strong>ReclaimDAO</strong>. We have reviewed your application and would like to invite you to join our platform.</p>
       <p>To complete your registration and gain access to the dashboard, please click the button below:</p>
       
       <div style="text-align: center; margin: 30px 0;">
@@ -332,7 +334,7 @@ router.post('/send-invite', adminAuth, [
       <p style="font-size: 14px; color: #777;">If you did not submit this request, you can safely ignore this email.</p>
       <br />
       <hr style="border: none; border-top: 1px solid #eee;" />
-      <p style="font-size: 14px; color: #777;">Best regards,<br />The AVERADAO Team</p>
+      <p style="font-size: 14px; color: #777;">Best regards,<br />The ReclaimDAO Team</p>
     </div>
   `;
 
@@ -342,7 +344,7 @@ router.post('/send-invite', adminAuth, [
     // Send invite in background
     sendEmail({
       email,
-      subject: 'Complete your AVERADAO Registration',
+      subject: 'Complete your ReclaimDAO Registration',
       message: `Hi ${name}, Finish your registration at: ${signupLink}`,
       html
     }).then(info => {

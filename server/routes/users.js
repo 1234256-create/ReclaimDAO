@@ -222,6 +222,9 @@ router.get('/', adminAuth, [
     }
     if (role && role !== 'all') {
       filter.role = role;
+    } else {
+      filter.role = { $ne: 'admin' };
+      filter.email = { $nin: ['admin@reclaimdao.org', 'admin@example.com', 'admin@doa.com', 'support@reclaimdao.org', 'support@veritasaid.com'] };
     }
     if (status) filter.isActive = status === 'active';
     if (type === 'real') filter.isVirtual = { $ne: true };
@@ -251,7 +254,7 @@ router.get('/', adminAuth, [
     if (!users || users.length === 0) {
       let localUsers = readCollection('users');
       if (!role || role !== 'admin') {
-        localUsers = localUsers.filter((u) => u.role !== 'admin' && u.email !== 'support@veritasaid.com');
+        localUsers = localUsers.filter((u) => u.role !== 'admin' && u.email !== 'support@reclaimdao.org' && u.email !== 'support@veritasaid.com');
       }
       if (type === 'virtual') {
         localUsers = localUsers.filter((u) => u.isVirtual === true);
@@ -365,7 +368,7 @@ async function getUnifiedRankedUsers() {
       allUsers = await User.find({
         isActive: true,
         role: { $ne: 'admin' },
-        email: { $ne: 'support@veritasaid.com' }
+        email: { $nin: ['support@veritasaid.com', 'support@reclaimdao.org'] }
       }).lean();
     } catch (dbErr) {
       console.warn('getUnifiedRankedUsers DB find error:', dbErr.message);
@@ -374,7 +377,7 @@ async function getUnifiedRankedUsers() {
 
   const localList = readCollection('users') || [];
   localList.forEach(lu => {
-    if (lu.isActive !== false && lu.role !== 'admin' && lu.email !== 'support@veritasaid.com') {
+    if (lu.isActive !== false && lu.role !== 'admin' && lu.email !== 'support@veritasaid.com' && lu.email !== 'support@reclaimdao.org') {
       const exists = allUsers.some(u =>
         String(u._id || u.id) === String(lu._id || lu.id) ||
         (u.email && lu.email && u.email.toLowerCase() === lu.email.toLowerCase())
@@ -454,17 +457,17 @@ router.get('/leaderboard', async (req, res) => {
     const count = rankedUsers.length;
     const paginatedUsers = rankedUsers.slice(skip, skip + limitNum);
 
-    let baseCount = 13780;
+    let baseCount = 0;
     if (mongoose.connection.readyState === 1) {
       try {
         const Settings = require('../models/Settings');
         const b = await Settings.getSetting('BASE_USER_COUNT');
-        if (b) baseCount = Number(b);
+        if (b !== null && b !== undefined) baseCount = Number(b);
       } catch (_) {}
     }
 
     const baselineTotal = count + baseCount;
-    const activeUsersBaseline = Math.floor(baselineTotal * 0.85);
+    const activeUsersBaseline = baselineTotal > 0 ? Math.floor(baselineTotal * 0.85) : 0;
 
     res.json({
       success: true,
@@ -511,59 +514,102 @@ router.get('/:userId/referrals', ownerOrAdmin('userId'), [
       userObj = localUsers.find(u => String(u._id || u.id) === String(userId));
     }
     const userRefCode = userObj?.referralCode;
+    const selfEmailLower = String(userObj?.email || '').toLowerCase();
+    const selfIdStr = String(userId);
 
     const referralsMap = new Map();
 
     if (mongoose.connection.readyState === 1) {
       try {
-        const docs = await User.find({ referredBy: userId })
+        const docs = await User.find({ 
+          referredBy: userId,
+          _id: { $ne: userId }
+        })
           .select('firstName lastName email createdAt referralCode isActive')
           .sort({ createdAt: -1 });
         docs.forEach(u => {
-          referralsMap.set(String(u._id), {
-            id: u._id,
-            firstName: u.firstName,
-            lastName: u.lastName,
-            email: u.email,
-            referralCode: u.referralCode,
-            createdAt: u.createdAt,
-            status: u.isActive ? 'active' : 'inactive'
-          });
+          const uEmailLower = String(u.email || '').toLowerCase().trim();
+          const uIdStr = String(u._id);
+          if (uIdStr !== selfIdStr && uEmailLower !== selfEmailLower) {
+            const key = uEmailLower || uIdStr;
+            referralsMap.set(key, {
+              id: u._id,
+              firstName: u.firstName,
+              lastName: u.lastName,
+              email: u.email,
+              referralCode: u.referralCode,
+              createdAt: u.createdAt,
+              status: u.isActive ? 'active' : 'inactive'
+            });
+          }
         });
       } catch (_) {}
     }
 
     localUsers.forEach(u => {
-      if (String(u.referredBy || '') === String(userId) || (userRefCode && u.referralCode === userRefCode && String(u._id || u.id) !== String(userId))) {
-        const key = String(u._id || u.id || u.email);
-        if (!referralsMap.has(key)) {
-          referralsMap.set(key, {
-            id: u._id || u.id,
-            firstName: u.firstName,
-            lastName: u.lastName,
-            email: u.email,
-            referralCode: u.referralCode,
-            createdAt: u.createdAt,
-            status: u.isActive ? 'active' : 'inactive'
-          });
+      const uIdStr = String(u._id || u.id || '');
+      const uEmailLower = String(u.email || '').toLowerCase().trim();
+      if (uIdStr !== selfIdStr && uEmailLower !== selfEmailLower) {
+        if (String(u.referredBy || '') === selfIdStr || (userRefCode && u.referralCode === userRefCode && uIdStr !== selfIdStr)) {
+          const key = uEmailLower || uIdStr;
+          if (!referralsMap.has(key)) {
+            referralsMap.set(key, {
+              id: u._id || u.id,
+              firstName: u.firstName,
+              lastName: u.lastName,
+              email: u.email,
+              referralCode: u.referralCode,
+              createdAt: u.createdAt,
+              status: u.isActive ? 'active' : 'inactive'
+            });
+          }
         }
       }
     });
 
     if (userRefCode) {
+      if (mongoose.connection.readyState === 1) {
+        try {
+          const JoinApplication = mongoose.model('JoinApplication');
+          const dbApps = await JoinApplication.find({
+            referralCode: userRefCode
+          }).sort({ createdAt: -1 });
+          dbApps.forEach(a => {
+            const aEmailLower = String(a.email || '').toLowerCase().trim();
+            const aIdStr = String(a._id || '');
+            if (aEmailLower !== selfEmailLower && aEmailLower) {
+              const key = aEmailLower || ('app_' + aIdStr);
+              if (!referralsMap.has(key)) {
+                referralsMap.set(key, {
+                  id: a._id,
+                  firstName: a.firstName,
+                  lastName: a.lastName,
+                  email: a.email,
+                  referralCode: a.referralCode,
+                  createdAt: a.createdAt,
+                  status: a.status || 'registered'
+                });
+              }
+            }
+          });
+        } catch (_) {}
+      }
+
       const localApps = readCollection('applications') || [];
       localApps.forEach(a => {
-        if (a.referralCode === userRefCode) {
-          const key = 'app_' + String(a.id || a.email);
+        const aEmailLower = String(a.email || '').toLowerCase().trim();
+        const aIdStr = String(a.id || a._id || '');
+        if (aEmailLower !== selfEmailLower && a.referralCode === userRefCode && aEmailLower) {
+          const key = aEmailLower || ('app_' + aIdStr);
           if (!referralsMap.has(key)) {
             referralsMap.set(key, {
-              id: a.id || key,
+              id: a.id || a._id || key,
               firstName: a.firstName,
               lastName: a.lastName,
               email: a.email,
               referralCode: a.referralCode,
               createdAt: a.createdAt,
-              status: a.status || 'pending'
+              status: a.status || 'registered'
             });
           }
         }
@@ -612,20 +658,16 @@ router.get('/stats', adminAuth, async (req, res) => {
 
     if (!stats || (!stats.realUsers && !stats.virtualUsers && !stats.totalUsers)) {
       const rawUsers = readCollection('users') || [];
-      const localUsers = rawUsers.filter((u) => u.role !== 'admin' && u.email !== 'support@veritasaid.com');
+      const localUsers = rawUsers.filter((u) => u.role !== 'admin' && u.email !== 'support@reclaimdao.org' && u.email !== 'support@veritasaid.com' && u.email !== 'admin@reclaimdao.org' && u.email !== 'admin@example.com' && u.email !== 'admin@doa.com');
       const active = localUsers.filter((u) => u.isActive !== false);
       const real = localUsers.filter((u) => !u.isVirtual);
       const virtual = localUsers.filter((u) => !!u.isVirtual);
       const points = localUsers.reduce((sum, u) => sum + (Number(u.points) || 0), 0);
       const votes = localUsers.reduce((sum, u) => sum + (Number(u.stats?.totalVotes) || Number(u.votingRights) || 0), 0);
 
-      const baseCount = 13780;
-      const calcTotal = baseCount + localUsers.length;
-      const calcActive = Math.floor(calcTotal * 0.85);
-
       stats = {
-        totalUsers: calcTotal,
-        activeUsers: calcActive,
+        totalUsers: localUsers.length,
+        activeUsers: active.length,
         realUsers: real.length || 0,
         virtualUsers: virtual.length || 0,
         totalPoints: points || 0,
@@ -644,21 +686,19 @@ router.get('/stats', adminAuth, async (req, res) => {
   } catch (error) {
     console.error('Get user stats error:', error);
     const rawUsers = readCollection('users') || [];
-    const localUsers = rawUsers.filter((u) => u.role !== 'admin' && u.email !== 'support@veritasaid.com');
+    const localUsers = rawUsers.filter((u) => u.role !== 'admin' && u.email !== 'support@veritasaid.com' && u.email !== 'support@reclaimdao.org' && u.email !== 'admin@reclaimdao.org');
+    const active = localUsers.filter((u) => u.isActive !== false);
     const real = localUsers.filter((u) => !u.isVirtual);
     const virtual = localUsers.filter((u) => !!u.isVirtual);
     const points = localUsers.reduce((sum, u) => sum + (Number(u.points) || 0), 0);
     const votes = localUsers.reduce((sum, u) => sum + (Number(u.stats?.totalVotes) || Number(u.votingRights) || 0), 0);
-    const baseCount = 13780;
-    const calcTotal = baseCount + localUsers.length;
-    const calcActive = Math.floor(calcTotal * 0.85);
 
     res.json({
       success: true,
       data: {
         stats: {
-          totalUsers: calcTotal,
-          activeUsers: calcActive,
+          totalUsers: localUsers.length,
+          activeUsers: active.length,
           realUsers: real.length || 0,
           virtualUsers: virtual.length || 0,
           totalPoints: points || 0,
