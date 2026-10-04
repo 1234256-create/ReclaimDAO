@@ -73,8 +73,8 @@ const ScamAlertsResourcePage = () => {
               to={joinNoticeHref()}
               className="inline-flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-bold text-white shadow-lg transition hover:scale-105"
               style={{
-                background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
-                boxShadow: '0 4px 20px rgba(249, 87, 0, 0.4)'
+                background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)',
+                boxShadow: '0 4px 20px rgba(168, 88, 48, 0.4)'
               }}
             >
               Submit claim

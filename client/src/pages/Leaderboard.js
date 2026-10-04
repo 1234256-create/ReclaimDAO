@@ -403,7 +403,7 @@ const Leaderboard = () => {
     return (
       <div className={`w-12 h-10 rounded-xl border flex items-center justify-center font-bold text-xs px-2 shadow-md flex-shrink-0 whitespace-nowrap ${
         isFirst 
-          ? 'border-[#ff6b1a] bg-[#ff6b1a]/20 text-[#ff6b1a]' 
+          ? 'border-[#A85830] bg-[#A85830]/20 text-[#A85830]' 
           : 'border-sky-400/40 bg-sky-500/15 text-sky-300'
       }`}>
         #{val}
@@ -430,8 +430,8 @@ const Leaderboard = () => {
       transition={{ duration: 0.2, delay: isPersonal ? 0 : Math.min((hardRank || 1) * 0.02, 0.15) }}
       className={`backdrop-blur-xl rounded-2xl p-5 sm:p-6 border transition-all duration-300 ${
         isCurrentUser
-          ? 'border-[#ff6b1a] bg-[#0a254d] text-white shadow-xl ring-1 ring-[#ff6b1a]/40'
-          : 'border-sky-400/25 bg-[#0a254d] hover:bg-[#0c2e5c] text-white hover:border-[#ff6b1a]/40 shadow-lg'
+          ? 'border-[#A85830] bg-[#0a254d] text-white shadow-xl ring-1 ring-[#A85830]/40'
+          : 'border-sky-400/25 bg-[#0a254d] hover:bg-[#0c2e5c] text-white hover:border-[#A85830]/40 shadow-lg'
       } ${position <= 3 ? 'relative overflow-hidden' : ''}`}
     >
       {/* Top 3 Background Subtle Glow */}
@@ -455,7 +455,7 @@ const Leaderboard = () => {
             <img
               src={userData.profileImage}
               alt={userData.firstName}
-              className={`w-12 h-12 rounded-full object-cover border-2 ${position === 1 ? 'border-[#ff6b1a]' : 'border-white/20'}`}
+              className={`w-12 h-12 rounded-full object-cover border-2 ${position === 1 ? 'border-[#A85830]' : 'border-white/20'}`}
             />
           ) : (
             <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${getRankColor(position)} flex items-center justify-center shadow-md`}>
@@ -471,13 +471,13 @@ const Leaderboard = () => {
               {userData.fullName}
             </h3>
             {isCurrentUser && (
-              <span className="px-2.5 py-0.5 bg-gradient-to-r from-[#ff6b1a] to-[#ea580c] text-white font-bold text-xs rounded-full shadow-sm">
+              <span className="px-2.5 py-0.5 bg-gradient-to-r from-[#A85830] to-[#ea580c] text-white font-bold text-xs rounded-full shadow-sm">
                 You
               </span>
             )}
 
             {userData.role === 'admin' && (
-              <Crown className="w-4 h-4 text-[#ff6b1a]" />
+              <Crown className="w-4 h-4 text-[#A85830]" />
             )}
           </div>
           <p className="text-white text-xs sm:text-sm font-semibold">
@@ -491,7 +491,7 @@ const Leaderboard = () => {
         {/* Stats */}
         <div className="flex-shrink-0 text-right">
           <div className="flex items-center justify-end space-x-1.5 mb-1">
-            <Star className="w-4 h-4 text-[#ff6b1a] fill-[#ff6b1a]" />
+            <Star className="w-4 h-4 text-[#A85830] fill-[#A85830]" />
             <span className="text-white font-black text-base sm:text-xl tracking-tight">
               {getPointsForCategory(userData, category).toLocaleString()}
             </span>
@@ -523,12 +523,12 @@ const Leaderboard = () => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-[#0a254d] text-white rounded-2xl p-6 sm:p-7 border border-sky-400/25 hover:border-[#ff6b1a]/40 shadow-xl transition-all duration-300"
+      className="bg-[#0a254d] text-white rounded-2xl p-6 sm:p-7 border border-sky-400/25 hover:border-[#A85830]/40 shadow-xl transition-all duration-300"
     >
       <div className="flex items-center space-x-4">
         <div className={`p-3.5 rounded-xl shadow-lg ${
           isGold 
-            ? 'bg-gradient-to-br from-[#ff6b1a] to-[#ea580c] text-white' 
+            ? 'bg-gradient-to-br from-[#A85830] to-[#ea580c] text-white' 
             : 'bg-gradient-to-br from-sky-500 to-blue-600 text-white'
         }`}>
           <Icon className="w-6 h-6" />
@@ -554,7 +554,7 @@ const Leaderboard = () => {
           <div className="flex items-center gap-3 mb-2">
             <span className="text-3xl sm:text-4xl">🏆</span>
             <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-              Leader<span className="text-[#ff6b1a]">board</span>
+              Leader<span className="text-[#A85830]">board</span>
             </h1>
           </div>
           <p className="text-slate-600 text-sm sm:text-base max-w-3xl font-medium">
@@ -589,7 +589,7 @@ const Leaderboard = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <User className="w-5 h-5 text-slate-900" />
-                <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Your <span className="text-[#ff6b1a]">Ranking</span></h2>
+                <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Your <span className="text-[#A85830]">Ranking</span></h2>
               </div>
             </div>
 
@@ -624,8 +624,8 @@ const Leaderboard = () => {
           >
             <div className="flex items-center justify-between">
               <h2 className="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
-                <Crown className="w-6 h-6 text-[#ff6b1a]" />
-                <span>Top Champions <span className="text-[#ff6b1a]">Podium</span></span>
+                <Crown className="w-6 h-6 text-[#A85830]" />
+                <span>Top Champions <span className="text-[#A85830]">Podium</span></span>
               </h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -643,7 +643,7 @@ const Leaderboard = () => {
               <div className="order-1 md:order-2">
                 <div className="relative">
                   <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
-                    <div className="bg-gradient-to-r from-[#ff6b1a] to-[#ea580c] text-white px-3.5 py-1 rounded-full text-xs font-black shadow-lg uppercase tracking-wider flex items-center gap-1">
+                    <div className="bg-gradient-to-r from-[#A85830] to-[#ea580c] text-white px-3.5 py-1 rounded-full text-xs font-black shadow-lg uppercase tracking-wider flex items-center gap-1">
                       👑 CHAMPION
                     </div>
                   </div>
@@ -677,7 +677,7 @@ const Leaderboard = () => {
         >
           <div className="flex items-center justify-between">
             <h2 className="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
-              <Trophy className="w-6 h-6 text-[#ff6b1a]" />
+              <Trophy className="w-6 h-6 text-[#A85830]" />
               Top Champions
             </h2>
           </div>

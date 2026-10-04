@@ -28,20 +28,20 @@ const JoinSubmitted = () => {
           </div>
         </div>
 
-        <h1 className="text-2xl md:text-3xl font-black mb-3 text-white">Claim <span className="text-[#ff6b1a]">Submitted!</span></h1>
-        <p className="text-white font-bold text-sm mb-8">Your claim will be verified within <span className="text-[#ff6b1a] font-black">48 hours</span>. Create your account now to track your status.</p>
+        <h1 className="text-2xl md:text-3xl font-black mb-3 text-white">Claim <span className="text-[#A85830]">Submitted!</span></h1>
+        <p className="text-white font-bold text-sm mb-8">Your claim will be verified within <span className="text-[#A85830] font-black">48 hours</span>. Create your account now to track your status.</p>
 
         {/* Pulsing glow ring */}
         <div className="relative inline-block w-full">
-          <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#ff6b1a] to-[#ea580c] blur-lg opacity-40 animate-pulse" />
+          <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#A85830] to-[#ea580c] blur-lg opacity-40 animate-pulse" />
           <motion.button
             onClick={handleCreateAccount}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             className="relative w-full text-white px-8 py-4 rounded-xl font-black text-lg shadow-xl flex items-center justify-center gap-3 transition-all cursor-pointer"
             style={{
-              background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
-              boxShadow: '0 8px 30px rgba(249, 87, 0, 0.45)'
+              background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)',
+              boxShadow: '0 8px 30px rgba(168, 88, 48, 0.45)'
             }}
           >
             <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">

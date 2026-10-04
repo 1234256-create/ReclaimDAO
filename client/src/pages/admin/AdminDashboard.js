@@ -592,7 +592,7 @@ const AdminDashboard = () => {
                   />
                   <div className="min-w-0">
                     <h2 className="text-base sm:text-lg font-black text-gray-900 leading-tight">
-                      Reclaim<span className="text-[#ff6b1a]">DAO</span>
+                      Reclaim<span className="text-[#A85830]">DAO</span>
                       <span className="block text-sm font-bold text-gray-800">Admin</span>
                     </h2>
                     <p className="text-xs text-gray-500 font-semibold">Control Panel</p>

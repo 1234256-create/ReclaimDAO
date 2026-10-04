@@ -32,8 +32,8 @@ const JoinNotice = () => {
           className="bg-[#0a254d] rounded-3xl p-6 sm:p-10 border border-sky-400/25 text-white shadow-2xl"
         >
           <div className="flex items-center gap-3 mb-6">
-            <Shield className="w-8 h-8 text-[#ff6b1a]" />
-            <h1 className="text-2xl sm:text-3xl font-black">Important <span className="text-[#ff6b1a]">Notice</span></h1>
+            <Shield className="w-8 h-8 text-[#A85830]" />
+            <h1 className="text-2xl sm:text-3xl font-black">Important <span className="text-[#A85830]">Notice</span></h1>
           </div>
 
           <div className="space-y-4 text-white text-sm sm:text-base leading-relaxed font-bold">
@@ -70,8 +70,8 @@ const JoinNotice = () => {
               onClick={handleNext}
               className="px-8 py-3 rounded-xl text-white font-black shadow-lg transition cursor-pointer hover:scale-105"
               style={{
-                background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
-                boxShadow: '0 4px 20px rgba(249, 87, 0, 0.4)'
+                background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)',
+                boxShadow: '0 4px 20px rgba(168, 88, 48, 0.4)'
               }}
             >
               Next

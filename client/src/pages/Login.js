@@ -116,7 +116,7 @@ const Login = () => {
       >
         <div className="bg-[#0a254d] text-white rounded-3xl p-8 sm:p-10 shadow-2xl border border-sky-400/25">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-black text-white mb-2 tracking-tight">Log <span className="text-[#ff6b1a]">in</span></h2>
+            <h2 className="text-3xl font-black text-white mb-2 tracking-tight">Log <span className="text-[#A85830]">in</span></h2>
             <p className="text-slate-300 text-sm font-medium">Welcome back to ReclaimDAO</p>
           </div>
 
@@ -136,7 +136,7 @@ const Login = () => {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full pl-11 pr-4 py-3.5 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                  className="w-full pl-11 pr-4 py-3.5 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm font-semibold"
                   placeholder="Enter your email"
                 />
               </div>
@@ -160,7 +160,7 @@ const Login = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full pl-11 pr-10 py-3.5 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                  className="w-full pl-11 pr-10 py-3.5 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm font-semibold"
                   placeholder="Enter your password"
                 />
                 <button
@@ -188,7 +188,7 @@ const Login = () => {
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="h-4 w-4 text-[#ff6b1a] focus:ring-[#ff6b1a] border-slate-700 bg-[#061833] rounded"
+                  className="h-4 w-4 text-[#A85830] focus:ring-[#A85830] border-slate-700 bg-[#061833] rounded"
                 />
 
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-slate-300 font-medium">
@@ -202,8 +202,8 @@ const Login = () => {
               disabled={loading}
               className="w-full py-4 px-6 rounded-xl font-black text-white shadow-xl transition-all text-base disabled:opacity-50 cursor-pointer hover:scale-105"
               style={{
-                background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
-                boxShadow: '0 8px 30px rgba(249, 87, 0, 0.45)'
+                background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)',
+                boxShadow: '0 8px 30px rgba(168, 88, 48, 0.45)'
               }}
             >
               {loading ? (
@@ -222,7 +222,7 @@ const Login = () => {
               type="button"
               onClick={handleForgotPassword}
               disabled={loading}
-              className="text-sm font-semibold text-sky-300 hover:text-[#ff6b1a] transition-colors cursor-pointer"
+              className="text-sm font-semibold text-sky-300 hover:text-[#A85830] transition-colors cursor-pointer"
             >
               Forgot Password?
             </button>
@@ -236,7 +236,7 @@ const Login = () => {
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                  className="w-full px-4 py-3 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm font-semibold"
                   placeholder="Enter your email"
                 />
               </div>
@@ -246,7 +246,7 @@ const Login = () => {
                   onClick={sendOtp}
                   disabled={sendingOtp}
                   className="px-4 py-2.5 rounded-xl font-bold text-white shadow-lg disabled:opacity-50 cursor-pointer shrink-0"
-                  style={{ background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)' }}
+                  style={{ background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)' }}
                 >
                   {sendingOtp ? 'Sending...' : 'Send OTP'}
                 </button>
@@ -254,7 +254,7 @@ const Login = () => {
                   type="text"
                   value={otpCode}
                   onChange={(e) => setOtpCode(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                  className="w-full px-4 py-3 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm font-semibold"
                   placeholder="Enter OTP"
                 />
               </div>
@@ -264,7 +264,7 @@ const Login = () => {
                     type={showNewPass ? 'text' : 'password'}
                     value={newPass}
                     onChange={(e) => setNewPass(e.target.value)}
-                    className="w-full px-4 py-3 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold pr-10"
+                    className="w-full px-4 py-3 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm font-semibold pr-10"
                     placeholder="New password"
                   />
                   <button
@@ -284,7 +284,7 @@ const Login = () => {
                     type={showConfirmPass ? 'text' : 'password'}
                     value={confirmPass}
                     onChange={(e) => setConfirmPass(e.target.value)}
-                    className="w-full px-4 py-3 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold pr-10"
+                    className="w-full px-4 py-3 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm font-semibold pr-10"
                     placeholder="Confirm password"
                   />
                   <button
@@ -305,7 +305,7 @@ const Login = () => {
                 onClick={changePasswordWithOtp}
                 disabled={changingPwd}
                 className="w-full py-3 px-6 rounded-xl font-bold text-white shadow-lg disabled:opacity-50 cursor-pointer"
-                style={{ background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)' }}
+                style={{ background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)' }}
               >
                 {changingPwd ? 'Changing...' : 'Change Password'}
               </button>

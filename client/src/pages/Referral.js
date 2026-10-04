@@ -125,7 +125,7 @@ const Referral = () => {
           <div className="flex items-center gap-3 mb-2">
             <Users className="w-8 h-8 text-slate-900" />
             <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-              Community <span className="text-[#ff6b1a]">Referrals</span>
+              Community <span className="text-[#A85830]">Referrals</span>
             </h1>
           </div>
           <p className="text-slate-600 text-sm sm:text-base max-w-2xl font-medium">
@@ -136,18 +136,18 @@ const Referral = () => {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-black text-slate-900 flex items-center gap-2">
-              <span>Your Referral <span className="text-[#ff6b1a]">Link</span></span>
+              <span>Your Referral <span className="text-[#A85830]">Link</span></span>
             </h3>
           </div>
           <div className="bg-[#0a254d] text-white rounded-2xl p-6 sm:p-7 border border-sky-400/25 shadow-xl">
             {user?.referralCode ? (
-              <div className="flex items-center justify-between bg-[#061833] border border-sky-400/20 hover:border-[#ff6b1a]/40 rounded-xl px-4 py-3.5 transition-all">
-                <a href={link} target="_blank" rel="noopener noreferrer" className="underline text-sky-300 hover:text-[#ff6b1a] break-all font-mono text-sm font-bold">
+              <div className="flex items-center justify-between bg-[#061833] border border-sky-400/20 hover:border-[#A85830]/40 rounded-xl px-4 py-3.5 transition-all">
+                <a href={link} target="_blank" rel="noopener noreferrer" className="underline text-sky-300 hover:text-[#A85830] break-all font-mono text-sm font-bold">
                   {link}
                 </a>
                 <button 
                   onClick={copyLink} 
-                  className="ml-3 p-2.5 rounded-xl bg-[#ff6b1a]/15 text-[#ff6b1a] hover:bg-[#ff6b1a] hover:text-white transition-all shrink-0 cursor-pointer"
+                  className="ml-3 p-2.5 rounded-xl bg-[#A85830]/15 text-[#A85830] hover:bg-[#A85830] hover:text-white transition-all shrink-0 cursor-pointer"
                   title="Copy Link"
                 >
                   <Copy className="w-4 h-4" />
@@ -162,8 +162,8 @@ const Referral = () => {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-black text-slate-900 flex items-center gap-2">
-              <Users className="w-5 h-5 text-[#ff6b1a]" />
-              <span>Your <span className="text-[#ff6b1a]">Referrals</span></span>
+              <Users className="w-5 h-5 text-[#A85830]" />
+              <span>Your <span className="text-[#A85830]">Referrals</span></span>
             </h3>
           </div>
           <div className="bg-[#0a254d] text-white rounded-2xl p-6 sm:p-8 border border-sky-400/25 shadow-xl">
@@ -174,7 +174,7 @@ const Referral = () => {
             ) : (
               <div className="space-y-3">
                 {referrals.map((r, idx) => (
-                  <div key={idx} className="flex items-center justify-between bg-[#061833] border border-sky-400/20 hover:border-[#ff6b1a]/30 rounded-xl p-4 transition-all">
+                  <div key={idx} className="flex items-center justify-between bg-[#061833] border border-sky-400/20 hover:border-[#A85830]/30 rounded-xl p-4 transition-all">
                     <div>
                       <p className="text-white font-bold">{`${r.firstName || ''} ${r.lastName || ''}`.trim() || (r.email || 'user')}</p>
                       <p className="text-xs text-white font-semibold mt-0.5">{r.email}</p>

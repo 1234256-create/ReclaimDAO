@@ -106,7 +106,7 @@ const Layout = ({ children }) => {
 
 const FaviconSetter = () => {
   React.useEffect(() => {
-    document.title = "ReclaimDAO - Driven by Truth. Returning What's Yours.";
+    document.title = "ReclaimDAO - Reclaim What Is Rightfully Yours together";
     let link = document.querySelector("link[rel~='icon']");
     if (!link) {
       link = document.createElement('link');

@@ -391,7 +391,7 @@ const Dashboard = () => {
           className="text-left w-full"
         >
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Welcome back, <span className="text-[#ff6b1a]">{user?.firstName}</span>!
+            Welcome back, <span className="text-[#A85830]">{user?.firstName}</span>!
           </h1>
         </motion.div>
 
@@ -401,8 +401,8 @@ const Dashboard = () => {
           animate={{ opacity: 1, x: 0 }}
           className="bg-[#0a254d] border border-sky-400/25 rounded-2xl p-4 shadow-sm flex items-start gap-3.5 w-full"
         >
-          <div className="p-2 bg-[#ff6b1a]/20 text-[#ff6b1a] rounded-xl shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#ff6b1a]" viewBox="0 0 20 20" fill="currentColor">
+          <div className="p-2 bg-[#A85830]/20 text-[#A85830] rounded-xl shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#A85830]" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
             </svg>
           </div>
@@ -423,10 +423,10 @@ const Dashboard = () => {
                 key={vote._id || vote.id || Math.random()}
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="bg-[#0a254d] text-white rounded-2xl shadow-xl border-l-4 border-[#ff6b1a] overflow-hidden flex flex-col md:flex-row items-center justify-between p-4 sm:p-5 border border-sky-400/25"
+                className="bg-[#0a254d] text-white rounded-2xl shadow-xl border-l-4 border-[#A85830] overflow-hidden flex flex-col md:flex-row items-center justify-between p-4 sm:p-5 border border-sky-400/25"
               >
                 <div className="flex items-center gap-4 mb-4 md:mb-0 w-full md:w-auto">
-                  <div className="p-3 bg-[#ff6b1a]/15 text-[#ff6b1a] rounded-xl shrink-0 border border-[#ff6b1a]/30">
+                  <div className="p-3 bg-[#A85830]/15 text-[#A85830] rounded-xl shrink-0 border border-[#A85830]/30">
                     <Vote className="w-6 h-6" />
                   </div>
                   <div className="flex-1">
@@ -443,9 +443,9 @@ const Dashboard = () => {
                     </div>
                     {vote.endTime && (
                       <div className="flex items-center gap-2 text-white font-semibold">
-                        <Timer className="w-4 h-4 text-[#ff6b1a]" />
+                        <Timer className="w-4 h-4 text-[#A85830]" />
                         <span>Ends: {new Date(vote.endTime).toLocaleString()}</span>
-                        <span className="ml-2 font-mono font-bold text-[#ff6b1a] bg-[#ff6b1a]/15 px-2.5 py-0.5 rounded-full border border-[#ff6b1a]/30">
+                        <span className="ml-2 font-mono font-bold text-[#A85830] bg-[#A85830]/15 px-2.5 py-0.5 rounded-full border border-[#A85830]/30">
                           <LiveTimer endTime={vote.endTime} />
                         </span>
                       </div>
@@ -454,8 +454,8 @@ const Dashboard = () => {
 
                   <button
                     onClick={() => navigate(`/voting?voteId=${vote._id || vote.id}`)}
-                    className="px-6 py-2.5 rounded-xl font-bold text-white flex items-center justify-center gap-2 shrink-0 w-full sm:w-auto shadow-lg shadow-[#ff6b1a]/25 transition-all cursor-pointer"
-                    style={{ background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)' }}
+                    className="px-6 py-2.5 rounded-xl font-bold text-white flex items-center justify-center gap-2 shrink-0 w-full sm:w-auto shadow-lg shadow-[#A85830]/25 transition-all cursor-pointer"
+                    style={{ background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)' }}
                   >
                     Vote Now <Vote className="w-4 h-4" />
                   </button>
@@ -475,7 +475,7 @@ const Dashboard = () => {
           >
             <div className="flex flex-col sm:flex-row items-center justify-between">
               <div className="flex items-center mb-4 sm:mb-0">
-                <div className="p-3.5 sm:p-4 bg-[#ff6b1a]/15 border border-[#ff6b1a]/30 rounded-xl mr-4 shadow-sm text-[#ff6b1a] group-hover:scale-105 transition-transform">
+                <div className="p-3.5 sm:p-4 bg-[#A85830]/15 border border-[#A85830]/30 rounded-xl mr-4 shadow-sm text-[#A85830] group-hover:scale-105 transition-transform">
                   <Vote className="w-6 h-6 sm:w-8 sm:h-8" />
                 </div>
                 <div>
@@ -484,7 +484,7 @@ const Dashboard = () => {
                 </div>
               </div>
               <div className="text-center sm:text-right">
-                <div className="text-[#ff6b1a] font-bold text-sm sm:text-base">
+                <div className="text-[#A85830] font-bold text-sm sm:text-base">
                   Active rounds: {activeRoundsCount}
                 </div>
                 <p className="text-white font-bold text-xs sm:text-sm mt-0.5">Voting status</p>
@@ -501,7 +501,7 @@ const Dashboard = () => {
         >
           <div className="flex items-center justify-between">
             <h3 className="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
-              <span>Restitution <span className="text-[#ff6b1a]">Status</span></span>
+              <span>Restitution <span className="text-[#A85830]">Status</span></span>
             </h3>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
@@ -533,17 +533,17 @@ const Dashboard = () => {
           className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6"
         >
           <div className="flex items-center justify-between">
-            <h3 className="text-xl sm:text-2xl font-black text-slate-900">Your <span className="text-[#ff6b1a]">Stats</span></h3>
+            <h3 className="text-xl sm:text-2xl font-black text-slate-900">Your <span className="text-[#A85830]">Stats</span></h3>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             <div className="rounded-2xl p-6 text-white transition-all duration-300 bg-[#0a254d] shadow-xl border border-sky-400/25">
               <div className="flex items-center justify-between mb-2">
                 <h4 className="text-white font-bold text-sm sm:text-base">Leaderboard Ranking</h4>
-                <Trophy className="w-5 h-5 text-[#ff6b1a]" />
+                <Trophy className="w-5 h-5 text-[#A85830]" />
               </div>
               <div className="flex items-baseline gap-2">
                 <span className="text-3xl font-black text-white">#{userRank || 1}</span>
-                <span className="text-xs text-white bg-[#ff6b1a] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Top Tier</span>
+                <span className="text-xs text-white bg-[#A85830] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Top Tier</span>
               </div>
               <p className="text-white font-semibold text-xs mt-1">Global standing in the ecosystem</p>
             </div>
@@ -573,7 +573,7 @@ const Dashboard = () => {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-white font-bold">Total Points:</span>
-                  <span className="text-[#ff6b1a] font-black">{totalPoints.toLocaleString()}</span>
+                  <span className="text-[#A85830] font-black">{totalPoints.toLocaleString()}</span>
                 </div>
               </div>
             </div>
@@ -618,17 +618,17 @@ const Dashboard = () => {
           className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6"
         >
           <div className="flex items-center justify-between">
-            <h3 className="text-xl sm:text-2xl font-black text-slate-900">Account <span className="text-[#ff6b1a]">Settings</span></h3>
+            <h3 className="text-xl sm:text-2xl font-black text-slate-900">Account <span className="text-[#A85830]">Settings</span></h3>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-            <button onClick={handleEditProfile} className="flex items-center p-6 bg-[#0a254d] text-white border border-sky-400/25 rounded-2xl hover:border-[#ff6b1a]/50 shadow-xl transition-all group text-left cursor-pointer">
+            <button onClick={handleEditProfile} className="flex items-center p-6 bg-[#0a254d] text-white border border-sky-400/25 rounded-2xl hover:border-[#A85830]/50 shadow-xl transition-all group text-left cursor-pointer">
               <User className="w-6 h-6 text-sky-400 mr-4 group-hover:scale-110 transition-transform shrink-0" />
               <div>
                 <h4 className="text-white font-bold text-base">Edit Profile</h4>
                 <p className="text-white font-bold text-xs sm:text-sm mt-0.5">Update your information</p>
               </div>
             </button>
-            <button onClick={openResetPassword} className="flex items-center p-6 bg-[#0a254d] text-white border border-sky-400/25 rounded-2xl hover:border-[#ff6b1a]/50 shadow-xl transition-all group text-left cursor-pointer">
+            <button onClick={openResetPassword} className="flex items-center p-6 bg-[#0a254d] text-white border border-sky-400/25 rounded-2xl hover:border-[#A85830]/50 shadow-xl transition-all group text-left cursor-pointer">
               <Lock className="w-6 h-6 text-sky-400 mr-4 group-hover:scale-110 transition-transform shrink-0" />
               <div>
                 <h4 className="text-white font-bold text-base">Reset Password</h4>
@@ -653,7 +653,7 @@ const Dashboard = () => {
             animate={{ opacity: 1, scale: 1 }}
             className="bg-[#0a254d] border border-sky-400/30 rounded-3xl p-8 w-full max-w-md shadow-2xl"
           >
-            <h2 className="text-2xl font-black text-white mb-4">Reset <span className="text-[#ff6b1a]">Password</span></h2>
+            <h2 className="text-2xl font-black text-white mb-4">Reset <span className="text-[#A85830]">Password</span></h2>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-semibold text-slate-200 mb-2">Email</label>
@@ -661,7 +661,7 @@ const Dashboard = () => {
                   type="email"
                   value={resetEmail}
                   onChange={(e) => setResetEmail(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white focus:outline-none focus:border-[#ff6b1a]"
+                  className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white focus:outline-none focus:border-[#A85830]"
                   placeholder="Enter your email"
                 />
               </div>
@@ -671,7 +671,7 @@ const Dashboard = () => {
                   onClick={dashSendOtp}
                   disabled={sendingOtp}
                   className="px-4 py-2.5 rounded-xl font-bold text-white shadow-lg disabled:opacity-50"
-                  style={{ background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)' }}
+                  style={{ background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)' }}
                 >
                   {sendingOtp ? 'Sending...' : 'Send OTP'}
                 </button>
@@ -682,7 +682,7 @@ const Dashboard = () => {
                   type="text"
                   value={otpCode}
                   onChange={(e) => setOtpCode(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white focus:outline-none focus:border-[#ff6b1a]"
+                  className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white focus:outline-none focus:border-[#A85830]"
                   placeholder="Enter 6-digit OTP"
                 />
               </div>
@@ -692,7 +692,7 @@ const Dashboard = () => {
                   type="password"
                   value={newPass}
                   onChange={(e) => setNewPass(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white focus:outline-none focus:border-[#ff6b1a]"
+                  className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white focus:outline-none focus:border-[#A85830]"
                   placeholder="Enter new password"
                 />
               </div>
@@ -702,7 +702,7 @@ const Dashboard = () => {
                   type="password"
                   value={confirmPass}
                   onChange={(e) => setConfirmPass(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white focus:outline-none focus:border-[#ff6b1a]"
+                  className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white focus:outline-none focus:border-[#A85830]"
                   placeholder="Confirm new password"
                 />
               </div>
@@ -719,7 +719,7 @@ const Dashboard = () => {
                   onClick={dashChangePasswordWithOtp}
                   disabled={changingPwd}
                   className="px-5 py-2.5 rounded-xl font-bold text-white shadow-lg disabled:opacity-50 cursor-pointer"
-                  style={{ background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)' }}
+                  style={{ background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)' }}
                 >
                   {changingPwd ? 'Updating...' : 'Update Password'}
                 </button>

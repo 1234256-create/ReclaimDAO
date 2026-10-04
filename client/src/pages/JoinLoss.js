@@ -79,7 +79,7 @@ const JoinLoss = () => {
           transition={{ duration: 0.6 }}
           className="rounded-3xl bg-[#0a254d] border border-sky-400/25 p-8 sm:p-10 text-white shadow-2xl"
         >
-          <h1 className="text-2xl md:text-3xl font-black mb-6">Loss <span className="text-[#ff6b1a]">Details</span></h1>
+          <h1 className="text-2xl md:text-3xl font-black mb-6">Loss <span className="text-[#A85830]">Details</span></h1>
 
           <div className="space-y-6">
             <div>
@@ -94,7 +94,7 @@ const JoinLoss = () => {
                 name="totalAmount"
                 value={form.totalAmount}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm font-semibold"
                 placeholder="$3,500 USD"
               />
             </div>
@@ -112,7 +112,7 @@ const JoinLoss = () => {
                 value={form.breakdown}
                 onChange={handleChange}
                 rows={6}
-                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm font-semibold"
                 placeholder="Company A – $2,000&#10;Company B – $1,500"
               />
             </div>
@@ -127,7 +127,7 @@ const JoinLoss = () => {
                 name="period"
                 value={form.period}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm font-semibold"
                 placeholder="2016 – 2025"
               />
             </div>
@@ -150,8 +150,8 @@ const JoinLoss = () => {
                   : 'hover:scale-105 shadow-lg'
                 }`}
               style={requiredFilled && !submitting ? {
-                background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
-                boxShadow: '0 4px 20px rgba(249, 87, 0, 0.4)'
+                background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)',
+                boxShadow: '0 4px 20px rgba(168, 88, 48, 0.4)'
               } : {}}
             >
               {submitting ? 'Submitting...' : 'Submit Application'}

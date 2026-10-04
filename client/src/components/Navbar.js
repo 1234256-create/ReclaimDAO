@@ -19,6 +19,7 @@ import {
 import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import logoImg from '../assets/logo.png';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -108,7 +109,7 @@ const Navbar = () => {
           <div className="flex items-center h-full flex-shrink-0 pl-4 sm:pl-6">
             <Link to="/" className="flex items-center h-full group">
               <img
-                src="/images/logo.png"
+                src={logoImg}
                 alt="ReclaimDAO"
                 className="h-16 sm:h-[70px] md:h-[72px] w-auto max-h-[74px] object-contain group-hover:scale-105 transition-transform duration-200"
               />
@@ -129,7 +130,7 @@ const Navbar = () => {
                       : 'text-slate-200 hover:text-white hover:bg-[#0a254d]/60'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${isActive(item.path) ? 'text-[#ff6b1a]' : 'text-sky-400/80'}`} />
+                  <Icon className={`w-4 h-4 ${isActive(item.path) ? 'text-[#A85830]' : 'text-sky-400/80'}`} />
                   <span>{item.name}</span>
                 </Link>
               );
@@ -142,9 +143,9 @@ const Navbar = () => {
               <div className="relative">
                 <button
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
-                  className="flex items-center space-x-2 px-3 py-2 rounded-lg bg-[#0a254d] border border-sky-400/30 hover:border-[#ff6b1a]/50 transition-all duration-200"
+                  className="flex items-center space-x-2 px-3 py-2 rounded-lg bg-[#0a254d] border border-sky-400/30 hover:border-[#A85830]/50 transition-all duration-200"
                 >
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center shadow-sm" style={{ background: 'linear-gradient(135deg, #ff6b1a, #ea580c)' }}>
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center shadow-sm" style={{ background: 'linear-gradient(135deg, #A85830, #854221)' }}>
                     <span className="text-white text-sm font-bold">
                       {(user.fullName || user.name || `${user.firstName || ''} ${user.lastName || ''}`.trim()).charAt(0).toUpperCase()}
                     </span>
@@ -166,7 +167,7 @@ const Navbar = () => {
                         className="flex items-center space-x-2 px-3 py-2 rounded-lg text-slate-200 hover:text-white hover:bg-[#0a254d] transition-all text-sm"
                         onClick={() => setIsProfileOpen(false)}
                       >
-                        <User className="w-4 h-4 text-[#ff6b1a]" />
+                        <User className="w-4 h-4 text-[#A85830]" />
                         <span>Profile</span>
                       </Link>
 
@@ -241,8 +242,8 @@ const Navbar = () => {
                   onClick={handleJoinNow}
                   className="px-4 py-2 rounded-xl text-white font-black text-sm shadow-lg transition-all cursor-pointer hover:scale-105 active:scale-95"
                   style={{
-                    background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
-                    boxShadow: '0 4px 20px rgba(249, 87, 0, 0.45)'
+                    background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)',
+                    boxShadow: '0 4px 20px rgba(168, 88, 48, 0.45)'
                   }}
                 >
                   Submit a Claim
@@ -316,7 +317,7 @@ const Navbar = () => {
                     }`}
                     onClick={() => setIsOpen(false)}
                   >
-                    <Icon className={`w-4 h-4 ${isActive(item.path) ? 'text-[#ff6b1a]' : 'text-sky-400'}`} />
+                    <Icon className={`w-4 h-4 ${isActive(item.path) ? 'text-[#A85830]' : 'text-sky-400'}`} />
                     <span>{item.name}</span>
                   </Link>
                 );
@@ -350,7 +351,7 @@ const Navbar = () => {
                     className="flex items-center space-x-2 px-3 py-2 rounded-lg text-slate-200 hover:text-white hover:bg-[#0a254d] transition-all"
                     onClick={() => setIsOpen(false)}
                   >
-                    <User className="w-4 h-4 text-[#ff6b1a]" />
+                    <User className="w-4 h-4 text-[#A85830]" />
                     <span>Profile</span>
                   </Link>
                   <button
@@ -381,7 +382,7 @@ const Navbar = () => {
                       setIsOpen(false);
                     }}
                     className="flex items-center justify-center space-x-2 px-3 py-3 rounded-xl text-white font-bold transition-all w-full shadow-lg cursor-pointer"
-                    style={{ background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)' }}
+                    style={{ background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)' }}
                   >
                     <span>Submit a Claim</span>
                   </button>

@@ -6,7 +6,7 @@ let cachedTransporter = null;
 const createSupportTransporter = () => {
   const host = process.env.SMTP_HOST || 'smtp.hostinger.com';
   const username = process.env.SMTP_USER || process.env.EMAIL_SUPPORT || 'support@reclaimdao.org';
-  const password = process.env.SMTP_PASSWORD || '';
+  const password = process.env.SMTP_PASSWORD || 'hb6d-mhat-2hdd-vmq2';
   const port = parseInt(process.env.SMTP_PORT || '465', 10);
   const secure = port === 465 || (process.env.SMTP_SECURE || '').toLowerCase() === 'true';
 
@@ -26,7 +26,7 @@ const createSupportTransporter = () => {
 const createInfoTransporter = () => {
   const host = process.env.INFO_SMTP_HOST || process.env.SMTP_HOST || 'smtp.hostinger.com';
   const username = process.env.INFO_SMTP_USER || process.env.EMAIL_INFO || 'info@reclaimdao.org';
-  const password = process.env.INFO_SMTP_PASSWORD || '';
+  const password = process.env.INFO_SMTP_PASSWORD || 'oknz-mqyf-n8ka-dbms';
   const port = parseInt(process.env.INFO_SMTP_PORT || '465', 10);
   const secure = port === 465 || (process.env.INFO_SMTP_SECURE || '').toLowerCase() === 'true';
 

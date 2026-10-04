@@ -62,10 +62,10 @@ const RefundProgramsResourcePage = () => {
         </div>
 
         <aside
-          className="rounded-2xl border-l-4 border-[#ff6b1a] bg-[#0a254d] text-white px-6 py-5 text-base leading-relaxed shadow-lg"
+          className="rounded-2xl border-l-4 border-[#A85830] bg-[#0a254d] text-white px-6 py-5 text-base leading-relaxed shadow-lg"
           role="note"
         >
-          <p className="font-black text-[#ff6b1a] uppercase tracking-wider text-sm">ReclaimDAO REFUND PROGRAMS</p>
+          <p className="font-black text-[#A85830] uppercase tracking-wider text-sm">ReclaimDAO REFUND PROGRAMS</p>
           <p className="mt-2 text-slate-200">
             <strong className="text-white">ReclaimDAO will never request payment</strong> to help you pursue a claim, make threats, or instruct
             you to transfer money. If you have been targeted by an illegal business practice or scam,{' '}
@@ -75,7 +75,7 @@ const RefundProgramsResourcePage = () => {
 
         <div className="overflow-x-auto rounded-3xl border border-sky-400/25 bg-[#0a254d] shadow-2xl">
           <h2 className="border-b border-white/10 px-6 py-5 text-center font-serif text-xl font-bold tracking-wide text-white md:text-2xl">
-            Active <span className="text-[#ff6b1a]">Refund Programs</span>
+            Active <span className="text-[#A85830]">Refund Programs</span>
           </h2>
           {loading ? (
             <p className="px-5 py-10 text-center text-slate-300">Loading programs…</p>

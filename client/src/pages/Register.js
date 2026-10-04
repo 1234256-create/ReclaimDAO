@@ -135,21 +135,21 @@ const Register = () => {
           className="relative max-w-lg w-full bg-[#0a254d] text-white border border-sky-400/25 p-8 rounded-3xl shadow-2xl text-center"
         >
           <div className="mb-6 flex justify-center">
-            <div className="p-4 bg-[#ff6b1a]/15 text-[#ff6b1a] rounded-2xl border border-[#ff6b1a]/30">
+            <div className="p-4 bg-[#A85830]/15 text-[#A85830] rounded-2xl border border-[#A85830]/30">
               <Mail className="h-12 w-12" />
             </div>
           </div>
-          <h2 className="text-3xl font-black text-white mb-4">Verify Your <span className="text-[#ff6b1a]">Email</span></h2>
+          <h2 className="text-3xl font-black text-white mb-4">Verify Your <span className="text-[#A85830]">Email</span></h2>
           <p className="text-base text-slate-300 mb-6 leading-relaxed">
             We've sent a verification link to <span className="font-semibold text-white">{formData.email}</span>. Please click the link in the email to activate your account.
           </p>
           <div className="bg-[#061833] border border-sky-400/20 rounded-2xl p-4 mb-8">
             <p className="text-sm text-slate-300 leading-relaxed">
-              Can't find the email? Please check your spam folder and mark it as <span className="font-bold text-[#ff6b1a]">Not Spam</span> to avoid missing important updates.
+              Can't find the email? Please check your spam folder and mark it as <span className="font-bold text-[#A85830]">Not Spam</span> to avoid missing important updates.
             </p>
           </div>
           <div className="mt-6 pt-6 border-t border-white/10">
-            <Link to="/login" className="text-[#ff6b1a] hover:text-[#f95700] font-bold transition-colors">
+            <Link to="/login" className="text-[#A85830] hover:text-[#964d28] font-bold transition-colors">
               Return to Login
             </Link>
           </div>
@@ -168,7 +168,7 @@ const Register = () => {
       >
         <div className="bg-[#0a254d] text-white rounded-3xl p-8 sm:p-10 shadow-2xl border border-sky-400/25">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-black text-white mb-2 tracking-tight">Sign <span className="text-[#ff6b1a]">up</span></h2>
+            <h2 className="text-3xl font-black text-white mb-2 tracking-tight">Sign <span className="text-[#A85830]">up</span></h2>
             <p className="text-slate-300 text-sm font-medium">Create your ReclaimDAO account</p>
           </div>
 
@@ -189,7 +189,7 @@ const Register = () => {
                     required
                     value={formData.firstName}
                     onChange={handleChange}
-                    className={`w-full pl-10 pr-3 py-3 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm ${isAutoFilled ? 'cursor-not-allowed opacity-90' : ''} ${serverErrors.some(e => e.path === 'firstName') ? 'border-red-500' : ''}`}
+                    className={`w-full pl-10 pr-3 py-3 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm ${isAutoFilled ? 'cursor-not-allowed opacity-90' : ''} ${serverErrors.some(e => e.path === 'firstName') ? 'border-red-500' : ''}`}
                     placeholder="First name"
                     readOnly={isAutoFilled}
                   />
@@ -210,7 +210,7 @@ const Register = () => {
                   required
                   value={formData.lastName}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm ${isAutoFilled ? 'cursor-not-allowed opacity-90' : ''} ${formData.lastName && formData.lastName.trim().length < 2 ? 'border-red-500' : ''} ${serverErrors.some(e => e.path === 'lastName') ? 'border-red-500' : ''}`}
+                  className={`w-full px-4 py-3 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm ${isAutoFilled ? 'cursor-not-allowed opacity-90' : ''} ${formData.lastName && formData.lastName.trim().length < 2 ? 'border-red-500' : ''} ${serverErrors.some(e => e.path === 'lastName') ? 'border-red-500' : ''}`}
                   placeholder="Last name"
                   readOnly={isAutoFilled}
                 />
@@ -238,7 +238,7 @@ const Register = () => {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full pl-10 pr-4 py-3 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm ${emailLocked ? 'cursor-not-allowed opacity-90' : ''}`}
+                  className={`w-full pl-10 pr-4 py-3 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm ${emailLocked ? 'cursor-not-allowed opacity-90' : ''}`}
                   readOnly={emailLocked}
                   placeholder="Enter your email"
                 />
@@ -266,7 +266,7 @@ const Register = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className={`w-full pl-10 pr-10 py-3 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm ${serverErrors.some(e => e.path === 'password') ? 'border-red-500' : ''}`}
+                  className={`w-full pl-10 pr-10 py-3 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm ${serverErrors.some(e => e.path === 'password') ? 'border-red-500' : ''}`}
                   placeholder="Create a password"
                 />
                 <button
@@ -324,7 +324,7 @@ const Register = () => {
                   required
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className={`w-full pl-10 pr-10 py-3 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm ${formData.confirmPassword && !passwordsMatch ? 'border-red-500' : ''
+                  className={`w-full pl-10 pr-10 py-3 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm ${formData.confirmPassword && !passwordsMatch ? 'border-red-500' : ''
                     } ${serverErrors.some(e => e.path === 'confirmPassword') ? 'border-red-500' : ''}`}
                   placeholder="Confirm your password"
                 />
@@ -352,7 +352,7 @@ const Register = () => {
                 type="checkbox"
                 checked={acceptTerms}
                 onChange={(e) => setAcceptTerms(e.target.checked)}
-                className="h-4 w-4 text-[#ff6b1a] focus:ring-[#ff6b1a] border-slate-700 bg-[#061833] rounded"
+                className="h-4 w-4 text-[#A85830] focus:ring-[#A85830] border-slate-700 bg-[#061833] rounded"
               />
               <label htmlFor="accept-terms" className="ml-2 block text-xs text-slate-300">
                 I accept the{' '}
@@ -388,8 +388,8 @@ const Register = () => {
               }
               className="w-full py-4 px-6 rounded-xl font-black text-white shadow-xl transition-all text-base disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer hover:scale-105"
               style={{
-                background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
-                boxShadow: '0 8px 30px rgba(249, 87, 0, 0.45)'
+                background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)',
+                boxShadow: '0 8px 30px rgba(168, 88, 48, 0.45)'
               }}
             >
               {loading ? (
@@ -408,7 +408,7 @@ const Register = () => {
               Already have an account?{' '}
               <Link
                 to="/login"
-                className="font-bold text-[#ff6b1a] hover:text-[#f95700] transition-colors"
+                className="font-bold text-[#A85830] hover:text-[#964d28] transition-colors"
               >
                 Log in
               </Link>

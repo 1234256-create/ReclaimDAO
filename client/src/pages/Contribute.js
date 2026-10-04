@@ -347,7 +347,7 @@ const Contribute = () => {
             <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
           </button>
           <div>
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 mb-1">DAO <span className="text-[#ff6b1a]">Contribution</span></h1>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 mb-1">DAO <span className="text-[#A85830]">Contribution</span></h1>
             <p className="text-sm sm:text-base text-slate-600">Contribute to the DAO's progress and earn points</p>
           </div>
         </motion.div>

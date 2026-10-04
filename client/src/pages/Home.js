@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Vote, TrendingUp, DollarSign, BarChart3, ArrowRight, CheckCircle, ShieldCheck, Sparkles, Activity, Lock, ArrowUpRight, Award } from 'lucide-react';
 import StaticResourceCard from '../components/StaticResourceCard';
+import LiveRecoveryNotification from '../components/LiveRecoveryNotification';
 import { STATIC_FEATURED_RESOURCES } from '../data/staticFeaturedResources';
 import heroVisual from '../assets/hero-visual.jpg';
 
@@ -145,9 +146,9 @@ const Home = () => {
             {/* Main Headline (Wakefly Style: Bold, crisp, high-contrast, single-line subtitle) */}
             <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-[-0.03em] leading-[1.08] drop-shadow-md">
-                Reclaim<span className="text-[#ff6b1a]">DAO</span>
+                Reclaim<span className="text-[#A85830]">DAO</span>
                 <span className="block text-2xl sm:text-3xl md:text-4xl lg:text-[36px] xl:text-[40px] font-bold mt-2.5 tracking-[-0.02em] text-white sm:whitespace-nowrap">
-                  Taking Back What's Yours, Together.
+                  Reclaim What Is Rightfully Yours together.
                 </span>
               </h1>
             </motion.div>
@@ -159,7 +160,7 @@ const Home = () => {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="inline-flex items-start sm:items-center gap-2.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm text-sky-100 bg-[#061e40]/70 border border-sky-400/30 backdrop-blur-md shadow-lg"
             >
-              <span className="text-[#ff6b1a] text-sm shrink-0 mt-0.5 sm:mt-0 font-bold">★</span>
+              <span className="text-[#A85830] text-sm shrink-0 mt-0.5 sm:mt-0 font-bold">★</span>
               <span className="font-normal leading-relaxed">A community-driven nonprofit initiative helping victims of fraud and digital-asset theft navigate the path toward recovery.</span>
             </motion.div>
 
@@ -189,8 +190,8 @@ const Home = () => {
                 }}
                 className="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl font-bold text-white text-base sm:text-lg shadow-xl cursor-pointer transition-all"
                 style={{
-                  background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
-                  boxShadow: '0 8px 25px rgba(249, 87, 0, 0.45)'
+                  background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)',
+                  boxShadow: '0 8px 25px rgba(168, 88, 48, 0.45)'
                 }}
               >
                 <span>Affected by Fraud? Submit a Claim &rarr;</span>
@@ -222,7 +223,7 @@ const Home = () => {
               <div className="absolute inset-0 rounded-full border border-sky-400/25 animate-[spin_55s_linear_infinite]" />
               <div className="absolute inset-8 rounded-full border border-dashed border-cyan-300/30 animate-[spin_35s_linear_infinite_reverse]" />
               <div className="absolute inset-16 rounded-full border border-sky-400/20" />
-              <div className="absolute inset-28 rounded-full border border-dashed border-[#ff6b1a]/25 animate-[spin_25s_linear_infinite]" />
+              <div className="absolute inset-28 rounded-full border border-dashed border-[#A85830]/25 animate-[spin_25s_linear_infinite]" />
 
               {/* Subtle Conic Radar Beam Sweep */}
               <div className="absolute inset-3 rounded-full pointer-events-none opacity-20 animate-[spin_12s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_300deg,rgba(56,189,248,0.4)_360deg)]" />
@@ -262,9 +263,9 @@ const Home = () => {
               <motion.div
                 animate={{ x: [3, -3, 3], y: [-2, 2, -2] }}
                 transition={{ repeat: Infinity, duration: 4.8, delay: 1.2, ease: "easeInOut" }}
-                className="absolute -right-1 top-1/2 -translate-y-1/2 flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#061833]/90 border border-[#ff6b1a]/50 text-[11px] font-mono text-[#ff8c42] shadow-[0_0_15px_rgba(255,107,26,0.35)] backdrop-blur-md z-20"
+                className="absolute -right-1 top-1/2 -translate-y-1/2 flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#061833]/90 border border-[#A85830]/50 text-[11px] font-mono text-[#bf6a3d] shadow-[0_0_15px_rgba(255,107,26,0.35)] backdrop-blur-md z-20"
               >
-                <span className="w-2 h-2 rounded-full bg-[#ff6b1a] animate-pulse" />
+                <span className="w-2 h-2 rounded-full bg-[#A85830] animate-pulse" />
                 <span>DAO Multi-Sig</span>
               </motion.div>
 
@@ -296,7 +297,7 @@ const Home = () => {
                       transition={{ repeat: Infinity, duration: 2.4, ease: "easeInOut" }}
                       className="absolute"
                     >
-                      <Lock className="w-8 h-8 sm:w-10 sm:h-10 text-[#ff6b1a] drop-shadow-[0_0_12px_rgba(255,107,26,0.7)]" />
+                      <Lock className="w-8 h-8 sm:w-10 sm:h-10 text-[#A85830] drop-shadow-[0_0_12px_rgba(255,107,26,0.7)]" />
                     </motion.div>
                   </motion.div>
                 </div>
@@ -325,7 +326,7 @@ const Home = () => {
               transition={{ duration: 0.8 }}
               className="mb-3 text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight"
             >
-              Recovery resources and <span className="text-[#ff6b1a]">guides</span>
+              Recovery resources and <span className="text-[#A85830]">guides</span>
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -369,7 +370,7 @@ const Home = () => {
               transition={{ duration: 0.8 }}
               className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-3 tracking-tight"
             >
-              How <span className="text-[#ff6b1a]">ReclaimDAO</span> Helps
+              How <span className="text-[#A85830]">ReclaimDAO</span> Helps
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -389,13 +390,13 @@ const Home = () => {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="p-7 text-center rounded-2xl bg-[#0a254d] border border-sky-400/25 hover:border-[#ff6b1a]/60 hover:scale-105 transition-all duration-300 w-full hover:shadow-2xl shadow-xl"
+                  className="p-7 text-center rounded-2xl bg-[#0a254d] border border-sky-400/25 hover:border-[#A85830]/60 hover:scale-105 transition-all duration-300 w-full hover:shadow-2xl shadow-xl"
                 >
                   <div
                     className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg"
                     style={{ background: 'linear-gradient(135deg, #0e356e 0%, #154c9c 100%)', border: '1px solid rgba(56, 189, 248, 0.4)' }}
                   >
-                    <Icon size={30} className="text-[#ff6b1a]" />
+                    <Icon size={30} className="text-[#A85830]" />
                   </div>
                   <h3 className="text-xl font-bold text-white mb-2">{feature.title}</h3>
                   <p className="text-white font-bold text-sm leading-relaxed">{feature.description}</p>
@@ -417,7 +418,7 @@ const Home = () => {
         >
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute top-0 left-1/4 w-72 h-72 rounded-full" style={{ background: 'radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, transparent 70%)' }} />
-            <div className="absolute bottom-0 right-1/4 w-72 h-72 rounded-full" style={{ background: 'radial-gradient(circle, rgba(249, 87, 0, 0.18) 0%, transparent 70%)' }} />
+            <div className="absolute bottom-0 right-1/4 w-72 h-72 rounded-full" style={{ background: 'radial-gradient(circle, rgba(168, 88, 48, 0.18) 0%, transparent 70%)' }} />
           </div>
           <div className="relative z-10 max-w-3xl mx-auto space-y-6">
             <motion.h2
@@ -426,7 +427,7 @@ const Home = () => {
               transition={{ duration: 0.8 }}
               className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight"
             >
-              You Don't Have to Navigate This <span className="text-[#ff6b1a]">Alone</span>
+              You Don't Have to Navigate This <span className="text-[#A85830]">Alone</span>
             </motion.h2>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -442,8 +443,8 @@ const Home = () => {
                 to="/contact"
                 className="inline-flex items-center justify-center gap-2 px-9 py-4 rounded-xl font-extrabold text-white text-base sm:text-lg transition-all duration-300 shadow-2xl hover:scale-105 cursor-pointer"
                 style={{
-                  background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
-                  boxShadow: '0 8px 30px rgba(249, 87, 0, 0.5)'
+                  background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)',
+                  boxShadow: '0 8px 30px rgba(168, 88, 48, 0.5)'
                 }}
               >
                 Talk to ReclaimDAO <ArrowRight className="w-5 h-5 text-white" />
@@ -452,6 +453,9 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Live 1-by-1 Recovery Notification Ticker */}
+      <LiveRecoveryNotification />
     </div>
   );
 };

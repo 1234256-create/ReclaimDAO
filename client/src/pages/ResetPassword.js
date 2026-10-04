@@ -48,7 +48,7 @@ const ResetPassword = () => {
         className="relative max-w-md w-full space-y-8"
       >
         <div className="bg-[#0a254d] text-white rounded-3xl p-8 sm:p-10 shadow-2xl border border-sky-400/25">
-          <h2 className="text-3xl font-black text-white mb-6 text-center tracking-tight">Reset <span className="text-[#ff6b1a]">Password</span></h2>
+          <h2 className="text-3xl font-black text-white mb-6 text-center tracking-tight">Reset <span className="text-[#A85830]">Password</span></h2>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="password" className="block text-xs font-bold uppercase tracking-wider text-slate-200 mb-2">New Password</label>
@@ -60,7 +60,7 @@ const ResetPassword = () => {
                   value={formData.password}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm"
+                  className="w-full px-4 py-3 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm"
                   placeholder="Enter new password"
                 />
                 <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0 right-0 pr-3 flex items-center">
@@ -78,7 +78,7 @@ const ResetPassword = () => {
                   value={formData.passwordConfirm}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm"
+                  className="w-full px-4 py-3 bg-[#061833] border border-sky-400/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm"
                   placeholder="Confirm new password"
                 />
                 <button type="button" onClick={() => setShowConfirm(!showConfirm)} className="absolute inset-y-0 right-0 pr-3 flex items-center">
@@ -91,8 +91,8 @@ const ResetPassword = () => {
               disabled={loading}
               className="w-full py-4 px-6 rounded-xl font-black text-white shadow-xl transition-all text-base disabled:opacity-50 cursor-pointer hover:scale-105"
               style={{
-                background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
-                boxShadow: '0 8px 30px rgba(249, 87, 0, 0.45)'
+                background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)',
+                boxShadow: '0 8px 30px rgba(168, 88, 48, 0.45)'
               }}
             >
               {loading ? 'Resetting...' : 'Reset Password'}

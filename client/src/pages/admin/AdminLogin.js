@@ -113,10 +113,10 @@ const AdminLogin = () => {
               className="h-16 w-16 sm:h-20 sm:w-20 object-contain shrink-0 drop-shadow-lg"
             />
             <span className="text-4xl sm:text-5xl font-black tracking-tight text-slate-900 leading-none">
-              Reclaim<span className="text-[#ff6b1a]">DAO</span>
+              Reclaim<span className="text-[#A85830]">DAO</span>
             </span>
           </motion.div>
-          <h1 className="text-3xl sm:text-4xl font-black text-slate-900 mb-1 tracking-tight">Admin <span className="text-[#ff6b1a]">Portal</span></h1>
+          <h1 className="text-3xl sm:text-4xl font-black text-slate-900 mb-1 tracking-tight">Admin <span className="text-[#A85830]">Portal</span></h1>
           <p className="text-slate-700 text-sm sm:text-base font-bold">ReclaimDAO Administrative Access</p>
         </div>
 
@@ -158,7 +158,7 @@ const AdminLogin = () => {
                   onChange={handleInputChange}
                   placeholder="Enter admin username"
                   disabled={isBlocked || isLoading}
-                  className="w-full pl-11 pr-4 py-3 bg-[#061833] border border-sky-400/25 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold transition-all disabled:opacity-50"
+                  className="w-full pl-11 pr-4 py-3 bg-[#061833] border border-sky-400/25 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm font-semibold transition-all disabled:opacity-50"
                   required
                 />
               </div>
@@ -175,7 +175,7 @@ const AdminLogin = () => {
                   onChange={handleInputChange}
                   placeholder="Enter admin password"
                   disabled={isBlocked || isLoading}
-                  className="w-full pl-11 pr-12 py-3 bg-[#061833] border border-sky-400/25 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold transition-all disabled:opacity-50"
+                  className="w-full pl-11 pr-12 py-3 bg-[#061833] border border-sky-400/25 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm font-semibold transition-all disabled:opacity-50"
                   required
                 />
                 <button
@@ -193,9 +193,9 @@ const AdminLogin = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               disabled={isBlocked || isLoading}
-              className="w-full py-3.5 px-6 rounded-xl font-black text-white shadow-lg shadow-[#ff6b1a]/25 transition-all text-base disabled:opacity-50 cursor-pointer"
+              className="w-full py-3.5 px-6 rounded-xl font-black text-white shadow-lg shadow-[#A85830]/25 transition-all text-base disabled:opacity-50 cursor-pointer"
               style={{
-                background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)'
+                background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)'
               }}
             >
               {isLoading ? 'Authenticating...' : 'Sign In to Admin Panel'}
@@ -204,7 +204,7 @@ const AdminLogin = () => {
 
           <div className="mt-6 pt-6 border-t border-white/10">
             <div className="flex items-center gap-3">
-              <Clock className="w-5 h-5 text-[#ff6b1a] shrink-0" />
+              <Clock className="w-5 h-5 text-[#A85830] shrink-0" />
               <div>
                 <p className="text-white font-black text-xs uppercase tracking-wider">Security Notice</p>
                 <p className="text-white font-semibold text-xs mt-0.5">

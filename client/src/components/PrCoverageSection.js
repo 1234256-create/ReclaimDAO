@@ -47,7 +47,7 @@ const PrCoverageSection = () => {
               href={item.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative flex items-center gap-2.5 px-4 py-2.5 bg-[#071d3d] hover:bg-[#0c2e5c] border border-sky-400/25 hover:border-[#ff6b1a]/60 rounded-xl transition-all duration-300 shadow-md hover:shadow-xl active:scale-95"
+              className="group relative flex items-center gap-2.5 px-4 py-2.5 bg-[#071d3d] hover:bg-[#0c2e5c] border border-sky-400/25 hover:border-[#A85830]/60 rounded-xl transition-all duration-300 shadow-md hover:shadow-xl active:scale-95"
               title={`Read PR coverage on ${item.title}`}
             >
               <div className="w-6 h-6 rounded-lg bg-[#020817] p-0.5 flex items-center justify-center overflow-hidden shrink-0 group-hover:scale-105 transition-transform">
@@ -61,7 +61,7 @@ const PrCoverageSection = () => {
               <span className="text-xs sm:text-sm font-semibold text-slate-200 group-hover:text-sky-300 transition-colors">
                 {item.title}
               </span>
-              <ExternalLink className="w-3 h-3 text-sky-400/60 group-hover:text-[#ff6b1a] opacity-0 group-hover:opacity-100 transition-all duration-200" />
+              <ExternalLink className="w-3 h-3 text-sky-400/60 group-hover:text-[#A85830] opacity-0 group-hover:opacity-100 transition-all duration-200" />
             </a>
           ))}
         </div>

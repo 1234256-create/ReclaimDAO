@@ -71,7 +71,7 @@ const VerifyEmail = () => {
             >
                 <div className="mb-8 flex justify-center">
                     {status === 'verifying' && (
-                        <Loader2 className="h-20 w-20 text-[#ff6b1a] animate-spin" />
+                        <Loader2 className="h-20 w-20 text-[#A85830] animate-spin" />
                     )}
                     {status === 'success' && (
                         <CheckCircle className="h-20 w-20 text-[#10b981]" />
@@ -109,7 +109,7 @@ const VerifyEmail = () => {
                     <button
                         onClick={() => navigate('/login')}
                         className="w-full py-4 text-lg font-black text-white rounded-xl shadow-lg cursor-pointer hover:scale-105"
-                        style={{ background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)' }}
+                        style={{ background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)' }}
                     >
                         Go to Login
                     </button>
@@ -119,7 +119,7 @@ const VerifyEmail = () => {
                     <button
                         onClick={() => navigate('/register')}
                         className="w-full py-4 text-lg font-black text-white rounded-xl shadow-lg cursor-pointer hover:scale-105"
-                        style={{ background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)' }}
+                        style={{ background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)' }}
                     >
                         Back to Registration
                     </button>

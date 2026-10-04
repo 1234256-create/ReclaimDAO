@@ -100,7 +100,7 @@ const Vote = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-6 sm:mb-8"
         >
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-2 tracking-tight">DAO <span className="text-[#ff6b1a]">Vote</span></h1>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-2 tracking-tight">DAO <span className="text-[#A85830]">Vote</span></h1>
           <p className="text-slate-600 text-sm sm:text-base">Cast your vote on important decisions</p>
         </motion.div>
 
@@ -113,19 +113,19 @@ const Vote = () => {
           <h2 className="text-xl font-bold text-white mb-4">Time Remaining</h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
             <div className="bg-[#071d3d] border border-sky-400/20 rounded-xl p-3 sm:p-4">
-              <div className="text-2xl sm:text-3xl font-extrabold text-[#ff6b1a]">{timeLeft.days}</div>
+              <div className="text-2xl sm:text-3xl font-extrabold text-[#A85830]">{timeLeft.days}</div>
               <div className="text-slate-300 text-xs sm:text-sm">Days</div>
             </div>
             <div className="bg-[#071d3d] border border-sky-400/20 rounded-xl p-3 sm:p-4">
-              <div className="text-2xl sm:text-3xl font-extrabold text-[#ff6b1a]">{timeLeft.hours}</div>
+              <div className="text-2xl sm:text-3xl font-extrabold text-[#A85830]">{timeLeft.hours}</div>
               <div className="text-slate-300 text-xs sm:text-sm">Hours</div>
             </div>
             <div className="bg-[#071d3d] border border-sky-400/20 rounded-xl p-3 sm:p-4">
-              <div className="text-2xl sm:text-3xl font-extrabold text-[#ff6b1a]">{timeLeft.minutes}</div>
+              <div className="text-2xl sm:text-3xl font-extrabold text-[#A85830]">{timeLeft.minutes}</div>
               <div className="text-slate-300 text-xs sm:text-sm">Minutes</div>
             </div>
             <div className="bg-[#071d3d] border border-sky-400/20 rounded-xl p-3 sm:p-4">
-              <div className="text-2xl sm:text-3xl font-extrabold text-[#ff6b1a]">{timeLeft.seconds}</div>
+              <div className="text-2xl sm:text-3xl font-extrabold text-[#A85830]">{timeLeft.seconds}</div>
               <div className="text-slate-300 text-xs sm:text-sm">Seconds</div>
             </div>
           </div>
@@ -154,7 +154,7 @@ const Vote = () => {
                     onClick={() => handleVoteChange(question.id, option.id)}
                     className={`p-4 rounded-xl transition-all duration-300 text-left cursor-pointer ${
                       votes[question.id] === option.id
-                        ? 'bg-[#ff6b1a]/20 border-2 border-[#ff6b1a] text-white shadow-lg'
+                        ? 'bg-[#A85830]/20 border-2 border-[#A85830] text-white shadow-lg'
                         : 'bg-[#071d3d] border-2 border-transparent text-slate-300 hover:border-sky-400/40 hover:text-white'
                     }`}
                   >
@@ -162,7 +162,7 @@ const Vote = () => {
                       <span className="font-semibold text-sm sm:text-base">{option.id}) {option.label}</span>
                       <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                         votes[question.id] === option.id
-                          ? 'bg-[#ff6b1a] border-[#ff6b1a]'
+                          ? 'bg-[#A85830] border-[#A85830]'
                           : 'border-slate-500'
                       }`}>
                         {votes[question.id] === option.id && (
@@ -192,8 +192,8 @@ const Vote = () => {
                 : 'text-white cursor-pointer hover:scale-105'
             }`}
             style={!questions.some(q => !votes[q.id]) ? {
-              background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
-              boxShadow: '0 8px 25px rgba(249, 87, 0, 0.35)'
+              background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)',
+              boxShadow: '0 8px 25px rgba(168, 88, 48, 0.35)'
             } : {}}
           >
             <VoteIcon className="w-5 h-5 mr-2" />

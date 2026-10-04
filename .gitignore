@@ -5,33 +5,25 @@ server/node_modules/
 
 # Production build artifacts
 client/build/
-build/
 
-# Environment files and credentials (Keep .env.example tracked)
+# Environment files and credentials
 .env
-.env.*
 *.env
-client/.env*
-server/.env*
-!*.env.example
-!server/.env.example
-!.env.example
-
-# Local Database & Uploads
-server/data/mongodb/
+client/.env.txt
+server/.env
 
 # Temporary archives, logs, and scripts
+veritas.tar.gz
 *.tar.gz
-*.tar
 *.zip
 *.log
 deploy_package/
 scratch/
 test_*.py
 find_*.py
+server/test*.js
+server/data/mongodb/
 
 # OS / Editor files
 .DS_Store
 Thumbs.db
-.vscode/
-.idea/

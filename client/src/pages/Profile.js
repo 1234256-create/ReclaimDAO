@@ -201,14 +201,14 @@ const Profile = () => {
               <div className="relative">
                 <div 
                   className="w-24 h-24 rounded-full flex items-center justify-center border-2 border-white/20 shadow-lg"
-                  style={{ background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)' }}
+                  style={{ background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)' }}
                 >
                   <span className="text-white text-3xl font-black tracking-wider">
                     {(user.fullName || user.name || user.firstName || 'U').charAt(0).toUpperCase()}
                   </span>
                 </div>
-                <div className={`absolute -bottom-2 -right-2 w-8 h-8 bg-[#061833] text-[#ff6b1a] rounded-full flex items-center justify-center border border-[#ff6b1a]/40 shadow-md`}>
-                  <RoleIcon className="w-4 h-4 text-[#ff6b1a]" />
+                <div className={`absolute -bottom-2 -right-2 w-8 h-8 bg-[#061833] text-[#A85830] rounded-full flex items-center justify-center border border-[#A85830]/40 shadow-md`}>
+                  <RoleIcon className="w-4 h-4 text-[#A85830]" />
                 </div>
               </div>
 
@@ -217,7 +217,7 @@ const Profile = () => {
                   <h1 className="text-2xl sm:text-3xl font-black text-white mb-2">{user.fullName || user.name || `${user.firstName || ''} ${user.lastName || ''}`.trim()}</h1>
                   <div className="space-y-1.5 text-white font-bold text-sm">
                     <div className="flex items-center space-x-2">
-                      <Mail className="w-4 h-4 text-[#ff6b1a]" />
+                      <Mail className="w-4 h-4 text-[#A85830]" />
                       <span>{user.email}</span>
                     </div>
                     {user.address && (
@@ -240,7 +240,7 @@ const Profile = () => {
                     )}
                     {user.walletAddress && (
                       <div className="flex items-center space-x-2">
-                        <Wallet className="w-4 h-4 text-[#ff6b1a]" />
+                        <Wallet className="w-4 h-4 text-[#A85830]" />
                         <span className="text-xs font-mono">{user.walletAddress.slice(0, 20)}...</span>
                       </div>
                     )}
@@ -251,7 +251,7 @@ const Profile = () => {
                   </div>
                   <div className="mt-3">
                     <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-[#061833] border border-sky-400/30 text-sky-300 shadow-sm">
-                      <RoleIcon className="w-3.5 h-3.5 mr-1 text-[#ff6b1a]" />
+                      <RoleIcon className="w-3.5 h-3.5 mr-1 text-[#A85830]" />
                       {user.role ? (user.role.charAt(0).toUpperCase() + user.role.slice(1)) : 'User'}
                     </span>
                   </div>
@@ -264,8 +264,8 @@ const Profile = () => {
                 onClick={() => setIsEditing(true)}
                 className="text-white px-6 py-2.5 rounded-xl flex items-center space-x-2 transition-all font-bold shadow-lg cursor-pointer hover:scale-105"
                 style={{
-                  background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
-                  boxShadow: '0 8px 25px rgba(249, 87, 0, 0.4)'
+                  background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)',
+                  boxShadow: '0 8px 25px rgba(168, 88, 48, 0.4)'
                 }}
               >
                 <Edit3 className="w-4 h-4" />
@@ -278,7 +278,7 @@ const Profile = () => {
           {isEditing && (
             <div className="mt-6 pt-6 border-t border-white/10">
               <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                <Edit3 className="w-5 h-5 text-[#ff6b1a]" /> Edit Profile Information
+                <Edit3 className="w-5 h-5 text-[#A85830]" /> Edit Profile Information
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -287,7 +287,7 @@ const Profile = () => {
                     type="text"
                     value={formData.firstName}
                     onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                    className="w-full bg-[#061833] border border-sky-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                    className="w-full bg-[#061833] border border-sky-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#A85830] text-sm font-semibold"
                     placeholder="First Name"
                   />
                 </div>
@@ -297,7 +297,7 @@ const Profile = () => {
                     type="text"
                     value={formData.lastName}
                     onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                    className="w-full bg-[#061833] border border-sky-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                    className="w-full bg-[#061833] border border-sky-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#A85830] text-sm font-semibold"
                     placeholder="Last Name"
                   />
                 </div>
@@ -307,7 +307,7 @@ const Profile = () => {
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full bg-[#061833] border border-sky-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                    className="w-full bg-[#061833] border border-sky-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#A85830] text-sm font-semibold"
                     placeholder="Email"
                   />
                 </div>
@@ -317,7 +317,7 @@ const Profile = () => {
                     type="text"
                     value={formData.username}
                     onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                    className="w-full bg-[#061833] border border-sky-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                    className="w-full bg-[#061833] border border-sky-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#A85830] text-sm font-semibold"
                     placeholder="Username"
                   />
                 </div>
@@ -327,7 +327,7 @@ const Profile = () => {
                     type="text"
                     value={formData.address}
                     onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                    className="w-full bg-[#061833] border border-sky-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                    className="w-full bg-[#061833] border border-sky-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#A85830] text-sm font-semibold"
                     placeholder="Address"
                   />
                 </div>
@@ -337,7 +337,7 @@ const Profile = () => {
                     type="text"
                     value={formData.telegramUsername}
                     onChange={(e) => setFormData({ ...formData, telegramUsername: e.target.value })}
-                    className="w-full bg-[#061833] border border-sky-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                    className="w-full bg-[#061833] border border-sky-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#A85830] text-sm font-semibold"
                     placeholder="Telegram Username"
                   />
                 </div>
@@ -347,7 +347,7 @@ const Profile = () => {
                     type="tel"
                     value={formData.phoneNumber}
                     onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
-                    className="w-full bg-[#061833] border border-sky-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                    className="w-full bg-[#061833] border border-sky-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#A85830] text-sm font-semibold"
                     placeholder="Phone Number"
                   />
                 </div>
@@ -357,7 +357,7 @@ const Profile = () => {
                     type="text"
                     value={formData.walletAddress}
                     onChange={(e) => setFormData({ ...formData, walletAddress: e.target.value })}
-                    className="w-full bg-[#061833] border border-sky-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                    className="w-full bg-[#061833] border border-sky-400/30 rounded-xl px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-[#A85830] text-sm font-semibold"
                     placeholder="Wallet Address"
                   />
                 </div>
@@ -377,8 +377,8 @@ const Profile = () => {
                   disabled={loading}
                   className="text-white px-6 py-2.5 rounded-xl flex items-center space-x-2 transition-all font-bold shadow-lg disabled:opacity-50 cursor-pointer hover:scale-105"
                   style={{
-                    background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
-                    boxShadow: '0 8px 25px rgba(249, 87, 0, 0.4)'
+                    background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)',
+                    boxShadow: '0 8px 25px rgba(168, 88, 48, 0.4)'
                   }}
                 >
                   <Save className="w-4 h-4" />

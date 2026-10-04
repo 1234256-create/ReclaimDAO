@@ -103,7 +103,7 @@ const JoinContact = () => {
           transition={{ duration: 0.6 }}
           className="rounded-3xl bg-[#0a254d] border border-sky-400/25 p-8 sm:p-10 text-white shadow-2xl"
         >
-          <h1 className="text-2xl md:text-3xl font-black mb-6">Contact & <span className="text-[#ff6b1a]">Address</span></h1>
+          <h1 className="text-2xl md:text-3xl font-black mb-6">Contact & <span className="text-[#A85830]">Address</span></h1>
 
           <div className="space-y-5">
             <div>
@@ -113,7 +113,7 @@ const JoinContact = () => {
                 name="email"
                 value={form.email}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm font-semibold"
                 placeholder="you@example.com"
               />
             </div>
@@ -126,7 +126,7 @@ const JoinContact = () => {
                   name="countryCode"
                   value={form.countryCode}
                   onChange={handleChange}
-                  className="col-span-1 px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                  className="col-span-1 px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm font-semibold"
                   placeholder="+1"
                 />
                 <input
@@ -134,7 +134,7 @@ const JoinContact = () => {
                   name="phone"
                   value={form.phone}
                   onChange={handleChange}
-                  className="col-span-2 px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                  className="col-span-2 px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm font-semibold"
                   placeholder="555-123-4567"
                 />
               </div>
@@ -147,7 +147,7 @@ const JoinContact = () => {
                 name="telegramUsername"
                 value={form.telegramUsername}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm font-semibold"
                 placeholder="@yourusername"
               />
             </div>
@@ -159,7 +159,7 @@ const JoinContact = () => {
                 name="address1"
                 value={form.address1}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm font-semibold"
                 placeholder="123 Main St"
               />
             </div>
@@ -171,7 +171,7 @@ const JoinContact = () => {
                 name="address2"
                 value={form.address2}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm font-semibold"
                 placeholder="Apt, suite, unit, building, floor, etc."
               />
             </div>
@@ -184,7 +184,7 @@ const JoinContact = () => {
                   name="city"
                   value={form.city}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                  className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm font-semibold"
                   placeholder="San Francisco"
                 />
               </div>
@@ -195,7 +195,7 @@ const JoinContact = () => {
                   name="stateProvince"
                   value={form.stateProvince}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                  className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm font-semibold"
                   placeholder="CA"
                 />
               </div>
@@ -208,7 +208,7 @@ const JoinContact = () => {
                 name="postalCode"
                 value={form.postalCode}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#ff6b1a] text-sm font-semibold"
+                className="w-full px-4 py-3 rounded-xl bg-[#061833] border border-sky-400/30 text-white placeholder-slate-400 focus:outline-none focus:border-[#A85830] text-sm font-semibold"
                 placeholder="94103"
               />
             </div>
@@ -231,8 +231,8 @@ const JoinContact = () => {
                   : 'opacity-50 cursor-not-allowed bg-slate-700'
                 }`}
               style={requiredFilled ? {
-                background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
-                boxShadow: '0 4px 20px rgba(249, 87, 0, 0.4)'
+                background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)',
+                boxShadow: '0 4px 20px rgba(168, 88, 48, 0.4)'
               } : {}}
             >
               Next

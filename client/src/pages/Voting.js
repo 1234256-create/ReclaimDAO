@@ -336,7 +336,7 @@ const Voting = () => {
           <div className="flex items-center gap-3 mb-2">
             <Vote className="w-8 h-8 text-slate-900" />
             <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-              DAO <span className="text-[#ff6b1a]">Voting</span>
+              DAO <span className="text-[#A85830]">Voting</span>
             </h1>
           </div>
           <p className="text-slate-600 text-sm sm:text-base max-w-3xl font-medium">
@@ -373,12 +373,12 @@ const Voting = () => {
           className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-4"
         >
           <div className="flex items-center justify-between">
-            <h3 className="text-xl sm:text-2xl font-black text-slate-900">Voting <span className="text-[#ff6b1a]">Status</span></h3>
+            <h3 className="text-xl sm:text-2xl font-black text-slate-900">Voting <span className="text-[#A85830]">Status</span></h3>
           </div>
           <div className="bg-[#0a254d] text-white rounded-2xl p-6 sm:p-7 border border-sky-400/25 shadow-xl">
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <div className="p-3 bg-[#ff6b1a]/15 text-[#ff6b1a] rounded-xl mr-4 border border-[#ff6b1a]/30">
+                <div className="p-3 bg-[#A85830]/15 text-[#A85830] rounded-xl mr-4 border border-[#A85830]/30">
                   <Vote className="w-6 h-6" />
                 </div>
                 <div>
@@ -398,13 +398,13 @@ const Voting = () => {
         {/* Active Votes Section */}
         <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6 mb-8">
           <div className="flex items-center justify-between">
-            <h3 className="text-xl sm:text-2xl font-black text-slate-900">Active <span className="text-[#ff6b1a]">Proposals</span></h3>
+            <h3 className="text-xl sm:text-2xl font-black text-slate-900">Active <span className="text-[#A85830]">Proposals</span></h3>
           </div>
 
           {(!activeVotes || activeVotes.length === 0) ? (
             <div className="bg-[#0a254d] text-white rounded-2xl p-10 border border-sky-400/25 shadow-xl text-center">
               <div className="flex flex-col items-center gap-3">
-                <AlertCircle className="w-10 h-10 text-[#ff6b1a]" />
+                <AlertCircle className="w-10 h-10 text-[#A85830]" />
                 <p className="text-white text-base font-bold">No active voting round. Please check back later.</p>
               </div>
             </div>
@@ -416,7 +416,7 @@ const Voting = () => {
                   id={`vote-${vote.id}`}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-[#0a254d] text-white rounded-2xl p-6 sm:p-8 border border-sky-400/25 hover:border-[#ff6b1a]/50 shadow-xl transition-all"
+                  className="bg-[#0a254d] text-white rounded-2xl p-6 sm:p-8 border border-sky-400/25 hover:border-[#A85830]/50 shadow-xl transition-all"
                 >
                   <div className="flex items-center mb-4">
                     <div className="p-2.5 bg-sky-500/15 text-sky-300 rounded-xl mr-3 border border-sky-400/30">
@@ -429,9 +429,9 @@ const Voting = () => {
                   )}
                   {vote.endTime && (
                     <div className="mb-6 p-3.5 bg-[#061833] border border-sky-400/20 rounded-xl flex items-center gap-2.5">
-                      <Clock className="w-4 h-4 text-[#ff6b1a]" />
+                      <Clock className="w-4 h-4 text-[#A85830]" />
                       <span className="text-white font-bold text-sm">Time remaining:</span>
-                      <span className="font-mono font-bold text-[#ff6b1a]">{formatRemaining(vote.endTime)}</span>
+                      <span className="font-mono font-bold text-[#A85830]">{formatRemaining(vote.endTime)}</span>
                     </div>
                   )}
                   <div className="space-y-3.5">
@@ -457,19 +457,19 @@ const Voting = () => {
                             disabled={disabled}
                             className={`w-full p-4 sm:p-5 rounded-xl border transition-all duration-300 flex items-center justify-between relative overflow-hidden ${
                               isSelected 
-                                ? 'border-[#ff6b1a] bg-[#0c2e5c] shadow-lg shadow-[#ff6b1a]/20 ring-1 ring-[#ff6b1a]/50' 
-                                : 'border-sky-400/20 bg-[#061833]/80 hover:border-[#ff6b1a]/40 hover:bg-[#061833]'
+                                ? 'border-[#A85830] bg-[#0c2e5c] shadow-lg shadow-[#A85830]/20 ring-1 ring-[#A85830]/50' 
+                                : 'border-sky-400/20 bg-[#061833]/80 hover:border-[#A85830]/40 hover:bg-[#061833]'
                             } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                           >
                             {/* Background fill */}
                             <div
-                              className="absolute left-0 top-0 bottom-0 bg-[#ff6b1a]/15 transition-all duration-1000"
+                              className="absolute left-0 top-0 bottom-0 bg-[#A85830]/15 transition-all duration-1000"
                               style={{ width: `${smoothWidth}%` }}
                             />
 
                             <div className="flex items-center gap-3 relative z-10">
                               <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                                isSelected ? 'border-[#ff6b1a] bg-[#ff6b1a]' : 'border-slate-400 bg-transparent'
+                                isSelected ? 'border-[#A85830] bg-[#A85830]' : 'border-slate-400 bg-transparent'
                               }`}>
                                 {isSelected && <div className="w-2 h-2 rounded-full bg-[#0a254d]" />}
                               </div>
@@ -491,7 +491,7 @@ const Voting = () => {
                               initial={{ width: 0 }}
                               animate={{ width: `${smoothWidth}%` }}
                               transition={{ duration: 0.8, ease: 'easeOut' }}
-                              className="h-full bg-gradient-to-r from-[#ff6b1a] to-[#ea580c]"
+                              className="h-full bg-gradient-to-r from-[#A85830] to-[#ea580c]"
                             />
                           </div>
                         </div>
@@ -499,7 +499,7 @@ const Voting = () => {
                     })}
                   </div>
                   <div className="mt-5 text-xs text-white font-bold flex items-center justify-between">
-                    <span>Your remaining in this round: <strong className="text-[#ff6b1a] font-black">{getVoteRights(vote).remaining}</strong> of {getVoteRights(vote).total}</span>
+                    <span>Your remaining in this round: <strong className="text-[#A85830] font-black">{getVoteRights(vote).remaining}</strong> of {getVoteRights(vote).total}</span>
                   </div>
                   <div className="mt-6 flex items-center justify-end gap-3">
                     <button
@@ -507,8 +507,8 @@ const Voting = () => {
                       disabled={selectedOptions[vote.id] == null || vote.status !== 'active' || (
                         getVoteRights(vote).remaining <= 0
                       )}
-                      className="px-6 py-2.5 text-white rounded-xl disabled:opacity-40 disabled:cursor-not-allowed shadow-lg shadow-[#ff6b1a]/25 transition-all font-black text-sm cursor-pointer hover:scale-105"
-                      style={{ background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)' }}
+                      className="px-6 py-2.5 text-white rounded-xl disabled:opacity-40 disabled:cursor-not-allowed shadow-lg shadow-[#A85830]/25 transition-all font-black text-sm cursor-pointer hover:scale-105"
+                      style={{ background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)' }}
                     >
                       Submit Vote
                     </button>

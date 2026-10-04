@@ -90,7 +90,7 @@ const TrustpilotSection = () => {
           transition={{ duration: 0.6 }}
           className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight text-slate-900"
         >
-          Rated <span className="text-[#ff6b1a]">{data.title || 'Excellent'}</span> on Trustpilot.
+          Rated <span className="text-[#A85830]">{data.title || 'Excellent'}</span> on Trustpilot.
         </motion.h2>
 
         {/* Subheading */}
@@ -132,7 +132,7 @@ const TrustpilotSection = () => {
               href={data.reviewLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="underline font-bold text-[#ff6b1a] hover:text-[#ff8c42] transition-colors cursor-pointer"
+              className="underline font-bold text-[#A85830] hover:text-[#bf6a3d] transition-colors cursor-pointer"
             >
               {data.reviewCount}
             </a>
@@ -148,7 +148,7 @@ const TrustpilotSection = () => {
             <svg className="w-5 h-5 text-[#00b67a] fill-current" viewBox="0 0 24 24">
               <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
             </svg>
-            <span className="text-lg font-extrabold tracking-tight text-white group-hover:text-[#ff6b1a] transition-colors">
+            <span className="text-lg font-extrabold tracking-tight text-white group-hover:text-[#A85830] transition-colors">
               Trustpilot
             </span>
           </a>
@@ -165,8 +165,8 @@ const TrustpilotSection = () => {
             onClick={handleAction}
             className="w-full py-4 px-6 rounded-xl text-white font-black text-base sm:text-lg shadow-xl transition-all duration-200 cursor-pointer active:scale-95 hover:scale-105"
             style={{
-              background: 'linear-gradient(135deg, #ff6b1a 0%, #f95700 50%, #ea580c 100%)',
-              boxShadow: '0 8px 30px rgba(249, 87, 0, 0.45)'
+              background: 'linear-gradient(135deg, #A85830 0%, #964d28 50%, #854221 100%)',
+              boxShadow: '0 8px 30px rgba(168, 88, 48, 0.45)'
             }}
           >
             {data.buttonText}
